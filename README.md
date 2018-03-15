@@ -13,3 +13,6 @@ The player then has to tap two blocks to match the notes.
 
 Next, Cozmo plays three notes of the song, C, D, and E.
 The player then has to tap three blocks, and so on, until the song is finished.
+
+## How to Run
+`python main.py`
