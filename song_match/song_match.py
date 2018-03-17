@@ -11,11 +11,12 @@ class SongMatch:
         self.robot = None
 
     async def play(self, robot: cozmo.robot.Robot):
-        self._setup(robot)
+        self.robot = robot
+        await self._setup()
         await self._init_game_loop()
 
-    async def _setup(self, robot):
-        robot.world.add_event_handler(cozmo.objects.EvtObjectTapped, self._tap_handler)
+    async def _setup(self):
+        self.robot.world.add_event_handler(cozmo.objects.EvtObjectTapped, self._tap_handler)
         await self._set_cube_lights(self.CUBE_COLOR)
 
     async def _init_game_loop(self):
