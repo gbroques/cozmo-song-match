@@ -1,8 +1,6 @@
 import cozmo
 
+from song_match import SongMatch
 
-def main(robot: cozmo.robot.Robot):
-    robot.say_text("Hello World").wait_for_completed()
-
-
-cozmo.run_program(main)
+song_match = SongMatch()
+cozmo.run_program(song_match.play)
