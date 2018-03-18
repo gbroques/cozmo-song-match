@@ -18,3 +18,7 @@ The player then has to tap three blocks, and so on, until the song is finished o
 
 ## How to Run
 `python main.py`
+
+## Piano Sound Pack
+You can find the piano sound pack we used at:
+* https://freesound.org/people/jobro/packs/2489/
