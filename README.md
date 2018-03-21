@@ -17,7 +17,11 @@ Next, Cozmo plays three notes of the song.
 The player then has to tap three blocks, and so on, until the song is finished or the player messes up the sequence.
 
 ## How to Run
-`python main.py`
+1. Install dependencies.
+  * `pip install -r requirements.txt`
+
+2. Run the main program.
+  * `python main.py`
 
 ## Piano Sound Pack
 You can find the piano sound pack we used at:
