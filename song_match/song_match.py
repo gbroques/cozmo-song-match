@@ -1,7 +1,9 @@
 import asyncio
 
 import cozmo
-import pygame
+from pygame.mixer import init
+
+from .note import Note
 
 
 class SongMatch:
@@ -9,6 +11,7 @@ class SongMatch:
 
     def __init__(self):
         self.robot = None
+        init(frequency=44100, size=-16, channels=1, buffer=1024)
 
     async def play(self, robot: cozmo.robot.Robot):
         self.robot = robot
@@ -16,10 +19,9 @@ class SongMatch:
         await self._init_game_loop()
 
     async def _setup(self):
-        pygame.mixer.init(frequency=44100, size=-16, channels=1, buffer=1024)
-        self._C3 = pygame.mixer.Sound('./sfx/piano/C4.wav')
-        self._D3 = pygame.mixer.Sound('./sfx/piano/D4.wav')
-        self._E3 = pygame.mixer.Sound('./sfx/piano/E4.wav')
+        self._C4 = Note('C4')
+        self._D4 = Note('D4')
+        self._E4 = Note('E4')
         self.robot.world.add_event_handler(cozmo.objects.EvtObjectTapped, self._tap_handler)
         await self._set_cube_lights()
 
@@ -40,11 +42,11 @@ class SongMatch:
 
     def _play_note(self, cube):
         if cube.object_id == 1:
-            self._C3.play()
+            self._C4.play()
         elif cube.object_id == 2:
-            self._D3.play()
+            self._D4.play()
         elif cube.object_id == 3:
-            self._E3.play()
+            self._E4.play()
 
     async def _set_cube_lights(self):
         cubes = self.robot.world.light_cubes.values()
