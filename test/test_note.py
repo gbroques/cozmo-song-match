@@ -1,15 +1,14 @@
 import unittest
 
 from exceptions import InvalidNote
-from song_match import SongMatch
-from song_match.note import Note
+from song_match.song import Note
 
 
 class TestNote(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls._game = SongMatch()
+        Note.init_mixer()
 
     def test_raises_invalid_note_exception(self):
         with self.assertRaises(InvalidNote):
