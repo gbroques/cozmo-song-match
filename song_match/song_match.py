@@ -1,5 +1,4 @@
 from cozmo.objects import EvtObjectTapped
-from cozmo.objects import LightCube2Id
 from cozmo.robot import Robot
 
 from song_match.cube import NoteCube
@@ -15,7 +14,6 @@ class SongMatch:
     def __init__(self):
         self._robot = None
         self._song = MaryHadALittleLamb()
-        self._prev_cube = LightCube2Id
         Note.init_mixer()
 
     async def play(self, robot: Robot) -> None:
@@ -34,9 +32,8 @@ class SongMatch:
 
         self.__turn_on_cube_lights()
 
-        await self._robot.play_note(Note('E4'))
-        await self._robot.play_note(Note('D4'))
-        await self._robot.play_note(Note('C4'))
+        notes = [Note('E4'), Note('D4'), Note('C4')]
+        await self._robot.play_notes(notes)
 
     async def __tap_handler(self, evt, obj=None, tap_count=None, **kwargs):
         cube = evt.obj

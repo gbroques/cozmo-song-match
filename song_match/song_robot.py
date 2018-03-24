@@ -1,4 +1,5 @@
 from asyncio import sleep
+from typing import List
 
 from cozmo.anim import EvtAnimationCompleted
 from cozmo.anim import Triggers
@@ -22,6 +23,10 @@ class SongRobot:
         self._prev_cube_id = LightCube2Id  # Keep track of previously tapped cube
         self._animation_complete = True  # Keep track of when animation is completed
         self._robot.world.add_event_handler(EvtAnimationCompleted, self.__on_animation_completed)
+
+    async def play_notes(self, notes: List[Note]) -> None:
+        for note in notes:
+            await self.play_note(note)
 
     async def play_note(self, note: Note) -> None:
         cube_id = self._song.get_cube_id(note)
