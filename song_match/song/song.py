@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List, Set
+from typing import List
 
 from cozmo.lights import Light
 
@@ -28,6 +28,14 @@ class Song(ABC):
         """
         index = self._get_index(cube_id)
         return self._cube_lights[index]
+
+    def get_cube_id(self, note: Note) -> int:
+        """Get the Cube ID for a corresponding note.
+
+        :param note: The note of the song.
+        :return: Cube ID. Possible values include 1, 2, and 3.
+        """
+        return self._notes.index(note) + 1
 
     @staticmethod
     def _get_index(cube_id: int):
