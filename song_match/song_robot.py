@@ -1,10 +1,12 @@
+"""Module containing :class:`~song_match.song_robot.SongRobot`."""
+
 from asyncio import sleep
 from typing import List
 
 from cozmo.anim import EvtAnimationCompleted
 from cozmo.anim import Triggers
 from cozmo.objects import LightCube1Id, LightCube2Id, LightCube3Id
-from cozmo.robot import Robot
+from cozmo.robot import Robot, world
 from cozmo.util import radians
 
 from .cube import NoteCube
@@ -12,7 +14,7 @@ from .song import Song, Note
 
 
 class SongRobot:
-    """Wrapper class for Cozmo Robot instance."""
+    """Wrapper class for Cozmo :class:`~cozmo.robot.Robot` instance."""
 
     _NOTE_DELAY = 0.2  # Time to delay blinking the cube and playing the note
     _SLEEP_TIME = 0.1  # Time to sleep for while animation finishes
@@ -25,16 +27,31 @@ class SongRobot:
         self._robot.world.add_event_handler(EvtAnimationCompleted, self.__on_animation_completed)
 
     async def play_notes(self, notes: List[Note]) -> None:
+        """Make Cozmo play a series of notes.
+
+        :param notes: The series of notes to play.
+        :return: None
+        """
         for note in notes:
             await self.play_note(note)
 
     async def play_note(self, note: Note) -> None:
+        """Make Cozmo play a note.
+
+        :param note: The :class:`~song_match.song.note.Note` to play.
+        :return: None
+        """
         cube_id = self._song.get_cube_id(note)
         note_cube = self.__get_note_cube(cube_id)
         self.__tap_cube(cube_id)
         await sleep(self._NOTE_DELAY)
         await note_cube.blink_and_play_note()
         await self.__wait_until_animation_finished()
+
+    @property
+    def world(self) -> world:
+        """Property for accessing :attr:`~cozmo.robot.Robot.world`."""
+        return self._robot.world
 
     def __get_note_cube(self, cube_id):
         cube = self._robot.world.get_light_cube(cube_id)
@@ -64,17 +81,13 @@ class SongRobot:
         self._animation_complete = False
         self._robot.play_anim_trigger(animation_trigger, in_parallel=True)
 
-    async def __wait_until_animation_finished(self):
+    async def __wait_until_animation_finished(self) -> None:
         while not self._animation_complete:
             await sleep(self._SLEEP_TIME)
 
-    def __on_animation_completed(self, evt, animation_name, **kwargs):
+    def __on_animation_completed(self, evt, animation_name, **kwargs) -> None:
         self._animation_complete = True
 
-    async def __turn_back_to_center(self):
+    async def __turn_back_to_center(self) -> None:
         turn_to = radians(-self._robot.pose_angle.radians)
         await self._robot.turn_in_place(turn_to).wait_for_completed()
-
-    @property
-    def world(self):
-        return self._robot.world

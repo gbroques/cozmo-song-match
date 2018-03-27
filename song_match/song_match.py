@@ -1,3 +1,5 @@
+"""Module containing :class:`~song_match.song_match.SongMatch`."""
+
 from cozmo.objects import EvtObjectTapped
 from cozmo.robot import Robot
 
@@ -9,7 +11,7 @@ from .song_robot import SongRobot
 
 
 class SongMatch:
-    """A game where Cozmo plays notes of a song, and the player has to match the notes by tapping blocks."""
+    """Main game class."""
 
     def __init__(self):
         self._robot = None
@@ -18,8 +20,11 @@ class SongMatch:
 
     async def play(self, robot: Robot) -> None:
         """Play the Song Match game.
-        Pass this function into cozmo.run_program.
+
+        Pass this function into :func:`cozmo.run_program`.
+
         :param robot: Cozmo Robot instance.
+        :type robot: :class:`~cozmo.robot.Robot`
         :return: None
         """
         self._robot = SongRobot(robot, self._song)

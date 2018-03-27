@@ -1,0 +1,373 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>song_match.song package &mdash; Song Match  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Song Match  documentation" href="../index.html"/>
+        <link rel="up" title="song_match package" href="song_match.html"/>
+        <link rel="next" title="song_match.song.songs package" href="song_match.song.songs.html"/>
+        <link rel="prev" title="song_match.exceptions package" href="song_match.exceptions.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Song Match
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../setup.html">Setup</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="song_match.html">song_match package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="song_match.cube.html">song_match.cube package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="song_match.exceptions.html">song_match.exceptions package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">song_match.song package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="song_match.song.songs.html">song_match.song.songs package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-song_match.song.note">song_match.song.note module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-song_match.song.song">song_match.song.song module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="song_match.html#module-song_match.config">song_match.config module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="song_match.html#module-song_match.song_match">song_match.song_match module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="song_match.html#module-song_match.song_robot">song_match.song_robot module</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Additional Help</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../inheritance-diagrams.html">Inheritance Diagrams</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Song Match</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="song_match.html">song_match package</a> &raquo;</li>
+        
+      <li>song_match.song package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/song_match/song_match.song.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-song_match.song">
+<span id="song-match-song-package"></span><h1>song_match.song package<a class="headerlink" href="#module-song_match.song" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal notranslate"><span class="pre">Note</span></code></a> - Represents a musical note.</li>
+<li><a class="reference internal" href="#song_match.song.song.Song" title="song_match.song.song.Song"><code class="xref py py-class docutils literal notranslate"><span class="pre">Song</span></code></a> - Represents a song.</li>
+</ul>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="song_match.song.songs.html">song_match.song.songs package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="song_match.song.songs.html#module-song_match.song.songs.mary_had_a_little_lamb">song_match.song.songs.mary_had_a_little_lamb module</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="module-song_match.song.note">
+<span id="song-match-song-note-module"></span><h2>song_match.song.note module<a class="headerlink" href="#module-song_match.song.note" title="Permalink to this headline">¶</a></h2>
+<p>Module containing <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal notranslate"><span class="pre">Note</span></code></a>.</p>
+<dl class="class">
+<dt id="song_match.song.note.Note">
+<em class="property">class </em><code class="descclassname">song_match.song.note.</code><code class="descname">Note</code><span class="sig-paren">(</span><em>note: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/song_match/song/note.html#Note"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.note.Note" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="classmethod">
+<dt id="song_match.song.note.Note.init_mixer">
+<em class="property">classmethod </em><code class="descname">init_mixer</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/song_match/song/note.html#Note.init_mixer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.note.Note.init_mixer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes pygame’s mixer module.</p>
+<p>See <a class="reference external" href="https://www.pygame.org/docs/ref/mixer.html#pygame.mixer.init">https://www.pygame.org/docs/ref/mixer.html#pygame.mixer.init</a>.</p>
+<p><strong>IMPORTANT:</strong> Must be called before constructing any <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal notranslate"><span class="pre">Note</span></code></a> objects.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="song_match.song.note.Note.play">
+<code class="descname">play</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/song_match/song/note.html#Note.play"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.note.Note.play" title="Permalink to this definition">¶</a></dt>
+<dd><p>Play the note.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-song_match.song.song">
+<span id="song-match-song-song-module"></span><h2>song_match.song.song module<a class="headerlink" href="#module-song_match.song.song" title="Permalink to this headline">¶</a></h2>
+<p>Module containing <a class="reference internal" href="#song_match.song.song.Song" title="song_match.song.song.Song"><code class="xref py py-class docutils literal notranslate"><span class="pre">Song</span></code></a>.</p>
+<dl class="class">
+<dt id="song_match.song.song.Song">
+<em class="property">class </em><code class="descclassname">song_match.song.song.</code><code class="descname">Song</code><a class="reference internal" href="../_modules/song_match/song/song.html#Song"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.song.Song" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/abc.html#abc.ABC" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></a></p>
+<p>Abstract base class for songs.</p>
+<p>Currently only supports songs with 3 notes.</p>
+<p>Must override <strong>3</strong> abstract properties:</p>
+<ol class="arabic simple">
+<li><code class="docutils literal notranslate"><span class="pre">_notes</span></code> - A list of 3 <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal notranslate"><span class="pre">Note</span></code></a> instances in ascending order by pitch.</li>
+<li><code class="docutils literal notranslate"><span class="pre">_sequence</span></code> - A sequence of <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal notranslate"><span class="pre">Note</span></code></a> instances that make up the song.</li>
+<li><code class="docutils literal notranslate"><span class="pre">_cube_lights</span></code> - A list of 3 <a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.lights.html#cozmo.lights.Light" title="(in Cozmo SDK v1.3.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Light</span></code></a> instances.</li>
+</ol>
+<dl class="method">
+<dt id="song_match.song.song.Song.get_cube_id">
+<code class="descname">get_cube_id</code><span class="sig-paren">(</span><em>note: song_match.song.note.Note</em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../_modules/song_match/song/song.html#Song.get_cube_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.song.Song.get_cube_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the Cube ID for a corresponding note.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>note</strong> – The <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal notranslate"><span class="pre">Note</span></code></a> of the song.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.objects.html#cozmo.objects.LightCube.cube_id" title="(in Cozmo SDK v1.3.1)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cube_id</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="song_match.song.song.Song.get_cube_light">
+<code class="descname">get_cube_light</code><span class="sig-paren">(</span><em>cube_id: int</em><span class="sig-paren">)</span> &#x2192; cozmo.lights.Light<a class="reference internal" href="../_modules/song_match/song/song.html#Song.get_cube_light"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.song.Song.get_cube_light" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the <a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.lights.html#cozmo.lights.Light" title="(in Cozmo SDK v1.3.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Light</span></code></a> for a corresponding cube.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cube_id</strong> – <a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.objects.html#cozmo.objects.LightCube.cube_id" title="(in Cozmo SDK v1.3.1)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cube_id</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.lights.html#cozmo.lights.Light" title="(in Cozmo SDK v1.3.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Light</span></code></a> for the corresponding cube.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="song_match.song.song.Song.play_note">
+<code class="descname">play_note</code><span class="sig-paren">(</span><em>cube_id: int</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/song_match/song/song.html#Song.play_note"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.song.Song.play_note" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plays a note for a corresponding cube.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cube_id</strong> – <a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.objects.html#cozmo.objects.LightCube.cube_id" title="(in Cozmo SDK v1.3.1)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cube_id</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="song_match.song.songs.html" class="btn btn-neutral float-right" title="song_match.song.songs package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="song_match.exceptions.html" class="btn btn-neutral" title="song_match.exceptions package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, The Cozmonauts.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

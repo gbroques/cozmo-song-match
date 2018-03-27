@@ -1,6 +1,6 @@
 # Song Match
 
-A game where Cozmo plays notes of a song, and the player has to match the notes by tapping blocks.
+A game where you match the notes of a song by tapping blocks with Cozmo.
 
 Similar to the **Memory Match** game.
 

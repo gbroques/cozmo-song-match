@@ -1,21 +1,18 @@
+"""Module containing :class:`~song_match.song.note.Note`."""
+
 from os.path import isfile, join
 
 from pygame.mixer import init, Sound
 
-from config import ROOT_DIR
-from exceptions import InvalidNote
-from exceptions import MixerNotInitialized
+from song_match.config import ROOT_DIR
+from ..exceptions import InvalidNote
+from ..exceptions import MixerNotInitialized
 
 
 class Note:
     __is_mixer_initialized = False
 
     def __init__(self, note: str):
-        """Construct a new Note.
-        The note is case-sensitive and must match a .wav file.
-        Note.mixer_init() must be called before constructing any Note instances.
-        :param note: Must be a valid note .wav filename. For example, C4 or A#2.
-        """
         if not self.__is_mixer_initialized:
             raise MixerNotInitialized()
 
@@ -23,15 +20,21 @@ class Note:
         self.__sound = Sound(self.__get_sound_path())
 
     @classmethod
-    def init_mixer(cls):
+    def init_mixer(cls) -> None:
         """Initializes pygame's mixer module.
-        Must be called before constructing any Note objects.
+
+        See https://www.pygame.org/docs/ref/mixer.html#pygame.mixer.init.
+
+        **IMPORTANT:** Must be called before constructing any :class:`~song_match.song.note.Note` objects.
+
+        :return: None
         """
         cls.__is_mixer_initialized = True
         init(frequency=44100, size=-16, channels=1, buffer=1024)
 
     def play(self) -> None:
         """Play the note.
+
         :return: None
         """
         self.__sound.play()

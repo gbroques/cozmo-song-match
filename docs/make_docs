@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Generate RST files
+sphinx-apidoc -f ../song_match -o song_match
+
+# Prettify RST files
+python prettify_doc.py `find song_match/ -name '*.rst'`
+
+# Make HTML
+make clean && make html

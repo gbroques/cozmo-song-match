@@ -13,7 +13,7 @@ class InvalidNote(ValueError):
 
 
 class MixerNotInitialized(ValueError):
-    """Raise if constructing a Note instance before initializing the mixer."""
+    """Raise if constructing a :class:`~song_match.song.note.Note` instance before initializing the mixer."""
 
     def __init__(self):
         message = self._message()

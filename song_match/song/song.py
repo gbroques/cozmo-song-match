@@ -1,3 +1,5 @@
+"""Module containing :class:`~song_match.song.song.Song`."""
+
 from abc import ABC, abstractmethod
 from typing import List
 
@@ -10,21 +12,28 @@ class Song(ABC):
     """Abstract base class for songs.
 
     Currently only supports songs with 3 notes.
+
+    Must override **3** abstract properties:
+
+    1. ``_notes`` - A list of 3 :class:`~song_match.song.note.Note` instances in ascending order by pitch.
+    2. ``_sequence`` - A sequence of :class:`~song_match.song.note.Note` instances that make up the song.
+    3. ``_cube_lights`` - A list of 3 :class:`~cozmo.lights.Light` instances.
     """
 
     def play_note(self, cube_id: int) -> None:
         """Plays a note for a corresponding cube.
 
-        :param cube_id: Cube ID. Possible values include 1, 2, and 3.
-        :return None:
+        :param cube_id: :attr:`~cozmo.objects.LightCube.cube_id`
+        :return: None
         """
         index = self._get_index(cube_id)
         return self._notes[index].play()
 
     def get_cube_light(self, cube_id: int) -> Light:
-        """
-        :param cube_id: Cube ID. Possible values include 1, 2, and 3.
-        :return: Cube light for the corresponding cube.
+        """Get the :class:`~cozmo.lights.Light` for a corresponding cube.
+
+        :param cube_id: :attr:`~cozmo.objects.LightCube.cube_id`
+        :return: :class:`~cozmo.lights.Light` for the corresponding cube.
         """
         index = self._get_index(cube_id)
         return self._cube_lights[index]
@@ -32,8 +41,8 @@ class Song(ABC):
     def get_cube_id(self, note: Note) -> int:
         """Get the Cube ID for a corresponding note.
 
-        :param note: The note of the song.
-        :return: Cube ID. Possible values include 1, 2, and 3.
+        :param note: The :class:`~song_match.song.note.Note` of the song.
+        :return: :attr:`~cozmo.objects.LightCube.cube_id`
         """
         return self._notes.index(note) + 1
 
