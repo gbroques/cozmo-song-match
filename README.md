@@ -4,7 +4,7 @@
 
 A game where you match the notes of a song by tapping blocks with Cozmo.
 
-Similar to the **Memory Match** game.
+[View Documentation](http://cozmo-song-match.readthedocs.io/en/latest/)
 
 ## How does it work?
 Take for example the song *Mary had a Little Lamb*.
