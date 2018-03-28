@@ -1,5 +1,7 @@
 # Song Match
 
+[![Documentation Status](https://readthedocs.org/projects/cozmo-song-match/badge/?version=latest)](http://cozmo-song-match.readthedocs.io/en/latest/?badge=latest)
+
 A game where you match the notes of a song by tapping blocks with Cozmo.
 
 Similar to the **Memory Match** game.

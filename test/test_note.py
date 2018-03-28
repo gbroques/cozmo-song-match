@@ -1,6 +1,6 @@
 import unittest
 
-from exceptions import InvalidNote
+from song_match.exceptions import InvalidNote
 from song_match.song import Note
 
 
