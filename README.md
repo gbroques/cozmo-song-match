@@ -4,7 +4,7 @@
 
 A game where you match the notes of a song by tapping blocks with Cozmo.
 
-[View Documentation](http://cozmo-song-match.readthedocs.io/en/latest/)
+You can view our documentation at http://cozmo-song-match.readthedocs.io/en/latest/.
 
 ## How does it work?
 Take for example the song *Mary had a Little Lamb*.
@@ -19,11 +19,7 @@ Next, Cozmo plays three notes of the song.
 The player then has to tap three blocks, and so on, until the song is finished or the player messes up the sequence.
 
 ## How to Run
-1. Install dependencies.
-  * `pip install -r requirements.txt`
-
-2. Run the main program.
-  * `python main.py`
+Please see [Setup](http://cozmo-song-match.readthedocs.io/en/latest/setup.html) under our documentation.
 
 ## Piano Sound Pack
 You can find the piano sound pack we used at:
