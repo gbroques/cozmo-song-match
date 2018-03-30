@@ -1,18 +1,22 @@
 Setup
 =====
 
-1. Clone the repository.
+1. Setup the Cozmo SDK.
 
-* ``git clone https://github.com/gbroques/cozmo-song-match.git``
+  * Please see `Initial Setup <http://cozmosdk.anki.com/docs/initial.html>`_ under the Cozmo SDK documentation.
 
-2. Navigate to the repo.
+2. Clone the repository.
 
-* ``cd cozmo-song-match``
+  * ``git clone https://github.com/gbroques/cozmo-song-match.git``
 
-3. Install dependencies.
+3. Navigate to the repository.
 
-* ``pip install -r requirements.txt``
+  * ``cd cozmo-song-match``
 
-4. Run the main program.
+4. Install dependencies.
 
-* ``python main.py``
+  * ``pip install -r requirements.txt``
+
+5. With Cozmo connected, run the main program. For details on connecting Cozmo, see `Getting Started With the Cozmo SDK <http://cozmosdk.anki.com/docs/getstarted.html>`_.
+
+  * ``python main.py``
