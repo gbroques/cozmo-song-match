@@ -35,3 +35,11 @@ class NoteCube:
         """
         cube_light = self._song.get_cube_light(self._cube.cube_id)
         self._cube.set_lights(cube_light)
+
+    def flash_light_red(self) -> None:
+        """Flash the light on the cube red.
+
+        :return: None
+        """
+        cube_light = self._song.get_cube_light(1)
+        self._cube.set_lights(cube_light)

@@ -2,6 +2,7 @@
 
 from asyncio import sleep
 from typing import List
+from random import *
 
 from cozmo.anim import EvtAnimationCompleted
 from cozmo.anim import Triggers
@@ -48,10 +49,55 @@ class SongRobot:
         await note_cube.blink_and_play_note()
         await self.__wait_until_animation_finished()
 
+    async def play_note_with_error(self, note: Note, round: int):
+        """Make Cozmo play a note.
+
+        :param note: The :class:`~song_match.song.note.Note` to play.
+        :return: None
+        """
+        difficulty = .99
+        rand = random()
+
+        round_difficulty = difficulty ** round
+
+        cube_id = self._song.get_cube_id(note)
+
+        if round_difficulty < rand:
+            cozmoError = True
+            if cube_id == 1:
+                cube_id = 2
+            elif cube_id == 2:
+                cube_id = 3
+            else:
+                cube_id = 1
+        else:
+            cozmoError = True
+        note_cube = self.__get_note_cube(cube_id)
+        self.__tap_cube(cube_id)
+        await sleep(self._NOTE_DELAY)
+        await note_cube.blink_and_play_note()
+        await self.__wait_until_animation_finished()
+        return cozmoError
+
+    async def play_note_notap(self, note: Note) -> None:
+        cube_id = self._song.get_cube_id(note)
+        note_cube = self.__get_note_cube(cube_id)
+        await sleep(.5)
+        await note_cube.blink_and_play_note()
+
     @property
     def world(self) -> world:
         """Property for accessing :attr:`~cozmo.robot.Robot.world`."""
         return self._robot.world
+
+    def compareNotes(self, firstNote: Note, secondNote: Note):
+        cube_idFirst = self._song.get_cube_id(firstNote)
+        cube_idSecond = self._song.get_cube_id(secondNote)
+        if cube_idFirst == cube_idSecond:
+            return True
+        else:
+            return False
+
 
     def __get_note_cube(self, cube_id):
         cube = self._robot.world.get_light_cube(cube_id)
