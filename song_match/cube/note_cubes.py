@@ -23,12 +23,3 @@ class NoteCubes:
         for cube in self._cubes:
             note_cube = NoteCube(cube, self._song)
             note_cube.turn_on_light()
-
-    def flash_lights_red(self) -> None:
-        """Turn on the light for each note cube.
-
-        :return: None
-        """
-        for cube in self._cubes:
-            note_cube = NoteCube(cube, self._song)
-            note_cube.flash_light_red()
