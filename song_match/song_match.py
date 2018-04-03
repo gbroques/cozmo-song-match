@@ -1,5 +1,8 @@
 """Module containing :class:`~song_match.song_match.SongMatch`."""
 
+from asyncio import sleep
+from typing import List
+
 from cozmo.objects import EvtObjectTapped
 from cozmo.robot import Robot
 
@@ -9,14 +12,19 @@ from .song import MaryHadALittleLamb
 from .song import Note
 from .song_robot import SongRobot
 
+TIME_IN_BETWEEN_PLAYER_AND_COZMO = 1  # In seconds
+
+STARTING_POSITION = 3  # The number of notes you start with in the sequence
+
+TIME_BETWEEN_NOTES = 0.5
+
 
 class SongMatch:
     """Main game class."""
 
     def __init__(self):
         self._robot = None
-        self._tappedNoteIndex = 0
-        self._cozmoError = True
+        self._is_playing_notes = False  # Flag to prevent player from interrupting the game or cozmo playing notes
         self._song = MaryHadALittleLamb()
         Note.init_mixer()
 
@@ -36,76 +44,65 @@ class SongMatch:
     async def __setup(self) -> None:
         await self._robot.world.wait_until_num_objects_visible(3)
         self._robot.world.add_event_handler(EvtObjectTapped, self.__tap_handler)
-
         self.__turn_on_cube_lights()
 
-        # notes = [Note('E4'), Note('D4'), Note('C4')]
-        # await self._robot.play_notes(notes)
-
     async def __tap_handler(self, evt, obj=None, tap_count=None, **kwargs):
+        if self._is_playing_notes:
+            return
         cube = evt.obj
         note_cube = NoteCube(cube, self._song)
-        notes = self._song._notes
-        self._tappedNoteIndex = note_cube._cube.cube_id - 1
-        print("Tap Handler: " + str(self._tappedNoteIndex))
-        await self._robot.play_note(notes[note_cube._cube.cube_id - 1])
+        await note_cube.blink_and_play_note()
 
     def __turn_on_cube_lights(self) -> None:
         note_cubes = NoteCubes(self.__get_cubes(), self._song)
         note_cubes.turn_on_lights()
-
-    def __flash_cubes_red(self) -> None:
-        note_cubes = NoteCubes(self.__get_cubes(), self._song)
-        note_cubes.flash_lights_red()
 
     def __get_cubes(self):
         """Convenience method to get the light cubes."""
         return self._robot.world.light_cubes.values()
 
     async def __init_game_loop(self) -> None:
-        gameContinue = True
-        roundCounter = 3
-        notes = self._song._notes
-        song = self._song._sequence
+        current_position = STARTING_POSITION
+        while self._song.is_not_finished(current_position):
+            notes = self._song.get_sequence(current_position)
+            await self.__play_notes(notes)
 
-        while gameContinue:
-            print("Beginning of round!")
-            game = 0
-            player = 0
-            coz = 0
-            # the notes are played for the player to repeat
-            while roundCounter <= len(song) and game < roundCounter:
-                await self._robot.play_note_notap(song[game])
-                game += 1
+            await self.__wait_for_player_to_match_notes(current_position)
 
-            # the user repeats the notes
-            while player < game and gameContinue:
-                await self._robot.world.wait_for(EvtObjectTapped)
+            await sleep(TIME_IN_BETWEEN_PLAYER_AND_COZMO)
 
-                gameContinue = self._robot.compareNotes(notes[self._tappedNoteIndex], song[player])
-                if gameContinue:
-                    player += 1
-                    print("Game continues")
+            await self.__wait_for_cozmo_to_match_notes(notes)
 
-                else:
-                    print("Game over: Cozmo wins!")
-                    self.__flash_cubes_red()
-                    self.__flash_cubes_red()
+            current_position += 1
 
-            # Cozmo repeats the notes
-            while coz < game and gameContinue and self._cozmoError:
-                gameContinue = await self._robot.play_note_with_error(song[coz], coz)
-                if gameContinue:
-                    coz += 1
-                    print("Game continues")
+    async def __wait_for_cozmo_to_match_notes(self, notes: List[Note]) -> None:
+        self._is_playing_notes = True
+        await self._robot.play_notes(notes)
+        self._is_playing_notes = False
 
-                else:
-                    print("Game over: Player wins!")
-                    self.__flash_cubes_red()
-                    self.__flash_cubes_red()
-            roundCounter += 1
+    async def __wait_for_player_to_match_notes(self, current_position: int) -> None:
+        num_notes_played = 0
+        notes = self._song.get_sequence(current_position)
+        while num_notes_played != current_position:
+            event = await self._robot.world.wait_for(EvtObjectTapped)
+            tapped_cube = NoteCube(event.obj, self._song)
+            correct_note = notes[num_notes_played]
+            if tapped_cube.note != correct_note:
+                exit(0)
+            num_notes_played += 1
 
-            # Condition for the player winning the game at the end
-            if game == len(song) and gameContinue:
-                print("Player wins!")
-                gameContinue = False
+    async def __play_notes(self, notes: List[Note]) -> None:
+        self._is_playing_notes = True
+        for note in notes:
+            await self.__play_note(note)
+            await sleep(TIME_BETWEEN_NOTES)
+        self._is_playing_notes = False
+
+    async def __play_note(self, note: Note) -> None:
+        cube_id = self._song.get_cube_id(note)
+        note_cube = self.__get_note_cube(cube_id)
+        await note_cube.blink_and_play_note()
+
+    def __get_note_cube(self, cube_id):
+        cube = self._robot.world.get_light_cube(cube_id)
+        return NoteCube(cube, self._song)

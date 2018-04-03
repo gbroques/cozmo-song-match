@@ -20,14 +20,23 @@ class Song(ABC):
     3. ``_cube_lights`` - A list of 3 :class:`~cozmo.lights.Light` instances.
     """
 
+    def get_note(self, cube_id: int) -> Note:
+        """Get the :class:`~song_match.song.note.Note` for a corresponding cube.
+
+        :param cube_id: :attr:`~cozmo.objects.LightCube.cube_id`
+        :return: The :class:`~song_match.song.note.Note` of the cube.
+        """
+        index = self._get_index(cube_id)
+        return self._notes[index]
+
     def play_note(self, cube_id: int) -> None:
-        """Plays a note for a corresponding cube.
+        """Play the note for a corresponding cube.
 
         :param cube_id: :attr:`~cozmo.objects.LightCube.cube_id`
         :return: None
         """
-        index = self._get_index(cube_id)
-        return self._notes[index].play()
+        note = self.get_note(cube_id)
+        return note.play()
 
     def get_cube_light(self, cube_id: int) -> Light:
         """Get the :class:`~cozmo.lights.Light` for a corresponding cube.
@@ -45,6 +54,30 @@ class Song(ABC):
         :return: :attr:`~cozmo.objects.LightCube.cube_id`
         """
         return self._notes.index(note) + 1
+
+    def get_sequence(self, position: int) -> List[Note]:
+        """Get the sequence of notes up until a certain position.
+
+        :param position: The end position of the sequence.
+        :return: A sequence of notes up until a certain position.
+        """
+        return self._sequence[0:position]
+
+    def is_not_finished(self, position: int) -> bool:
+        """Returns whether or not the song is finished based upon the position in the sequence.
+
+        :param position: The position in the sequence of notes.
+        :return: True if the song is not finished. False otherwise.
+        """
+        return not self.is_finished(position)
+
+    def is_finished(self, position: int) -> bool:
+        """Returns whether or not the song is finished based upon the position in the sequence.
+
+        :param position: The position in the sequence of notes.
+        :return: True if the song is finished. False otherwise.
+        """
+        return len(self._sequence) == position
 
     @staticmethod
     def _get_index(cube_id: int):

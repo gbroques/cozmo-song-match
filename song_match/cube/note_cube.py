@@ -4,6 +4,7 @@ from asyncio import sleep
 
 from cozmo.objects import LightCube
 
+from song_match.song import Note
 from song_match.song import Song
 
 
@@ -36,10 +37,10 @@ class NoteCube:
         cube_light = self._song.get_cube_light(self._cube.cube_id)
         self._cube.set_lights(cube_light)
 
-    def flash_light_red(self) -> None:
-        """Flash the light on the cube red.
+    @property
+    def note(self) -> Note:
+        """Property to access the :class:`~song_match.song.note.Note` of a cube.
 
-        :return: None
+        :return: :class:`~song_match.song.note.Note`
         """
-        cube_light = self._song.get_cube_light(1)
-        self._cube.set_lights(cube_light)
+        return self._song.get_note(self._cube.cube_id)
