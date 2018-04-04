@@ -1,11 +1,13 @@
 """Module containing :class:`~song_match.song_robot.SongRobot`."""
 
 from asyncio import sleep
-from typing import List
+from random import random
+from typing import List, Tuple, Union
 
 from cozmo.anim import AnimationTrigger
 from cozmo.anim import Triggers
 from cozmo.objects import LightCube1Id, LightCube2Id, LightCube3Id
+from cozmo.objects import LightCubeIDs
 from cozmo.robot import Robot, world
 from cozmo.util import radians
 
@@ -24,14 +26,22 @@ class SongRobot:
         self._song = song
         self._prev_cube_id = LightCube2Id  # Keep track of previously tapped cube
 
-    async def play_notes(self, notes: List[Note]) -> None:
+    async def play_notes(self, notes: List[Note], with_error=False) -> Tuple[bool, Union[None, Note]]:
         """Make Cozmo play a series of notes.
 
         :param notes: The series of notes to play.
-        :return: None
+        :param with_error: Whether to play the series of notes with a chance for error.
+        :return: Whether cozmo played the correct notes and the incorrect note he played if any.
+        :rtype: Tuple[bool, Union[None, Note]]
         """
         for note in notes:
-            await self.play_note(note)
+            if with_error:
+                is_correct, note = await self.play_note_with_error(note, len(notes))
+                if not is_correct:
+                    return False, note
+            else:
+                await self.play_note(note)
+        return True, None
 
     async def play_note(self, note: Note) -> None:
         """Make Cozmo play a note.
@@ -45,6 +55,31 @@ class SongRobot:
         await sleep(self._NOTE_DELAY)
         await note_cube.blink_and_play_note()
         await action.wait_for_completed()
+
+    async def play_note_with_error(self, note: Note, sequence_length: int = 1) -> Tuple[bool, Note]:
+        """Make Cozmo play a :class:`~song_match.song.note.Note` with a chance for error.
+
+        :param note: The :class:`~song_match.song.note.Note` to play.
+        :param sequence_length: The length of the sequence to play.
+        :return: Whether Cozmo played the correct note, and the :class:`~song_match.song.note.Note` he played.
+        :rtype: Tuple[bool, Note]
+        """
+        played_correct_note = True
+        difficulty = .99
+
+        round_difficulty = difficulty ** sequence_length
+
+        cube_id = self._song.get_cube_id(note)
+
+        if round_difficulty < random():
+            played_correct_note = False
+            cube_id = cube_id % len(LightCubeIDs) + 1
+            wrong_note = self._song.get_note(cube_id)
+            await self.play_note(wrong_note)
+        else:
+            await self.play_note(note)
+
+        return played_correct_note, self._song.get_note(cube_id)
 
     async def turn_back_to_center(self, in_parallel=False) -> None:
         """Turn Cozmo back to the center.

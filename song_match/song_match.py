@@ -32,6 +32,7 @@ class SongMatch:
         self._effect_factory = None
         self._prevent_tap = False  # Flag to prevent player from interrupting game by tapping cubes
         self._num_player_wrong = 0
+        self._num_cozmo_wrong = 0
         self._song = MaryHadALittleLamb()
         Note.init_mixer()
 
@@ -99,22 +100,33 @@ class SongMatch:
 
     async def __wait_for_cozmo_to_match_notes(self, current_position: int) -> bool:
         notes = self._song.get_sequence_slice(current_position)
-        await self.__tap_guard(lambda: self._song_robot.play_notes(notes))
-        await self.__tap_guard(lambda: self.__play_correct_sequence_effect(is_player=False))
+        played_correct_sequence, note = await self.__tap_guard(
+            lambda: self._song_robot.play_notes(notes, with_error=True)
+        )
+        if played_correct_sequence:
+            await self.__tap_guard(lambda: self.__play_correct_sequence_effect(is_player=False))
+        else:
+            self._num_cozmo_wrong += 1
+            wrong_cube_id = self._song.get_cube_id(note)
+            await self.__tap_guard(lambda: self.__play_wrong_note_effect(wrong_cube_id, is_player=False))
+            self.__check_for_game_over()
+            return False
+
         return True
 
     def __check_for_game_over(self) -> None:
-        if self._num_player_wrong == MAX_STRIKES:
+        if self._num_player_wrong == MAX_STRIKES or self._num_cozmo_wrong == MAX_STRIKES:
             exit(0)
 
-    async def __tap_guard(self, callable_function: Callable) -> None:
+    async def __tap_guard(self, callable_function: Callable):
         self._prevent_tap = True
-        await callable_function()
+        result = await callable_function()
         self._prevent_tap = False
+        return result
 
-    async def __play_wrong_note_effect(self, cube_id: int):
+    async def __play_wrong_note_effect(self, cube_id: int, is_player=True):
         effect = self._effect_factory.create('WrongNote')
-        await effect.play(cube_id)
+        await effect.play(cube_id, is_player=is_player)
 
     async def __play_correct_sequence_effect(self, is_player=True):
         effect = self._effect_factory.create('CorrectSequence')
