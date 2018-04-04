@@ -1,14 +1,14 @@
 """Module containing :class:`~song_match.cube.note_cubes.NoteCubes`."""
 
+from asyncio import sleep
 from typing import List
 
-from cozmo.lights import off_light, red_light, Light
+from cozmo.lights import off_light, green_light, red_light, Light
 from cozmo.objects import LightCube
 
 from song_match.song import Song
+from song_match.song_robot import SongRobot
 from .note_cube import NoteCube
-
-FLASH_DELAY = 0.15
 
 
 class NoteCubes:
@@ -17,6 +17,20 @@ class NoteCubes:
     def __init__(self, cubes: List[LightCube], song: Song):
         self._cubes = cubes
         self._song = song
+
+    @classmethod
+    def of(cls, song_robot: SongRobot):
+        """Static factory method for creating :class:`~song_match.cube.note_cubes.NoteCubes`
+        from :class:`~song_match.song_robot.SongRobot`.
+
+        :param song_robot: :class:`~song_match.song_robot.SongRobot`
+        """
+        cubes = cls.__get_cubes(song_robot)
+        return NoteCubes(cubes, song_robot.song)
+
+    @staticmethod
+    def __get_cubes(song_robot: SongRobot) -> List[LightCube]:
+        return list(song_robot.robot.world.light_cubes.values())
 
     def turn_on_lights(self) -> None:
         """Turn on the light for each note cube.
@@ -30,18 +44,49 @@ class NoteCubes:
             note_cube = NoteCube(cube, self._song)
             note_cube.turn_on_light()
 
-    async def flash_light_red(self, cube_id: int) -> None:
-        """Convenience method for calling :meth:`~song_match.cube.note_cubes.NoteCubes.flash_light`
+    async def flash_lights_green(self, num_times: int = 3, delay=0.15) -> None:
+        """Flash the lights of each cube green.
+
+        :param num_times: The number of times to flash green.
+        :param delay: Time in seconds between turning the light on and off.
+        :return: None
+        """
+        for _ in range(num_times):
+            self.set_lights_off()
+            await sleep(delay)
+            self.set_lights(green_light)
+            await sleep(delay)
+        self.turn_on_lights()
+
+    def set_lights(self, light: Light) -> None:
+        """Call :meth:`~cozmo.objects.LightCube.set_lights` for each cube.
+
+        :param light: :class:`~cozmo.lights.Light`
+        :return: None
+        """
+        for cube in self._cubes:
+            cube.set_lights(light)
+
+    def set_lights_off(self) -> None:
+        """Call :meth:`~cozmo.objects.LightCube.set_lights_off` for each cube.
+
+        :return: None
+        """
+        for cube in self._cubes:
+            cube.set_lights_off()
+
+    async def flash_single_cube_red(self, cube_id: int) -> None:
+        """Convenience method for calling :meth:`~song_match.cube.note_cubes.NoteCubes.flash_single_cube`
         with a :data:`~cozmo.lights.red_light`.
 
         :param cube_id: :attr:`~cozmo.objects.LightCube.cube_id`
         :return: None
         """
-        await self.flash_light(cube_id, red_light)
+        await self.flash_single_cube(cube_id, red_light)
 
-    async def flash_light(self, cube_id: int, light: Light) -> None:
-        """Flashes the light of a particular cube,
-        while turning off the lights of the other cubes.
+    async def flash_single_cube(self, cube_id: int, light: Light) -> None:
+        """Flashes the light of a single cube,
+        while turning the lights of the other cubes off.
 
         :param cube_id: :attr:`~cozmo.objects.LightCube.cube_id`
         :param light: The :class:`~cozmo.lights.Light` to flash.

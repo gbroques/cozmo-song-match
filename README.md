@@ -20,7 +20,3 @@ The player then has to tap three blocks, and so on, until the song is finished o
 
 ## How to Run
 Please see [Setup](http://cozmo-song-match.readthedocs.io/en/latest/setup.html) under our documentation.
-
-## Piano Sound Pack
-You can find the piano sound pack we used at:
-* https://freesound.org/people/jobro/packs/2489/

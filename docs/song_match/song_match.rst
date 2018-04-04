@@ -9,6 +9,7 @@ song\_match package
 .. toctree::
 
     song_match.cube
+    song_match.effect
     song_match.exceptions
     song_match.song
 

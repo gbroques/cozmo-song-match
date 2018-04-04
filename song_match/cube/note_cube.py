@@ -18,6 +18,21 @@ class NoteCube:
         self._cube = cube
         self._song = song
 
+    @classmethod
+    def of(cls, song_robot, cube_id: int):
+        """Static factory method for creating a :class:`~song_match.cube.note_cube.NoteCube`
+        from :class:`~song_match.song_robot.SongRobot`.
+
+        :param song_robot: :class:`~song_match.song_robot.SongRobot`
+        :param cube_id: :attr:`~cozmo.objects.LightCube.cube_id`
+        """
+        cube = cls.__get_cube(song_robot, cube_id)
+        return NoteCube(cube, song_robot.song)
+
+    @staticmethod
+    def __get_cube(song_robot, cube_id: int) -> LightCube:
+        return song_robot.world.get_light_cube(cube_id)
+
     async def blink_and_play_note(self) -> None:
         """Blink the cube and play the corresponding note.
 
@@ -58,7 +73,6 @@ class NoteCube:
         :param light: The light to flash.
         :param num_times: The number of times to flash the light.
         :param delay: Time in seconds between turning the light on and off.
-                      Default is 0.15 seconds.
         :return: None
         """
         for _ in range(num_times):

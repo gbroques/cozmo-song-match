@@ -4,13 +4,12 @@ from asyncio import sleep
 from sys import exit
 from typing import Callable, List
 
-from cozmo.audio import AudioEvents
 from cozmo.objects import EvtObjectTapped
-from cozmo.objects import LightCube
 from cozmo.robot import Robot
 
 from song_match.cube import NoteCube
 from song_match.cube import NoteCubes
+from .effect import EffectFactory
 from .song import MaryHadALittleLamb
 from .song import Note
 from .song_robot import SongRobot
@@ -28,7 +27,9 @@ class SongMatch:
     """Main game class."""
 
     def __init__(self):
-        self._robot = None
+        self._song_robot = None
+        self._note_cubes = None
+        self._effect_factory = None
         self._prevent_tap = False  # Flag to prevent player from interrupting game by tapping cubes
         self._num_player_wrong = 0
         self._song = MaryHadALittleLamb()
@@ -43,14 +44,16 @@ class SongMatch:
         :type robot: :class:`~cozmo.robot.Robot`
         :return: None
         """
-        self._robot = SongRobot(robot, self._song)
+        self._song_robot = SongRobot(robot, self._song)
+        self._note_cubes = NoteCubes.of(self._song_robot)
+        self._effect_factory = EffectFactory(self._song_robot)
         await self.__setup()
         await self.__init_game_loop()
 
     async def __setup(self) -> None:
-        await self._robot.world.wait_until_num_objects_visible(3)
-        self._robot.world.add_event_handler(EvtObjectTapped, self.__tap_handler)
-        self.__turn_on_cube_lights()
+        await self._song_robot.world.wait_until_num_objects_visible(3)
+        self._song_robot.world.add_event_handler(EvtObjectTapped, self.__tap_handler)
+        self._note_cubes.turn_on_lights()
 
     async def __tap_handler(self, evt, obj=None, tap_count=None, **kwargs):
         if self._prevent_tap:
@@ -58,13 +61,6 @@ class SongMatch:
         cube = evt.obj
         note_cube = NoteCube(cube, self._song)
         await note_cube.blink_and_play_note()
-
-    def __turn_on_cube_lights(self) -> None:
-        note_cubes = NoteCubes(self.__get_cubes(), self._song)
-        note_cubes.turn_on_lights()
-
-    def __get_cubes(self) -> List[LightCube]:
-        return list(self._robot.world.light_cubes.values())
 
     async def __init_game_loop(self) -> None:
         current_position = STARTING_POSITION
@@ -76,7 +72,7 @@ class SongMatch:
 
             await sleep(TIME_IN_BETWEEN_PLAYER_AND_COZMO)
 
-            await self.__tap_guard(lambda: self._robot.play_notes(notes))
+            await self.__tap_guard(lambda: self._song_robot.play_notes(notes))
 
             current_position += 1
 
@@ -84,7 +80,7 @@ class SongMatch:
         num_notes_played = 0
         notes = self._song.get_sequence_slice(current_position)
         while num_notes_played != current_position:
-            event = await self._robot.world.wait_for(EvtObjectTapped)
+            event = await self._song_robot.world.wait_for(EvtObjectTapped)
             tapped_cube = NoteCube(event.obj, self._song)
             correct_note = notes[num_notes_played]
 
@@ -95,6 +91,8 @@ class SongMatch:
                 return False
 
             num_notes_played += 1
+
+        await self.__play_correct_sequence_effect()
         return True
 
     def __check_for_game_over(self) -> None:
@@ -107,9 +105,12 @@ class SongMatch:
         self._prevent_tap = False
 
     async def __play_wrong_note_effect(self, cube_id: int):
-        self._robot.robot.play_audio(AudioEvents.SfxGameLose)
-        note_cubes = NoteCubes(self.__get_cubes(), self._song)
-        await note_cubes.flash_light_red(cube_id)
+        effect = self._effect_factory.create('WrongNote')
+        await effect.play(cube_id)
+
+    async def __play_correct_sequence_effect(self):
+        effect = self._effect_factory.create('CorrectSequence')
+        await effect.play()
 
     async def __play_notes(self, notes: List[Note]) -> None:
         for note in notes:
@@ -118,9 +119,5 @@ class SongMatch:
 
     async def __play_note(self, note: Note) -> None:
         cube_id = self._song.get_cube_id(note)
-        note_cube = self.__get_note_cube(cube_id)
+        note_cube = NoteCube.of(self._song_robot, cube_id)
         await note_cube.blink_and_play_note()
-
-    def __get_note_cube(self, cube_id):
-        cube = self._robot.world.get_light_cube(cube_id)
-        return NoteCube(cube, self._song)
