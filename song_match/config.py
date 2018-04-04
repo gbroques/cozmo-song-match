@@ -1,4 +1,4 @@
-from os.path import dirname, abspath
+import os
 
 #: Root directory of the package to help load ``.wav`` files.
-ROOT_DIR = dirname(abspath(__file__))
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))

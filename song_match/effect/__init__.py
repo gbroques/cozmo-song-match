@@ -1,7 +1,7 @@
-"""Package containing various game effects.
-
-  * :class:`~song_match.effect.effect.CorrectSequenceEffect`
-  * :class:`~song_match.effect.effect.WrongNoteEffect`
+"""
+  * :class:`~song_match.effect.effect.Effect`
+  * :class:`~song_match.effect.effect.EffectFactory`
 """
 
-from .effect import EffectFactory
+from .effect import Effect
+from .factory import EffectFactory

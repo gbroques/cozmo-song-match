@@ -1,12 +1,12 @@
 """Module containing :class:`~song_match.song.note.Note`."""
 
-from os.path import isfile, join
+import os
 
 from pygame.mixer import init, Sound
 
 from song_match.config import ROOT_DIR
-from ..exceptions import InvalidNote
-from ..exceptions import MixerNotInitialized
+from song_match.exceptions import InvalidNote
+from song_match.exceptions import MixerNotInitialized
 
 
 class Note:
@@ -41,8 +41,8 @@ class Note:
 
     def __get_sound_path(self) -> str:
         filename = self.note + '.wav'
-        path = join(ROOT_DIR, 'sfx', 'piano', filename)
-        if not isfile(path):
+        path = os.path.join(ROOT_DIR, 'sfx', 'piano', filename)
+        if not os.path.isfile(path):
             raise InvalidNote(self.note)
         return path
 
