@@ -23,7 +23,6 @@ class SongRobot:
         self._robot = robot
         self._song = song
         self._prev_cube_id = LightCube2Id  # Keep track of previously tapped cube
-        self._animation_complete = True  # Keep track of when animation is completed
 
     async def play_notes(self, notes: List[Note]) -> None:
         """Make Cozmo play a series of notes.
@@ -46,6 +45,19 @@ class SongRobot:
         await sleep(self._NOTE_DELAY)
         await note_cube.blink_and_play_note()
         await action.wait_for_completed()
+
+    async def turn_back_to_center(self, in_parallel=False) -> None:
+        """Turn Cozmo back to the center.
+
+        :param in_parallel: Whether to do the action in parallel or wait until it's completed.
+        :return: None
+        """
+        turn_to = radians(-self._robot.pose_angle.radians)
+        if in_parallel:
+            self._robot.turn_in_place(turn_to)
+        else:
+            await self._robot.turn_in_place(turn_to).wait_for_completed()
+        self._prev_cube_id = LightCube2Id
 
     @property
     def world(self) -> world:
@@ -85,7 +97,3 @@ class SongRobot:
 
     def __play_animation(self, animation_trigger: Triggers) -> AnimationTrigger:
         return self._robot.play_anim_trigger(animation_trigger, in_parallel=True)
-
-    async def __turn_back_to_center(self) -> None:
-        turn_to = radians(-self._robot.pose_angle.radians)
-        await self._robot.turn_in_place(turn_to).wait_for_completed()

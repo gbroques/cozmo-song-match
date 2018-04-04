@@ -75,6 +75,24 @@ class NoteCubes:
         for cube in self._cubes:
             cube.set_lights_off()
 
+    async def start_light_chasers(self, time_before_stop=2):
+        """Starts the light chaser effect for each cube.
+
+        :param time_before_stop: Time to wait before the light chaser effect stops (in seconds).
+        :return: None
+        """
+        first_cube, second_cube, third_cube = self.__get_note_cubes()
+        first_cube.start_light_chaser()
+        second_cube.start_light_chaser()
+        third_cube.start_light_chaser()
+        await sleep(time_before_stop)
+        first_cube.stop_light_chaser()
+        second_cube.stop_light_chaser()
+        third_cube.stop_light_chaser()
+
+    def __get_note_cubes(self) -> List[NoteCube]:
+        return list(map(lambda cube: NoteCube(cube, self._song), self._cubes))
+
     async def flash_single_cube_red(self, cube_id: int) -> None:
         """Convenience method for calling :meth:`~song_match.cube.note_cubes.NoteCubes.flash_single_cube`
         with a :data:`~cozmo.lights.red_light`.

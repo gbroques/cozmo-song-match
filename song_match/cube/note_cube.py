@@ -1,8 +1,9 @@
 """Module containing :class:`~song_match.cube.note_cube.NoteCube`."""
 
+import asyncio
 from asyncio import sleep
 
-from cozmo.lights import Light
+from cozmo.lights import Light, green_light, off_light
 from cozmo.objects import LightCube
 
 from song_match.song import Note
@@ -17,6 +18,7 @@ class NoteCube:
     def __init__(self, cube: LightCube, song: Song):
         self._cube = cube
         self._song = song
+        self._light_chaser = None
 
     @classmethod
     def of(cls, song_robot, cube_id: int):
@@ -50,7 +52,7 @@ class NoteCube:
         
         :return: None
         """
-        cube_light = self._song.get_cube_light(self._cube.cube_id)
+        cube_light = self._song.get_cube_light(self.cube_id)
         self.set_lights(cube_light)
 
     def set_lights_off(self) -> None:
@@ -80,6 +82,34 @@ class NoteCube:
             await sleep(delay)
             self.set_lights(light)
             await sleep(delay)
+
+    def start_light_chaser(self, delay: float = 0.1) -> None:
+        """Rotates the cube's color around the light corners in a continuous loop.
+
+        :param delay: Time awaited before moving the rotating lights.
+        """
+        if self._light_chaser:
+            raise ValueError('Light chaser already running.')
+
+        async def _chaser():
+            while True:
+                for i in range(4):
+                    colors = [off_light] * 4
+                    colors[i] = self._song.get_cube_light(self.cube_id)
+                    self._cube.set_light_corners(*colors)
+                    await asyncio.sleep(delay, loop=self._cube._loop)
+
+        self._light_chaser = asyncio.ensure_future(_chaser(), loop=self._cube._loop)
+
+    def stop_light_chaser(self) -> None:
+        """Ends the light chaser effect.
+
+        :return: None
+        """
+        if self._light_chaser:
+            self._light_chaser.cancel()
+            self._light_chaser = None
+        self.turn_on_light()
 
     @property
     def note(self) -> Note:

@@ -72,7 +72,9 @@ class SongMatch:
 
             await sleep(TIME_IN_BETWEEN_PLAYER_AND_COZMO)
 
-            await self.__tap_guard(lambda: self._song_robot.play_notes(notes))
+            await self.__wait_for_cozmo_to_match_notes(current_position)
+
+            await self.__tap_guard(lambda: self.__play_round_transition_effect())
 
             current_position += 1
 
@@ -92,7 +94,13 @@ class SongMatch:
 
             num_notes_played += 1
 
-        await self.__play_correct_sequence_effect()
+        await self.__tap_guard(lambda: self.__play_correct_sequence_effect())
+        return True
+
+    async def __wait_for_cozmo_to_match_notes(self, current_position: int) -> bool:
+        notes = self._song.get_sequence_slice(current_position)
+        await self.__tap_guard(lambda: self._song_robot.play_notes(notes))
+        await self.__tap_guard(lambda: self.__play_correct_sequence_effect(is_player=False))
         return True
 
     def __check_for_game_over(self) -> None:
@@ -108,8 +116,12 @@ class SongMatch:
         effect = self._effect_factory.create('WrongNote')
         await effect.play(cube_id)
 
-    async def __play_correct_sequence_effect(self):
+    async def __play_correct_sequence_effect(self, is_player=True):
         effect = self._effect_factory.create('CorrectSequence')
+        await effect.play(is_player=is_player)
+
+    async def __play_round_transition_effect(self):
+        effect = self._effect_factory.create('RoundTransition')
         await effect.play()
 
     async def __play_notes(self, notes: List[Note]) -> None:
