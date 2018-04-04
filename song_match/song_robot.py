@@ -18,7 +18,7 @@ from .song import Song, Note
 class SongRobot:
     """Wrapper class for Cozmo :class:`~cozmo.robot.Robot` instance."""
 
-    _NOTE_DELAY = 0.2  # Time to delay blinking the cube and playing the note
+    _NOTE_DELAY = 0.25  # Time to delay blinking the cube and playing the note
     _SLEEP_TIME = 0.1  # Time to sleep for while animation finishes
 
     def __init__(self, robot: Robot, song: Song):
