@@ -215,6 +215,11 @@
         <span class="sd">&quot;&quot;&quot;Property for accessing :attr:`~cozmo.robot.Robot.world`.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_robot</span><span class="o">.</span><span class="n">world</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">robot</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Robot</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Property for accessing :class:`~cozmo.robot.Robot`.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_robot</span>
+
     <span class="k">def</span> <span class="nf">__get_note_cube</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cube_id</span><span class="p">):</span>
         <span class="n">cube</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_robot</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">get_light_cube</span><span class="p">(</span><span class="n">cube_id</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">NoteCube</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_song</span><span class="p">)</span>

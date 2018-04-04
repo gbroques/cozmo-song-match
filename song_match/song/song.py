@@ -55,13 +55,20 @@ class Song(ABC):
         """
         return self._notes.index(note) + 1
 
-    def get_sequence(self, position: int) -> List[Note]:
-        """Get the sequence of notes up until a certain position.
+    def get_sequence(self) -> List[Note]:
+        """Get the sequence of notes.
 
-        :param position: The end position of the sequence.
+        :return: A sequence of notes.
+        """
+        return self._sequence
+
+    def get_sequence_slice(self, end: int) -> List[Note]:
+        """Get a slice of the sequence up to and including end.
+
+        :param end: The end position of the sequence.
         :return: A sequence of notes up until a certain position.
         """
-        return self._sequence[0:position]
+        return self._sequence[0:end]
 
     def is_not_finished(self, position: int) -> bool:
         """Returns whether or not the song is finished based upon the position in the sequence.

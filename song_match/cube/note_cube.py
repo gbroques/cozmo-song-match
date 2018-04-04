@@ -2,6 +2,7 @@
 
 from asyncio import sleep
 
+from cozmo.lights import Light
 from cozmo.objects import LightCube
 
 from song_match.song import Note
@@ -30,12 +31,41 @@ class NoteCube:
         self.turn_on_light()
 
     def turn_on_light(self) -> None:
-        """Turn on the light for the cube.
+        """Turn on the light for the cube assigned in :class:`~song_match.song.song.Song`.
         
         :return: None
         """
         cube_light = self._song.get_cube_light(self._cube.cube_id)
-        self._cube.set_lights(cube_light)
+        self.set_lights(cube_light)
+
+    def set_lights_off(self) -> None:
+        """Wrapper method for :meth:`~cozmo.objects.LightCube.set_lights_off`.
+
+        :return: None
+        """
+        self._cube.set_lights_off()
+
+    def set_lights(self, light: Light) -> None:
+        """Wrapper method for :meth:`~cozmo.objects.LightCube.set_lights`.
+
+        :return: None
+        """
+        self._cube.set_lights(light)
+
+    async def flash(self, light: Light, num_times: int, delay=0.15) -> None:
+        """Flash a light a certain number of times.
+
+        :param light: The light to flash.
+        :param num_times: The number of times to flash the light.
+        :param delay: Time in seconds between turning the light on and off.
+                      Default is 0.15 seconds.
+        :return: None
+        """
+        for _ in range(num_times):
+            self.set_lights_off()
+            await sleep(delay)
+            self.set_lights(light)
+            await sleep(delay)
 
     @property
     def note(self) -> Note:
@@ -44,3 +74,11 @@ class NoteCube:
         :return: :class:`~song_match.song.note.Note`
         """
         return self._song.get_note(self._cube.cube_id)
+
+    @property
+    def cube_id(self) -> int:
+        """Property to access the :attr:`~cozmo.objects.LightCube.cube_id` of a cube.
+
+        :return: :attr:`~cozmo.objects.LightCube.cube_id`
+        """
+        return self._cube.cube_id

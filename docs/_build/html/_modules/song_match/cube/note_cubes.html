@@ -164,10 +164,13 @@
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span>
 
+<span class="kn">from</span> <span class="nn">cozmo.lights</span> <span class="k">import</span> <span class="n">off_light</span><span class="p">,</span> <span class="n">red_light</span><span class="p">,</span> <span class="n">Light</span>
 <span class="kn">from</span> <span class="nn">cozmo.objects</span> <span class="k">import</span> <span class="n">LightCube</span>
 
 <span class="kn">from</span> <span class="nn">song_match.song</span> <span class="k">import</span> <span class="n">Song</span>
 <span class="kn">from</span> <span class="nn">.note_cube</span> <span class="k">import</span> <span class="n">NoteCube</span>
+
+<span class="n">FLASH_DELAY</span> <span class="o">=</span> <span class="mf">0.15</span>
 
 
 <div class="viewcode-block" id="NoteCubes"><a class="viewcode-back" href="../../../song_match/song_match.cube.html#song_match.cube.note_cubes.NoteCubes">[docs]</a><span class="k">class</span> <span class="nc">NoteCubes</span><span class="p">:</span>
@@ -180,11 +183,48 @@
 <div class="viewcode-block" id="NoteCubes.turn_on_lights"><a class="viewcode-back" href="../../../song_match/song_match.cube.html#song_match.cube.note_cubes.NoteCubes.turn_on_lights">[docs]</a>    <span class="k">def</span> <span class="nf">turn_on_lights</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Turn on the light for each note cube.</span>
 
+<span class="sd">        This method turns on the lights assigned in</span>
+<span class="sd">        :class:`~song_match.song.song.Song`.</span>
+
 <span class="sd">        :return: None</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">cube</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cubes</span><span class="p">:</span>
             <span class="n">note_cube</span> <span class="o">=</span> <span class="n">NoteCube</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_song</span><span class="p">)</span>
-            <span class="n">note_cube</span><span class="o">.</span><span class="n">turn_on_light</span><span class="p">()</span></div></div>
+            <span class="n">note_cube</span><span class="o">.</span><span class="n">turn_on_light</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="NoteCubes.flash_light_red"><a class="viewcode-back" href="../../../song_match/song_match.cube.html#song_match.cube.note_cubes.NoteCubes.flash_light_red">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">flash_light_red</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cube_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Convenience method for calling :meth:`~song_match.cube.note_cubes.NoteCubes.flash_light`</span>
+<span class="sd">        with a :data:`~cozmo.lights.red_light`.</span>
+
+<span class="sd">        :param cube_id: :attr:`~cozmo.objects.LightCube.cube_id`</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">flash_light</span><span class="p">(</span><span class="n">cube_id</span><span class="p">,</span> <span class="n">red_light</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NoteCubes.flash_light"><a class="viewcode-back" href="../../../song_match/song_match.cube.html#song_match.cube.note_cubes.NoteCubes.flash_light">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">flash_light</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cube_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">light</span><span class="p">:</span> <span class="n">Light</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Flashes the light of a particular cube,</span>
+<span class="sd">        while turning off the lights of the other cubes.</span>
+
+<span class="sd">        :param cube_id: :attr:`~cozmo.objects.LightCube.cube_id`</span>
+<span class="sd">        :param light: The :class:`~cozmo.lights.Light` to flash.</span>
+<span class="sd">        :return: None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">cube</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cubes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cube</span><span class="o">.</span><span class="n">cube_id</span> <span class="o">==</span> <span class="n">cube_id</span><span class="p">:</span>
+                <span class="n">cube</span><span class="o">.</span><span class="n">set_lights</span><span class="p">(</span><span class="n">light</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cube</span><span class="o">.</span><span class="n">set_lights</span><span class="p">(</span><span class="n">off_light</span><span class="p">)</span>
+        <span class="n">note_cube</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_note_cube</span><span class="p">(</span><span class="n">cube_id</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">note_cube</span><span class="o">.</span><span class="n">flash</span><span class="p">(</span><span class="n">light</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">turn_on_lights</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">__get_note_cube</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cube_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NoteCube</span><span class="p">:</span>
+        <span class="n">cube</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_cube</span><span class="p">(</span><span class="n">cube_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">NoteCube</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_song</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__get_cube</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cube_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LightCube</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">next</span><span class="p">(</span><span class="n">cube</span> <span class="k">for</span> <span class="n">cube</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cubes</span> <span class="k">if</span> <span class="n">cube</span><span class="o">.</span><span class="n">cube_id</span> <span class="o">==</span> <span class="n">cube_id</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

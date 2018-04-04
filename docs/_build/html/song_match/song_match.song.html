@@ -179,8 +179,8 @@
   <div class="section" id="module-song_match.song">
 <span id="song-match-song-package"></span><h1>song_match.song package<a class="headerlink" href="#module-song_match.song" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal"><span class="pre">Note</span></code></a> - Represents a musical note.</li>
-<li><a class="reference internal" href="#song_match.song.song.Song" title="song_match.song.song.Song"><code class="xref py py-class docutils literal"><span class="pre">Song</span></code></a> - Represents a song.</li>
+<li><a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal notranslate"><span class="pre">Note</span></code></a> - Represents a musical note.</li>
+<li><a class="reference internal" href="#song_match.song.song.Song" title="song_match.song.song.Song"><code class="xref py py-class docutils literal notranslate"><span class="pre">Song</span></code></a> - Represents a song.</li>
 </ul>
 <div class="toctree-wrapper compound">
 <ul>
@@ -192,17 +192,17 @@
 </div>
 <div class="section" id="module-song_match.song.note">
 <span id="song-match-song-note-module"></span><h2>song_match.song.note module<a class="headerlink" href="#module-song_match.song.note" title="Permalink to this headline">¶</a></h2>
-<p>Module containing <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal"><span class="pre">Note</span></code></a>.</p>
+<p>Module containing <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal notranslate"><span class="pre">Note</span></code></a>.</p>
 <dl class="class">
 <dt id="song_match.song.note.Note">
 <em class="property">class </em><code class="descclassname">song_match.song.note.</code><code class="descname">Note</code><span class="sig-paren">(</span><em>note: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/song_match/song/note.html#Note"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.note.Note" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#object" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="classmethod">
 <dt id="song_match.song.note.Note.init_mixer">
 <em class="property">classmethod </em><code class="descname">init_mixer</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/song_match/song/note.html#Note.init_mixer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.note.Note.init_mixer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes pygame’s mixer module.</p>
 <p>See <a class="reference external" href="https://www.pygame.org/docs/ref/mixer.html#pygame.mixer.init">https://www.pygame.org/docs/ref/mixer.html#pygame.mixer.init</a>.</p>
-<p><strong>IMPORTANT:</strong> Must be called before constructing any <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal"><span class="pre">Note</span></code></a> objects.</p>
+<p><strong>IMPORTANT:</strong> Must be called before constructing any <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal notranslate"><span class="pre">Note</span></code></a> objects.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -232,18 +232,18 @@
 </div>
 <div class="section" id="module-song_match.song.song">
 <span id="song-match-song-song-module"></span><h2>song_match.song.song module<a class="headerlink" href="#module-song_match.song.song" title="Permalink to this headline">¶</a></h2>
-<p>Module containing <a class="reference internal" href="#song_match.song.song.Song" title="song_match.song.song.Song"><code class="xref py py-class docutils literal"><span class="pre">Song</span></code></a>.</p>
+<p>Module containing <a class="reference internal" href="#song_match.song.song.Song" title="song_match.song.song.Song"><code class="xref py py-class docutils literal notranslate"><span class="pre">Song</span></code></a>.</p>
 <dl class="class">
 <dt id="song_match.song.song.Song">
 <em class="property">class </em><code class="descclassname">song_match.song.song.</code><code class="descname">Song</code><a class="reference internal" href="../_modules/song_match/song/song.html#Song"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.song.Song" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/abc.html#abc.ABC" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">abc.ABC</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.6/library/abc.html#abc.ABC" title="(in Python v3.6)"><code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></a></p>
 <p>Abstract base class for songs.</p>
 <p>Currently only supports songs with 3 notes.</p>
 <p>Must override <strong>3</strong> abstract properties:</p>
 <ol class="arabic simple">
-<li><code class="docutils literal"><span class="pre">_notes</span></code> - A list of 3 <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal"><span class="pre">Note</span></code></a> instances in ascending order by pitch.</li>
-<li><code class="docutils literal"><span class="pre">_sequence</span></code> - A sequence of <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal"><span class="pre">Note</span></code></a> instances that make up the song.</li>
-<li><code class="docutils literal"><span class="pre">_cube_lights</span></code> - A list of 3 <a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.lights.html#cozmo.lights.Light" title="(in Cozmo SDK v1.3.2)"><code class="xref py py-class docutils literal"><span class="pre">Light</span></code></a> instances.</li>
+<li><code class="docutils literal notranslate"><span class="pre">_notes</span></code> - A list of 3 <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal notranslate"><span class="pre">Note</span></code></a> instances in ascending order by pitch.</li>
+<li><code class="docutils literal notranslate"><span class="pre">_sequence</span></code> - A sequence of <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal notranslate"><span class="pre">Note</span></code></a> instances that make up the song.</li>
+<li><code class="docutils literal notranslate"><span class="pre">_cube_lights</span></code> - A list of 3 <a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.lights.html#cozmo.lights.Light" title="(in Cozmo SDK v1.3.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Light</span></code></a> instances.</li>
 </ol>
 <dl class="method">
 <dt id="song_match.song.song.Song.get_cube_id">
@@ -253,9 +253,9 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>note</strong> – The <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal"><span class="pre">Note</span></code></a> of the song.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>note</strong> – The <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal notranslate"><span class="pre">Note</span></code></a> of the song.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.objects.html#cozmo.objects.LightCube.cube_id" title="(in Cozmo SDK v1.3.2)"><code class="xref py py-attr docutils literal"><span class="pre">cube_id</span></code></a></td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.objects.html#cozmo.objects.LightCube.cube_id" title="(in Cozmo SDK v1.3.2)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cube_id</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -264,14 +264,92 @@
 <dl class="method">
 <dt id="song_match.song.song.Song.get_cube_light">
 <code class="descname">get_cube_light</code><span class="sig-paren">(</span><em>cube_id: int</em><span class="sig-paren">)</span> &#x2192; cozmo.lights.Light<a class="reference internal" href="../_modules/song_match/song/song.html#Song.get_cube_light"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.song.Song.get_cube_light" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the <a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.lights.html#cozmo.lights.Light" title="(in Cozmo SDK v1.3.2)"><code class="xref py py-class docutils literal"><span class="pre">Light</span></code></a> for a corresponding cube.</p>
+<dd><p>Get the <a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.lights.html#cozmo.lights.Light" title="(in Cozmo SDK v1.3.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Light</span></code></a> for a corresponding cube.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cube_id</strong> – <a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.objects.html#cozmo.objects.LightCube.cube_id" title="(in Cozmo SDK v1.3.2)"><code class="xref py py-attr docutils literal"><span class="pre">cube_id</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cube_id</strong> – <a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.objects.html#cozmo.objects.LightCube.cube_id" title="(in Cozmo SDK v1.3.2)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cube_id</span></code></a></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.lights.html#cozmo.lights.Light" title="(in Cozmo SDK v1.3.2)"><code class="xref py py-class docutils literal"><span class="pre">Light</span></code></a> for the corresponding cube.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.lights.html#cozmo.lights.Light" title="(in Cozmo SDK v1.3.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Light</span></code></a> for the corresponding cube.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="song_match.song.song.Song.get_note">
+<code class="descname">get_note</code><span class="sig-paren">(</span><em>cube_id: int</em><span class="sig-paren">)</span> &#x2192; song_match.song.note.Note<a class="reference internal" href="../_modules/song_match/song/song.html#Song.get_note"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.song.Song.get_note" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal notranslate"><span class="pre">Note</span></code></a> for a corresponding cube.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cube_id</strong> – <a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.objects.html#cozmo.objects.LightCube.cube_id" title="(in Cozmo SDK v1.3.2)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cube_id</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The <a class="reference internal" href="#song_match.song.note.Note" title="song_match.song.note.Note"><code class="xref py py-class docutils literal notranslate"><span class="pre">Note</span></code></a> of the cube.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="song_match.song.song.Song.get_sequence">
+<code class="descname">get_sequence</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; List[song_match.song.note.Note]<a class="reference internal" href="../_modules/song_match/song/song.html#Song.get_sequence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.song.Song.get_sequence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the sequence of notes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A sequence of notes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="song_match.song.song.Song.get_sequence_slice">
+<code class="descname">get_sequence_slice</code><span class="sig-paren">(</span><em>end: int</em><span class="sig-paren">)</span> &#x2192; List[song_match.song.note.Note]<a class="reference internal" href="../_modules/song_match/song/song.html#Song.get_sequence_slice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.song.Song.get_sequence_slice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a slice of the sequence up to and including end.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>end</strong> – The end position of the sequence.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A sequence of notes up until a certain position.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="song_match.song.song.Song.is_finished">
+<code class="descname">is_finished</code><span class="sig-paren">(</span><em>position: int</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/song_match/song/song.html#Song.is_finished"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.song.Song.is_finished" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not the song is finished based upon the position in the sequence.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>position</strong> – The position in the sequence of notes.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the song is finished. False otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="song_match.song.song.Song.is_not_finished">
+<code class="descname">is_not_finished</code><span class="sig-paren">(</span><em>position: int</em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../_modules/song_match/song/song.html#Song.is_not_finished"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.song.Song.is_not_finished" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether or not the song is finished based upon the position in the sequence.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>position</strong> – The position in the sequence of notes.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the song is not finished. False otherwise.</td>
 </tr>
 </tbody>
 </table>
@@ -280,12 +358,12 @@
 <dl class="method">
 <dt id="song_match.song.song.Song.play_note">
 <code class="descname">play_note</code><span class="sig-paren">(</span><em>cube_id: int</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/song_match/song/song.html#Song.play_note"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#song_match.song.song.Song.play_note" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plays a note for a corresponding cube.</p>
+<dd><p>Play the note for a corresponding cube.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cube_id</strong> – <a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.objects.html#cozmo.objects.LightCube.cube_id" title="(in Cozmo SDK v1.3.2)"><code class="xref py py-attr docutils literal"><span class="pre">cube_id</span></code></a></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cube_id</strong> – <a class="reference external" href="http://cozmosdk.anki.com/docs/generated/cozmo.objects.html#cozmo.objects.LightCube.cube_id" title="(in Cozmo SDK v1.3.2)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">cube_id</span></code></a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
 </tr>

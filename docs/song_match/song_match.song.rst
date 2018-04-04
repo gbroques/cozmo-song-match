@@ -1,5 +1,5 @@
-song\_match\.song package
-=========================
+song\_match.song package
+========================
 
 .. automodule:: song_match.song
     :members:
@@ -10,16 +10,16 @@ song\_match\.song package
 
     song_match.song.songs
 
-song\_match\.song\.note module
-------------------------------
+song\_match.song.note module
+----------------------------
 
 .. automodule:: song_match.song.note
     :members:
     :undoc-members:
     :show-inheritance:
 
-song\_match\.song\.song module
-------------------------------
+song\_match.song.song module
+----------------------------
 
 .. automodule:: song_match.song.song
     :members:

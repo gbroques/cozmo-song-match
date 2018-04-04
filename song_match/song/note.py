@@ -48,3 +48,9 @@ class Note:
 
     def __eq__(self, other):
         return isinstance(other, Note) and self.note == other.note
+
+    def __repr__(self):
+        return "<Note '{}'>".format(self.note)
+
+    def __str__(self):
+        return "<Note '{}'>".format(self.note)

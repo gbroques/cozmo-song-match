@@ -53,6 +53,11 @@ class SongRobot:
         """Property for accessing :attr:`~cozmo.robot.Robot.world`."""
         return self._robot.world
 
+    @property
+    def robot(self) -> Robot:
+        """Property for accessing :class:`~cozmo.robot.Robot`."""
+        return self._robot
+
     def __get_note_cube(self, cube_id):
         cube = self._robot.world.get_light_cube(cube_id)
         return NoteCube(cube, self._song)
