@@ -3,7 +3,7 @@
 import asyncio
 from asyncio import sleep
 
-from cozmo.lights import Light, green_light, off_light
+from cozmo.lights import Light, off_light
 from cozmo.objects import LightCube
 
 from song_match.song import Note
@@ -35,12 +35,13 @@ class NoteCube:
     def __get_cube(song_robot, cube_id: int) -> LightCube:
         return song_robot.world.get_light_cube(cube_id)
 
-    async def blink_and_play_note(self) -> None:
+    async def blink_and_play_note(self, blink_duration=0.125) -> None:
         """Blink the cube and play the corresponding note.
 
+        :param blink_duration: How long the cube blinks for in seconds.
         :return: None
         """
-        sleep_duration = self._BLINK_TIME / 2
+        sleep_duration = blink_duration / 2
         self._cube.set_lights_off()
         await sleep(sleep_duration)
         self._song.play_note(self._cube.cube_id)
