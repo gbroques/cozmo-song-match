@@ -5,11 +5,9 @@ from random import random
 from typing import List, Tuple, Union
 
 from cozmo.anim import AnimationTrigger
-from cozmo.anim import Triggers
 from cozmo.objects import LightCube1Id, LightCube2Id, LightCube3Id
 from cozmo.objects import LightCubeIDs
 from cozmo.robot import Robot, world
-from cozmo.util import radians
 
 from .cube import NoteCube
 from .song import Song, Note
@@ -25,6 +23,7 @@ class SongRobot:
         self._robot = robot
         self._song = song
         self._prev_cube_id = LightCube2Id  # Keep track of previously tapped cube
+        self._initial_angle = robot.pose_angle
 
     async def play_notes(self, notes: List[Note], with_error=False) -> Tuple[bool, Union[None, Note]]:
         """Make Cozmo play a series of notes.
@@ -87,11 +86,10 @@ class SongRobot:
         :param in_parallel: Whether to do the action in parallel or wait until it's completed.
         :return: None
         """
-        turn_to = radians(-self._robot.pose_angle.radians)
         if in_parallel:
-            self._robot.turn_in_place(turn_to)
+            self._robot.turn_in_place(self._initial_angle, is_absolute=True)
         else:
-            await self._robot.turn_in_place(turn_to).wait_for_completed()
+            await self._robot.turn_in_place(self._initial_angle, is_absolute=True).wait_for_completed()
         self._prev_cube_id = LightCube2Id
 
     @property
@@ -115,20 +113,25 @@ class SongRobot:
         self._prev_cube_id = cube_id
         return action
 
-    def __get_tap_animation(self, cube_id) -> Triggers:
+    def __get_tap_animation(self, cube_id) -> str:
         """Returns a tap animation based upon the current and previously tapped cubes."""
+        point_center = 'anim_memorymatch_pointcenter_01'
+        point_small_right = 'anim_memorymatch_pointsmallright_fast_01'
+        point_big_right = 'anim_memorymatch_pointbigright_01'
+        point_small_left = 'anim_memorymatch_pointsmallleft_fast_01'
+        point_big_left = 'anim_memorymatch_pointbigleft_01'
         key = (cube_id, self._prev_cube_id)
         return {
-            (LightCube1Id, LightCube1Id): Triggers.MemoryMatchPointCenter,
-            (LightCube1Id, LightCube2Id): Triggers.MemoryMatchPointRightSmall,
-            (LightCube1Id, LightCube3Id): Triggers.MemoryMatchPointRightBig,
-            (LightCube2Id, LightCube1Id): Triggers.MemoryMatchPointLeftSmall,
-            (LightCube2Id, LightCube2Id): Triggers.MemoryMatchPointCenter,
-            (LightCube2Id, LightCube3Id): Triggers.MemoryMatchPointRightSmall,
-            (LightCube3Id, LightCube1Id): Triggers.MemoryMatchPointLeftBig,
-            (LightCube3Id, LightCube2Id): Triggers.MemoryMatchPointLeftSmall,
-            (LightCube3Id, LightCube3Id): Triggers.MemoryMatchPointCenter,
+            (LightCube1Id, LightCube1Id): point_center,
+            (LightCube1Id, LightCube2Id): point_small_right,
+            (LightCube1Id, LightCube3Id): point_big_right,
+            (LightCube2Id, LightCube1Id): point_small_left,
+            (LightCube2Id, LightCube2Id): point_center,
+            (LightCube2Id, LightCube3Id): point_small_right,
+            (LightCube3Id, LightCube1Id): point_big_left,
+            (LightCube3Id, LightCube2Id): point_small_left,
+            (LightCube3Id, LightCube3Id): point_center
         }[key]
 
-    def __play_animation(self, animation_trigger: Triggers) -> AnimationTrigger:
-        return self._robot.play_anim_trigger(animation_trigger, in_parallel=True)
+    def __play_animation(self, animation_name: str) -> AnimationTrigger:
+        return self._robot.play_anim(animation_name, in_parallel=True)
