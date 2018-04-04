@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 
 from song_match.exceptions import InvalidNote
 from song_match.song import Note
@@ -6,11 +7,9 @@ from song_match.song import Note
 
 class TestNote(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(cls):
+    @patch('song_match.song.note.init')
+    def test_raises_invalid_note_exception(self, init):
         Note.init_mixer()
-
-    def test_raises_invalid_note_exception(self):
         with self.assertRaises(InvalidNote):
             Note('c4')
 
@@ -22,6 +21,8 @@ class TestNote(unittest.TestCase):
 
         with self.assertRaises(InvalidNote):
             Note('C10')
+
+        assert init.called
 
 
 if __name__ == '__main__':
