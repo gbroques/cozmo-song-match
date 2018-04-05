@@ -1,8 +1,11 @@
 """Package containing various game effects.
 
-  * :class:`~song_match.effect.effect.CorrectSequenceEffect`
-  * :class:`~song_match.effect.effect.RoundTransitionEffect`
-  * :class:`~song_match.effect.effect.WrongNoteEffect`
+  * :class:`~song_match.effect.effects.correct_sequence.CorrectSequenceEffect`
+    - Played when a player matches the correct notes.
+  * :class:`~song_match.effect.effects.round_transition.RoundTransitionEffect`
+    - Played when transitioning between game rounds.
+  * :class:`~song_match.effect.effects.wrong_note.WrongNoteEffect`
+    - Played when a player fails to match the correct notes.
 """
 
 from .correct_sequence import CorrectSequenceEffect

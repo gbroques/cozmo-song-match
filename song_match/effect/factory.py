@@ -16,7 +16,7 @@ class EffectFactory:
 
         Usage: :code:`create('WrongNote')`
 
-        :param effect_type: Camel case class name of the effect.
+        :param effect_type: Upper camel case class name of the effect.
         :return: :class:`~song_match.effect.effect.Effect`
         """
         if effect_type == 'CorrectSequence':
