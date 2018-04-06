@@ -2,4 +2,6 @@ language: python
 python:
   - '3.6.3'
 script:
-  - python -m unittest discover test
+  - py.test
+ after_success:
+  - coveralls

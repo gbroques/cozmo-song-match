@@ -2,3 +2,5 @@
 .coverage
 __pycache__
 _build
+.pytest_cache
+htmlcov
