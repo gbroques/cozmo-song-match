@@ -10,6 +10,7 @@ from cozmo.robot import Robot
 from song_match.cube import NoteCube
 from song_match.cube import NoteCubes
 from .effect import EffectFactory
+from .player import Player
 from .song import MaryHadALittleLamb
 from .song import Note
 from .song_robot import SongRobot
@@ -26,14 +27,13 @@ TIME_BETWEEN_NOTES = 0.5
 class SongMatch:
     """Main game class."""
 
-    def __init__(self):
+    def __init__(self, num_players: int = 1):
         self._song_robot = None
         self._note_cubes = None
         self._effect_factory = None
         self._prevent_tap = False  # Flag to prevent player from interrupting game by tapping cubes
-        self._num_player_wrong = 0
-        self._num_cozmo_wrong = 0
         self._song = MaryHadALittleLamb()
+        self._players = [Player(i) for i in range(num_players)]
         Note.init_mixer()
 
     async def play(self, robot: Robot) -> None:
@@ -69,7 +69,7 @@ class SongMatch:
             notes = self._song.get_sequence_slice(current_position)
             await self.__tap_guard(lambda: self.__play_notes(notes))
 
-            await self.__wait_for_player_to_match_notes(current_position)
+            await self.__wait_for_players_to_match_notes(current_position)
 
             await sleep(TIME_IN_BETWEEN_PLAYER_AND_COZMO)
 
@@ -79,7 +79,11 @@ class SongMatch:
 
             current_position += 1
 
-    async def __wait_for_player_to_match_notes(self, current_position: int) -> bool:
+    async def __wait_for_players_to_match_notes(self, current_position: int) -> None:
+        for i, player in enumerate(self._players):
+            await self.__wait_for_player_to_match_notes(current_position, i)
+
+    async def __wait_for_player_to_match_notes(self, current_position: int, player_index: int) -> bool:
         num_notes_played = 0
         notes = self._song.get_sequence_slice(current_position)
         while num_notes_played != current_position:
@@ -88,7 +92,7 @@ class SongMatch:
             correct_note = notes[num_notes_played]
 
             if tapped_cube.note != correct_note:
-                self._num_player_wrong += 1
+                self._players[player_index].num_wrong += 1
                 await self.__tap_guard(lambda: self.__play_wrong_note_effect(tapped_cube.cube_id))
                 self.__check_for_game_over()
                 return False
@@ -106,7 +110,7 @@ class SongMatch:
         if played_correct_sequence:
             await self.__tap_guard(lambda: self.__play_correct_sequence_effect(is_player=False))
         else:
-            self._num_cozmo_wrong += 1
+            self._song_robot.num_wrong += 1
             wrong_cube_id = self._song.get_cube_id(note)
             await self.__tap_guard(lambda: self.__play_wrong_note_effect(wrong_cube_id, is_player=False))
             self.__check_for_game_over()
@@ -115,8 +119,11 @@ class SongMatch:
         return True
 
     def __check_for_game_over(self) -> None:
-        if self._num_player_wrong == MAX_STRIKES or self._num_cozmo_wrong == MAX_STRIKES:
-            exit(0)
+        num_wrong_per_player = [player.num_wrong for player in self._players]
+        num_wrong_per_player.append(self._song_robot.num_wrong)
+        for num_wrong in num_wrong_per_player:
+            if num_wrong == MAX_STRIKES:
+                exit(0)
 
     async def __tap_guard(self, callable_function: Callable):
         self._prevent_tap = True

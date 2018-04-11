@@ -24,6 +24,7 @@ class SongRobot:
         self._song = song
         self._prev_cube_id = LightCube2Id  # Keep track of previously tapped cube
         self._initial_angle = robot.pose_angle
+        self.num_wrong = 0  # Keep track of the number of wrong notes Cozmo taps
 
     async def play_notes(self, notes: List[Note], with_error=False) -> Tuple[bool, Union[None, Note]]:
         """Make Cozmo play a series of notes.
