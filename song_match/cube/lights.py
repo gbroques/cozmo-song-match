@@ -23,3 +23,5 @@ ORANGE_LIGHT = __get_light(255, 172, 0)
 
 #: :class:`~cozmo.lights.Light` - Yellow light instance.
 YELLOW_LIGHT = __get_light(255, 241, 0)
+
+BLUE_LIGHT = __get_light()
