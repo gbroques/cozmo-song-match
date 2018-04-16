@@ -4,3 +4,4 @@ __pycache__
 _build
 .pytest_cache
 htmlcov
+.DS_Store
