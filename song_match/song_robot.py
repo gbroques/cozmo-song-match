@@ -3,8 +3,8 @@
 from asyncio import sleep
 from random import random
 from typing import List, Tuple, Union
-
 from cozmo.anim import AnimationTrigger
+from cozmo.anim import Triggers
 from cozmo.objects import LightCube1Id, LightCube2Id, LightCube3Id
 from cozmo.objects import LightCubeIDs
 from cozmo.robot import Robot, world
@@ -133,5 +133,19 @@ class SongRobot:
             (LightCube3Id, LightCube3Id): point_center
         }[key]
 
-    def __play_animation(self, animation_name: str) -> AnimationTrigger:
+    async def __play_animation(self, animation_name: str) -> AnimationTrigger:
         return self._robot.play_anim(animation_name, in_parallel=True)
+
+    async def __cozmo_fail_animation(self):
+        self._robot.play_anim_trigger(Robot.anim.Triggers.FrustratedByFailure).wait_for_completed()
+
+    async def __cozmo_lose_(self):
+        self._robot.say_text('I Lost').wait_for_completed()
+        self._robot.play_anim_trigger(Robot.anim.Triggers.FrustratedByFailureMajor).wait_for_completed()
+    
+    async def __cozmo_sucess_animation(self):
+        self._robot.play_anim_trigger(Robot.anim.Triggers.CodeLabReactHappy).wait_for_completed()
+
+    async def __cozmo_win_(self):
+        self._robot.say_text('I Won').wait_for_completed()
+        self._robot.play_anim_trigger(Robot.anim.Triggers.DanceMambo).wait_for_completed()

@@ -6,7 +6,7 @@ from typing import Callable, List
 
 from cozmo.objects import EvtObjectTapped
 from cozmo.robot import Robot
-
+from cozmo.anim import *
 from song_match.cube import NoteCube
 from song_match.cube import NoteCubes
 from .effect import EffectFactory
@@ -109,13 +109,17 @@ class SongMatch:
             self._num_cozmo_wrong += 1
             wrong_cube_id = self._song.get_cube_id(note)
             await self.__tap_guard(lambda: self.__play_wrong_note_effect(wrong_cube_id, is_player=False))
+            self._song_robot._robot.play_anim_trigger(cozmo.anim.Triggers.)
             self.__check_for_game_over()
             return False
 
         return True
 
     def __check_for_game_over(self) -> None:
-        if self._num_player_wrong == MAX_STRIKES or self._num_cozmo_wrong == MAX_STRIKES:
+        if self._num_player_wrong == MAX_STRIKES: 
+            self._song_robot.play_anim_trigger(cozmo.anim.Triggers.FrustratedByFailure).wait_for_completed()
+            exit(0)
+        elif self._num_cozmo_wrong == MAX_STRIKES:
             exit(0)
 
     async def __tap_guard(self, callable_function: Callable):
