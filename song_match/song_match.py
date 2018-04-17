@@ -89,7 +89,7 @@ class SongMatch:
             if tapped_cube.note != correct_note:
                 self._num_player_wrong += 1
                 await self.__tap_guard(lambda: self.__play_wrong_note_effect(tapped_cube.cube_id))
-                self.__check_for_game_over()
+                await self.__check_for_game_over()
                 return False
 
             num_notes_played += 1
@@ -103,24 +103,24 @@ class SongMatch:
             lambda: self._song_robot.play_notes(notes, with_error=True)
         )
         if played_correct_sequence:
-            self._song_robot.__cozmo_success_animation()
+            await self._song_robot.cozmo_success_animation()
             await self.__tap_guard(lambda: self.__play_correct_sequence_effect(is_player=False))
         else:
             self._num_cozmo_wrong += 1
             wrong_cube_id = self._song.get_cube_id(note)
             await self.__tap_guard(lambda: self.__play_wrong_note_effect(wrong_cube_id, is_player=False))
-            self._song_robot.__cozmo_fail_animation()
-            self.__check_for_game_over()
+            self._song_robot.cozmo_fail_animation()
+            await self.__check_for_game_over()
             return False
 
         return True
 
-    def __check_for_game_over(self) -> None:
+    async def __check_for_game_over(self) -> None:
         if self._num_player_wrong == MAX_STRIKES: 
-            self._song_robot.__cozmo_win()
+            await self._song_robot.cozmo_win()
             exit(0)
         elif self._num_cozmo_wrong == MAX_STRIKES:
-            self._song_robot.__cozmo_lose()
+            await self._song_robot.cozmo_lose()
             exit(0)
 
     async def __tap_guard(self, callable_function: Callable):
