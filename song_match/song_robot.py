@@ -139,13 +139,13 @@ class SongRobot:
     async def __cozmo_fail_animation(self):
         self._robot.play_anim_trigger(Robot.anim.Triggers.FrustratedByFailure).wait_for_completed()
 
-    async def __cozmo_lose_(self):
+    async def __cozmo_lose(self):
         self._robot.say_text('I Lost').wait_for_completed()
         self._robot.play_anim_trigger(Robot.anim.Triggers.FrustratedByFailureMajor).wait_for_completed()
     
-    async def __cozmo_sucess_animation(self):
+    async def __cozmo_success_animation(self):
         self._robot.play_anim_trigger(Robot.anim.Triggers.CodeLabReactHappy).wait_for_completed()
 
-    async def __cozmo_win_(self):
+    async def __cozmo_win(self):
         self._robot.say_text('I Won').wait_for_completed()
         self._robot.play_anim_trigger(Robot.anim.Triggers.DanceMambo).wait_for_completed()
