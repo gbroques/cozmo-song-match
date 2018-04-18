@@ -4,6 +4,7 @@ from song_match.effect import Effect
 
 
 class RoundTransitionEffect(Effect):
+    """Played when transitioning between rounds of the game."""
 
     async def play(self) -> None:
         """Play the round transition effect.

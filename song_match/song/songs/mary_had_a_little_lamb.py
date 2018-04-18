@@ -12,7 +12,7 @@ from song_match.song.note import Note
 
 
 class MaryHadALittleLamb(Song):
-
+    """Mary Had a Little Lamb"""
     @property
     def _notes(self) -> List[Note]:
         return [

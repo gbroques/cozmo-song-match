@@ -4,7 +4,9 @@
    contain the root `toctree` directive.
 
 .. image:: _static/banner.png
+
 |
+
 ========================
 Song Match Documentation
 ========================

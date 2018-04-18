@@ -10,6 +10,7 @@ from song_match.exceptions import MixerNotInitialized
 
 
 class Note:
+    """Represents a musical note."""
     __is_mixer_initialized = False
 
     def __init__(self, note: str):
