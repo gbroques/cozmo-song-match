@@ -12,10 +12,11 @@ from song_match.exceptions import MixerNotInitialized
 class Note:
     __is_mixer_initialized = False
 
-    def __init__(self, note: str):
+    def __init__(self, note: str, duration: int):
         if not self.__is_mixer_initialized:
             raise MixerNotInitialized()
 
+        self.duration = duration
         self.note = note
         self.__sound = Sound(self.__get_sound_path())
 
