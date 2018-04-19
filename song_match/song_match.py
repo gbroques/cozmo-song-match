@@ -146,7 +146,7 @@ class SongMatch:
     async def __play_notes(self, notes: List[Note]) -> None:
         for note in notes:
             await self.__play_note(note)
-            await sleep(TIME_BETWEEN_NOTES)
+            await sleep(note.duration)
 
     async def __play_note(self, note: Note) -> None:
         cube_id = self._song.get_cube_id(note)

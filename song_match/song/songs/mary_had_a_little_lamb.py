@@ -9,7 +9,10 @@ from song_match.cube.lights import RED_LIGHT
 from song_match.cube.lights import YELLOW_LIGHT
 from song_match.song import Song
 from song_match.song.note import Note
-
+from song_match.song.note import EIGHTH_NOTE
+from song_match.song.note import QUARTER_NOTE
+from song_match.song.note import HALF_NOTE
+from song_match.song.note import WHOLE_NOTE
 
 class MaryHadALittleLamb(Song):
 
@@ -23,13 +26,17 @@ class MaryHadALittleLamb(Song):
 
     @property
     def _sequence(self) -> List[Note]:
-        c4, d4, e4 = self._notes
+        c_quarter = Note('C4')
+        d_quarter = Note('D4')
+        e_quarter = Note('E4')
+        d_half = Note('D4', HALF_NOTE)
+        e_half = Note('E4', HALF_NOTE)
         return [
-            e4, d4, c4, d4, e4,
-            e4, e4, d4, d4, d4,
-            e4, e4, e4, e4, d4,
-            c4, d4, e4, e4, e4,
-            d4, d4, e4, d4, c4,
+            e_quarter, d_quarter, c_quarter, d_quarter, e_quarter,
+            e_quarter, e_half, d_quarter, d_quarter, d_half,
+            e_quarter, e_quarter, e_half, e_quarter, d_quarter,
+            c_quarter, d_quarter, e_quarter, e_quarter, e_half,
+            d_quarter, d_quarter, e_quarter, d_quarter, c_quarter,
         ]
 
     @property
