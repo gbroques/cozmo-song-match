@@ -7,7 +7,6 @@ from cozmo.lights import Light
 
 from song_match.song.note import Note
 
-QUARTER_NOTE = .5
 
 class Song(ABC):
     """Abstract base class for songs.
