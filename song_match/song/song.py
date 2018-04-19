@@ -7,7 +7,6 @@ from cozmo.lights import Light
 
 from song_match.song.note import Note
 
-
 class Song(ABC):
     """Abstract base class for songs.
 
@@ -70,21 +69,21 @@ class Song(ABC):
         """
         return self._sequence[0:end]
 
-    def is_not_finished(self, position: int) -> bool:
+    def is_not_finished(self, position: int, difficulty: int) -> bool:
         """Returns whether or not the song is finished based upon the position in the sequence.
 
         :param position: The position in the sequence of notes.
         :return: True if the song is not finished. False otherwise.
         """
-        return not self.is_finished(position)
+        return not self.is_finished(position, difficulty)
 
-    def is_finished(self, position: int) -> bool:
+    def is_finished(self, position: int, difficulty: int) -> bool:
         """Returns whether or not the song is finished based upon the position in the sequence.
 
         :param position: The position in the sequence of notes.
         :return: True if the song is finished. False otherwise.
         """
-        return len(self._sequence) == position
+        return difficulty == position
 
     @staticmethod
     def _get_index(cube_id: int):
