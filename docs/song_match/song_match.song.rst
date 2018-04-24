@@ -1,14 +1,15 @@
 song\_match.song package
 ========================
 
-.. automodule:: song_match.song
-    :members:
-    :undoc-members:
-    :show-inheritance:
+Subpackages
+-----------
 
 .. toctree::
 
     song_match.song.songs
+
+Submodules
+----------
 
 song\_match.song.note module
 ----------------------------
@@ -27,3 +28,17 @@ song\_match.song.song module
     :show-inheritance:
 
 
+Module contents
+---------------
+
+.. automodule:: song_match.song
+    :members:
+    :undoc-members:
+    :show-inheritance:
+Module contents
+---------------
+
+.. automodule:: song_match.song
+    :members:
+    :undoc-members:
+    :show-inheritance:

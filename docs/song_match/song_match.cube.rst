@@ -1,10 +1,8 @@
 song\_match.cube package
 ========================
 
-.. automodule:: song_match.cube
-    :members:
-    :undoc-members:
-    :show-inheritance:
+Submodules
+----------
 
 song\_match.cube.lights module
 ------------------------------
@@ -31,3 +29,17 @@ song\_match.cube.note\_cubes module
     :show-inheritance:
 
 
+Module contents
+---------------
+
+.. automodule:: song_match.cube
+    :members:
+    :undoc-members:
+    :show-inheritance:
+Module contents
+---------------
+
+.. automodule:: song_match.cube
+    :members:
+    :undoc-members:
+    :show-inheritance:

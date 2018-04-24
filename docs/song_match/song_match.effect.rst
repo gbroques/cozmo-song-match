@@ -1,14 +1,15 @@
 song\_match.effect package
 ==========================
 
-.. automodule:: song_match.effect
-    :members:
-    :undoc-members:
-    :show-inheritance:
+Subpackages
+-----------
 
 .. toctree::
 
     song_match.effect.effects
+
+Submodules
+----------
 
 song\_match.effect.effect module
 --------------------------------
@@ -27,3 +28,17 @@ song\_match.effect.factory module
     :show-inheritance:
 
 
+Module contents
+---------------
+
+.. automodule:: song_match.effect
+    :members:
+    :undoc-members:
+    :show-inheritance:
+Module contents
+---------------
+
+.. automodule:: song_match.effect
+    :members:
+    :undoc-members:
+    :show-inheritance:

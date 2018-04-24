@@ -1,10 +1,8 @@
 song\_match.exceptions package
 ==============================
 
-.. automodule:: song_match.exceptions
-    :members:
-    :undoc-members:
-    :show-inheritance:
+Submodules
+----------
 
 song\_match.exceptions.exceptions module
 ----------------------------------------
@@ -15,3 +13,17 @@ song\_match.exceptions.exceptions module
     :show-inheritance:
 
 
+Module contents
+---------------
+
+.. automodule:: song_match.exceptions
+    :members:
+    :undoc-members:
+    :show-inheritance:
+Module contents
+---------------
+
+.. automodule:: song_match.exceptions
+    :members:
+    :undoc-members:
+    :show-inheritance:

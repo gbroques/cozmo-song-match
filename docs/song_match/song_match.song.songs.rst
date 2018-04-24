@@ -1,10 +1,8 @@
 song\_match.song.songs package
 ==============================
 
-.. automodule:: song_match.song.songs
-    :members:
-    :undoc-members:
-    :show-inheritance:
+Submodules
+----------
 
 song\_match.song.songs.mary\_had\_a\_little\_lamb module
 --------------------------------------------------------
@@ -15,3 +13,17 @@ song\_match.song.songs.mary\_had\_a\_little\_lamb module
     :show-inheritance:
 
 
+Module contents
+---------------
+
+.. automodule:: song_match.song.songs
+    :members:
+    :undoc-members:
+    :show-inheritance:
+Module contents
+---------------
+
+.. automodule:: song_match.song.songs
+    :members:
+    :undoc-members:
+    :show-inheritance:
