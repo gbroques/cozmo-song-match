@@ -4,7 +4,9 @@
    contain the root `toctree` directive.
 
 .. image:: _static/banner.png
+
 |
+
 ========================
 Song Match Documentation
 ========================
@@ -12,6 +14,8 @@ Song Match Documentation
 Welcome to the documentation for the Cozmo Song Match project!
 
 A game where you match the notes of a song by tapping blocks with Cozmo.
+
+Please view our `User's Guide <_static/cube_jam.pdf>`_ for detailed information on how to play the game.
 
 .. toctree::
    :caption: Getting Started
@@ -25,9 +29,10 @@ A game where you match the notes of a song by tapping blocks with Cozmo.
    song_match/song_match.rst
 
 .. toctree::
-   :caption: Additional Help
+   :maxdepth: 1
+   :caption: About
 
-   inheritance-diagrams
+   the_cozmonauts
 
 
 Indices and tables

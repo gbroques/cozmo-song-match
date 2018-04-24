@@ -4,6 +4,7 @@ from song_match.effect import Effect
 
 
 class WrongNoteEffect(Effect):
+    """Played when either a player or Cozmo plays the wrong note."""
 
     async def play(self, cube_id: int, is_player: bool = True) -> None:
         """Play the wrong note effect.

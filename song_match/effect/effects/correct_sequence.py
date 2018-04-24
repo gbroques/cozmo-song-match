@@ -4,6 +4,7 @@ from song_match.effect.effect import Effect
 
 
 class CorrectSequenceEffect(Effect):
+    """Played when either a player or Cozmo matches a sequence of notes correctly."""
 
     async def play(self, is_player: bool = True) -> None:
         """Play the correct sequence effect.

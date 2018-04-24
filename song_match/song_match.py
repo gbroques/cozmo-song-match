@@ -23,7 +23,6 @@ STARTING_POSITION = 3  # The number of notes you start with in the sequence
 
 TIME_BETWEEN_NOTES = 0.5
 
-
 class SongMatch:
     """Main game class."""
 
@@ -35,6 +34,7 @@ class SongMatch:
         self._song = MaryHadALittleLamb()
         self._players = [Player(i) for i in range(num_players)]
         Note.init_mixer()
+        self._game_length = len(self._song.get_sequence())
 
     async def play(self, robot: Robot) -> None:
         """Play the Song Match game.
@@ -65,7 +65,7 @@ class SongMatch:
 
     async def __init_game_loop(self) -> None:
         current_position = STARTING_POSITION
-        while self._song.is_not_finished(current_position):
+        while self._song.is_not_finished(current_position, self._game_length):
             notes = self._song.get_sequence_slice(current_position)
             await self.__tap_guard(lambda: self.__play_notes(notes))
 
@@ -77,7 +77,7 @@ class SongMatch:
 
             await self.__tap_guard(lambda: self.__play_round_transition_effect())
 
-            current_position += 1
+            current_position = self.__update_position(current_position)
 
     async def __wait_for_players_to_match_notes(self, current_position: int) -> None:
         for i, player in enumerate(self._players):
@@ -150,9 +150,24 @@ class SongMatch:
     async def __play_notes(self, notes: List[Note]) -> None:
         for note in notes:
             await self.__play_note(note)
-            await sleep(TIME_BETWEEN_NOTES)
+            await sleep(note.duration)
 
     async def __play_note(self, note: Note) -> None:
         cube_id = self._song.get_cube_id(note)
         note_cube = NoteCube.of(self._song_robot, cube_id)
         await note_cube.blink_and_play_note()
+
+    def __update_position(self, current_position: int) -> int:
+        MEDIUM, LONG = self._song.get_gamelength_markers()
+        if current_position < MEDIUM or current_position == self._game_length:
+            return current_position + 1
+        elif current_position < LONG:
+            current_position += 2
+            if current_position > self._game_length:
+                current_position = self._game_length
+            return current_position
+        else:
+            current_position += 3
+            if current_position > self._game_length:
+                current_position = self._game_length
+            return current_position
