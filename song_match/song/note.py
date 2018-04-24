@@ -8,15 +8,20 @@ from song_match.config import ROOT_DIR
 from song_match.exceptions import InvalidNote
 from song_match.exceptions import MixerNotInitialized
 
+EIGHTH_NOTE = .2 #: time for eighth note
+QUARTER_NOTE = .4 #: time for quarter note
+HALF_NOTE = .8 #: time half note
+WHOLE_NOTE = 1.6 #: time for whole note
 
 class Note:
     """Represents a musical note."""
     __is_mixer_initialized = False
 
-    def __init__(self, note: str):
+    def __init__(self, note: str, duration: int=QUARTER_NOTE):
         if not self.__is_mixer_initialized:
             raise MixerNotInitialized()
 
+        self.duration = duration
         self.note = note
         self.__sound = Sound(self.__get_sound_path())
 
