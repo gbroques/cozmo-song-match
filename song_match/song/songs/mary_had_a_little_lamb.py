@@ -18,7 +18,7 @@ MEDIUM = 8
 LONG = 16
 
 class MaryHadALittleLamb(Song):
-
+    """Mary Had a Little Lamb"""
     @property
     def _notes(self) -> List[Note]:
         return [

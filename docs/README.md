@@ -7,11 +7,7 @@ automatically generates Sphinx sources as reStructuredText or `.rst` files from 
 
 For a primer on reStructuredText see Sphinx's [reStructuredText Primer](http://www.sphinx-doc.org/en/stable/rest.html#rst-primer).
 
-We then post-process the reStructuredText files with a python script called `prettify_doc.py`. For details, see `prettify_doc.py`.
-
-Finally, Sphinx creates the HTML and other necessary files in `docs/_build`.
-
-You can run `docs/make_docs` which automates the above process.
+Sphinx creates the HTML and other necessary files in `docs/_build`.
 
 We host our documentation using a free service called [Read the Docs](https://readthedocs.org/).
 
@@ -19,7 +15,7 @@ We host our documentation using a free service called [Read the Docs](https://re
 
 1. Make your desired changes.
 
-2. Run `./docs/make_docs`
+2. Run `make html` from `./docs`.
 
 3. Verify your changes by opening `docs/_build/html/index.html` in your favorite web browser.
 

@@ -14,6 +14,7 @@ HALF_NOTE = .8 #: time half note
 WHOLE_NOTE = 1.6 #: time for whole note
 
 class Note:
+    """Represents a musical note."""
     __is_mixer_initialized = False
 
     def __init__(self, note: str, duration: int=QUARTER_NOTE):

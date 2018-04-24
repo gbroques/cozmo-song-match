@@ -21,7 +21,23 @@ import os
 
 import sys
 
+sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../'))
+
+
+# -- Generate API documentation ------------------------------------------------
+
+def run_apidoc(_):
+    """Generate API documentation"""
+    import better_apidoc
+    better_apidoc.main(
+        ['better-apidoc', '-t', './_templates', '--force',
+         '-o', './song_match', '../song_match'])
+
+
+def setup(app):
+    app.connect('builder-inited', run_apidoc)
+
 
 # -- General configuration ------------------------------------------------
 
@@ -121,6 +137,9 @@ intersphinx_mapping = {'cozmo': ('http://cozmosdk.anki.com/docs/', None),
                        'python': ('https://docs.python.org/3.6', None)}
 
 autosummary_generate = True
+
+# autodoc settings
+autoclass_content = 'both'
 
 # -- Options for HTMLHelp output ------------------------------------------
 
