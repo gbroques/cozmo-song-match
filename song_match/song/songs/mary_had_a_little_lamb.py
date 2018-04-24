@@ -14,6 +14,9 @@ from song_match.song.note import QUARTER_NOTE
 from song_match.song.note import HALF_NOTE
 from song_match.song.note import WHOLE_NOTE
 
+MEDIUM = 8
+LONG = 16
+
 class MaryHadALittleLamb(Song):
 
     @property
@@ -46,3 +49,11 @@ class MaryHadALittleLamb(Song):
             ORANGE_LIGHT,
             YELLOW_LIGHT
         ]
+
+    @property
+    def _gamelength_markers(self) -> List[int]:
+        return [
+            MEDIUM,
+            LONG
+        ]
+

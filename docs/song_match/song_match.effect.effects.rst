@@ -1,10 +1,8 @@
 song\_match.effect.effects package
 ==================================
 
-.. automodule:: song_match.effect.effects
-    :members:
-    :undoc-members:
-    :show-inheritance:
+Submodules
+----------
 
 song\_match.effect.effects.correct\_sequence module
 ---------------------------------------------------
@@ -31,3 +29,17 @@ song\_match.effect.effects.wrong\_note module
     :show-inheritance:
 
 
+Module contents
+---------------
+
+.. automodule:: song_match.effect.effects
+    :members:
+    :undoc-members:
+    :show-inheritance:
+Module contents
+---------------
+
+.. automodule:: song_match.effect.effects
+    :members:
+    :undoc-members:
+    :show-inheritance:

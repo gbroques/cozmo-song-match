@@ -69,21 +69,26 @@ class Song(ABC):
         """
         return self._sequence[0:end]
 
-    def is_not_finished(self, position: int, difficulty: int) -> bool:
+    def is_not_finished(self, position: int, game_length: int) -> bool:
         """Returns whether or not the song is finished based upon the position in the sequence.
 
         :param position: The position in the sequence of notes.
+        :param game_length: The length of the game based on index of a note in the sequence.
         :return: True if the song is not finished. False otherwise.
         """
-        return not self.is_finished(position, difficulty)
+        return not self.is_finished(position, game_length)
 
-    def is_finished(self, position: int, difficulty: int) -> bool:
+    def is_finished(self, position: int, game_length: int) -> bool:
         """Returns whether or not the song is finished based upon the position in the sequence.
 
         :param position: The position in the sequence of notes.
+        :param game_length: The length of the game based on index of a note in the sequence.
         :return: True if the song is finished. False otherwise.
         """
-        return difficulty == position
+        return game_length < position
+
+    def get_gamelength_markers(self) -> List[int]:
+        return self._gamelength_markers
 
     @staticmethod
     def _get_index(cube_id: int):
@@ -103,3 +108,10 @@ class Song(ABC):
     @abstractmethod
     def _cube_lights(self) -> List[Light]:
         """A list of 3 lights for each cube."""
+
+    @property
+    @abstractmethod
+    def _gamelength_markers(self) -> List[int]:
+        """A list of indeces where the song ramps up in difficulty."""
+
+

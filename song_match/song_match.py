@@ -23,10 +23,6 @@ STARTING_POSITION = 3  # The number of notes you start with in the sequence
 
 TIME_BETWEEN_NOTES = 0.5
 
-EASY =  4
-MEDIUM = 7
-HARD = 10
-
 class SongMatch:
     """Main game class."""
 
@@ -37,8 +33,8 @@ class SongMatch:
         self._prevent_tap = False  # Flag to prevent player from interrupting game by tapping cubes
         self._song = MaryHadALittleLamb()
         self._players = [Player(i) for i in range(num_players)]
-        self._difficulty = HARD
         Note.init_mixer()
+        self._game_length = len(self._song.get_sequence())
 
     async def play(self, robot: Robot) -> None:
         """Play the Song Match game.
@@ -69,7 +65,7 @@ class SongMatch:
 
     async def __init_game_loop(self) -> None:
         current_position = STARTING_POSITION
-        while self._song.is_not_finished(current_position, self._difficulty):
+        while self._song.is_not_finished(current_position, self._game_length):
             notes = self._song.get_sequence_slice(current_position)
             await self.__tap_guard(lambda: self.__play_notes(notes))
 
@@ -158,15 +154,16 @@ class SongMatch:
         await note_cube.blink_and_play_note()
 
     def __update_position(self, current_position: int) -> int:
-        if current_position < EASY or current_position == self._difficulty - 1:
+        MEDIUM, LONG = self._song.get_gamelength_markers()
+        if current_position < MEDIUM or current_position == self._game_length:
             return current_position + 1
-        elif current_position < MEDIUM:
+        elif current_position < LONG:
             current_position += 2
-            if current_position >= self._difficulty:
-                current_position = self._difficulty - 1
+            if current_position > self._game_length:
+                current_position = self._game_length
             return current_position
         else:
             current_position += 3
-            if current_position >= self._difficulty:
-                current_position = self._difficulty - 1
+            if current_position > self._game_length:
+                current_position = self._game_length
             return current_position

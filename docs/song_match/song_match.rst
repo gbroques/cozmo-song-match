@@ -1,10 +1,8 @@
 song\_match package
 ===================
 
-.. automodule:: song_match
-    :members:
-    :undoc-members:
-    :show-inheritance:
+Subpackages
+-----------
 
 .. toctree::
 
@@ -13,10 +11,29 @@ song\_match package
     song_match.exceptions
     song_match.song
 
+Submodules
+----------
+
 song\_match.config module
 -------------------------
 
 .. automodule:: song_match.config
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+song\_match.player module
+-------------------------
+
+.. automodule:: song_match.player
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+song\_match.player module
+-------------------------
+
+.. automodule:: song_match.player
     :members:
     :undoc-members:
     :show-inheritance:
@@ -38,3 +55,17 @@ song\_match.song\_robot module
     :show-inheritance:
 
 
+Module contents
+---------------
+
+.. automodule:: song_match
+    :members:
+    :undoc-members:
+    :show-inheritance:
+Module contents
+---------------
+
+.. automodule:: song_match
+    :members:
+    :undoc-members:
+    :show-inheritance:
