@@ -137,16 +137,8 @@ class SongRobot:
     async def play_animation(self, animation_name: str) -> AnimationTrigger:
         return self._robot.play_anim(animation_name, in_parallel=True)
 
-    async def cozmo_fail_animation(self):
-        await self._robot.play_anim_trigger(Triggers.FrustratedByFailure).wait_for_completed()
-
     async def cozmo_lose(self):
         await self._robot.say_text('I Lost').wait_for_completed()
-        await self._robot.play_anim_trigger(Triggers.FrustratedByFailureMajor).wait_for_completed()
-    
-    async def cozmo_success_animation(self):
-        await self._robot.play_anim_trigger(Triggers.CodeLabReactHappy).wait_for_completed()
 
     async def cozmo_win(self):
         await self._robot.say_text('I Won').wait_for_completed()
-        await self._robot.play_anim_trigger(Triggers.DanceMambo).wait_for_completed()

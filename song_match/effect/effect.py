@@ -20,6 +20,7 @@ class Effect(ABC):
     def _play_animation(self, animation_trigger, **kwargs) -> AnimationTrigger:
         return self._song_robot.robot.play_anim_trigger(animation_trigger, **kwargs)
 
+
     @property
     def _note_cubes(self):
         return NoteCubes.of(self._song_robot)
