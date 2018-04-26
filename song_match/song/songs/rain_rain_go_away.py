@@ -10,6 +10,10 @@ from song_match.cube.lights import YELLOW_LIGHT
 from song_match.song import Song
 from song_match.song.note import Note
 
+from song_match.song.note import HALF_NOTE
+
+MEDIUM = 8
+LONG = 16
 
 class RainRainGoAway(Song):
 
@@ -23,13 +27,17 @@ class RainRainGoAway(Song):
 
     @property
     def _sequence(self) -> List[Note]:
-        e5, g5, a5 = self._notes
-        return [g5, e5,
-                g5, g5, e5,
-                g5, g5, e5, a5, g5, g5, e5,
-                g5, e5,
-                g5, g5, e5,
-                g5, g5, e5, a5, g5, g5, e5]
+        g_quarter = Note('G5')
+        e_quarter = Note('E5')
+        a_quarter = Note('A5')
+        g_half = Note('G5', HALF_NOTE)
+        e_half = Note('E5', HALF_NOTE)
+        return [g_half, e_half,
+                g_quarter, g_quarter, e_half,
+                g_quarter, g_quarter, e_quarter, a_quarter, g_quarter, g_quarter, e_half,
+                g_quarter, e_half,
+                g_quarter, g_quarter, e_half,
+                g_quarter, g_quarter, e_quarter, a_quarter, g_quarter, g_quarter, e_half]
 
     @property
     def _cube_lights(self) -> List[Light]:
@@ -37,4 +45,11 @@ class RainRainGoAway(Song):
             RED_LIGHT,
             ORANGE_LIGHT,
             YELLOW_LIGHT
+        ]
+
+    @property
+    def _gamelength_markers(self) -> List[int]:
+        return [
+            MEDIUM,
+            LONG
         ]

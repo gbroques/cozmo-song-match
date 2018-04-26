@@ -1,4 +1,4 @@
-"""Module containing :class:`~song_match.song.songs.mary_had_a_little_lamb.MaryHadALittleLamb`."""
+"""Module containing :class:`~song_match.song.songs.hot_cross_buns.HotCrossBuns`."""
 
 from typing import List
 
@@ -9,34 +9,39 @@ from song_match.cube.lights import RED_LIGHT
 from song_match.cube.lights import YELLOW_LIGHT
 from song_match.song import Song
 from song_match.song.note import Note
+from song_match.song.note import EIGHTH_NOTE
 from song_match.song.note import HALF_NOTE
 
-MEDIUM = 8
-LONG = 16
+MEDIUM = 5
+LONG = 11
 
-class MaryHadALittleLamb(Song):
-    """Mary Had a Little Lamb"""
+class HotCrossBuns(Song):
+    """Hot Cross Buns"""
     @property
     def _notes(self) -> List[Note]:
         return [
-            Note('C4'),
-            Note('D4'),
-            Note('E4')
+            Note('B3'),
+            Note('A3'),
+            Note('G3')
         ]
 
     @property
     def _sequence(self) -> List[Note]:
-        c_quarter = Note('C4')
-        d_quarter = Note('D4')
-        e_quarter = Note('E4')
-        d_half = Note('D4', HALF_NOTE)
-        e_half = Note('E4', HALF_NOTE)
+        a_eighth = Note('A3', EIGHTH_NOTE)
+        g_eighth = Note('G3', EIGHTH_NOTE)
+        b_quarter = Note('B3')
+        a_quarter = Note('A3')
+        g_quarter = Note('G3')
+        g_half = Note('G3', HALF_NOTE)
+
+
         return [
-            e_quarter, d_quarter, c_quarter, d_quarter, e_quarter,
-            e_quarter, e_half, d_quarter, d_quarter, d_half,
-            e_quarter, e_quarter, e_half, e_quarter, d_quarter,
-            c_quarter, d_quarter, e_quarter, e_quarter, e_half,
-            d_quarter, d_quarter, e_quarter, d_quarter, c_quarter,
+            b_quarter, a_quarter, g_half,
+            b_quarter, a_quarter, g_half,
+            g_eighth, g_eighth, g_eighth, g_eighth,
+            a_eighth, a_eighth, a_eighth, a_eighth,
+            b_quarter, a_quarter, g_half,
+
         ]
 
     @property
