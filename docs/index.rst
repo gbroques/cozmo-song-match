@@ -15,6 +15,23 @@ Welcome to the documentation for the Cozmo Song Match project!
 
 A game where you match the notes of a song by tapping blocks with Cozmo.
 
+Song Match is brought to you by four undergraduate students from the University of Missouri - St. Louis.
+
+Collectively we are `The Cozmonauts <the_cozmonauts.html>`_.
+
+How It Works
+------------
+The game starts by playing three notes of a song.
+Each time a note is played, a corresponding cube flashes.
+The player must match the notes tapping the correct sequence of cubes.
+If the player gets the sequence correct, then Cozmo tries to match the correct sequence.
+If either the player or Cozmo gets *three* notes incorrect, then they lose the game.
+
+This makes up **one** round.
+Each round the length of the sequence increases, until you reach the end of the song.
+
+
+
 Please view our `User's Guide <_static/cube_jam.pdf>`_ for detailed information on how to play the game.
 
 .. toctree::
@@ -24,7 +41,7 @@ Please view our `User's Guide <_static/cube_jam.pdf>`_ for detailed information 
 
 .. toctree::
    :maxdepth: 2
-   :caption: API
+   :caption: Song Match API
 
    song_match/song_match.rst
 
