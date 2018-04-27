@@ -50,6 +50,12 @@ Please view our `User's Guide <_static/cube_jam.pdf>`_ for detailed information 
    song_match/song_match.rst
 
 .. toctree::
+   :maxdepth: 2
+   :caption: Dependencies
+
+   pages/dependencies
+
+.. toctree::
    :maxdepth: 1
    :caption: About
 
