@@ -134,7 +134,8 @@ html_sidebars = {
 }
 
 intersphinx_mapping = {'cozmo': ('http://cozmosdk.anki.com/docs/', None),
-                       'python': ('https://docs.python.org/3.6', None)}
+                       'python': ('https://docs.python.org/3.6', None),
+                       'pygame': ('https://www.pygame.org/docs/', None)}
 
 autosummary_generate = True
 
