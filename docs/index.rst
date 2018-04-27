@@ -38,6 +38,7 @@ Please view our `User's Guide <_static/cube_jam.pdf>`_ for detailed information 
    :caption: Getting Started
 
    setup
+   virtualenv
 
 .. toctree::
    :maxdepth: 2
