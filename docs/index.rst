@@ -38,9 +38,9 @@ Please view our `User's Guide <_static/cube_jam.pdf>`_ for detailed information 
    :caption: Getting Started
    :maxdepth: 2
 
-   setup
-   virtualenv
-   codebase_conventions
+   pages/setup
+   pages/virtualenv
+   pages/codebase_conventions
 
 .. toctree::
    :maxdepth: 2
@@ -52,7 +52,7 @@ Please view our `User's Guide <_static/cube_jam.pdf>`_ for detailed information 
    :maxdepth: 1
    :caption: About
 
-   the_cozmonauts
+   pages/the_cozmonauts
 
 
 Indices and tables
