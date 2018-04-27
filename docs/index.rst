@@ -32,6 +32,8 @@ Each round the length of the sequence increases, until you reach the end of the 
 
 Please view our `User's Guide <_static/cube_jam.pdf>`_ for detailed information on how to play the game.
 
+:download:`User's Guide <_static/cube_jam.pdf>`
+
 .. toctree::
    :caption: Getting Started
    :maxdepth: 2
