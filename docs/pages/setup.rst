@@ -30,3 +30,7 @@ $ pip install -r requirements.txt
 ::
 
 $ python main.py
+
+6. `Download and Install PyCharm <https://www.jetbrains.com/pycharm/download/>`_ (Optional)
+
+  * See `why we recommend you develop with PyCharm <pycharm.html>`_
