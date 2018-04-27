@@ -23,6 +23,7 @@ STARTING_POSITION = 3  # The number of notes you start with in the sequence
 
 TIME_BETWEEN_NOTES = 0.5
 
+
 class SongMatch:
     """Main game class."""
 

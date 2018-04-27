@@ -21,7 +21,7 @@ class NoteCube:
         self._light_chaser = None
 
     @classmethod
-    def of(cls, song_robot, cube_id: int):
+    def of(cls, song_robot, cube_id: int) -> 'NoteCube':
         """Static factory method for creating a :class:`~song_match.cube.note_cube.NoteCube`
         from :class:`~song_match.song_robot.SongRobot`.
 

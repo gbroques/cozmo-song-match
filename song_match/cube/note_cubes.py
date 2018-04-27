@@ -19,7 +19,7 @@ class NoteCubes:
         self._song = song
 
     @classmethod
-    def of(cls, song_robot: SongRobot):
+    def of(cls, song_robot: SongRobot) -> 'NoteCubes':
         """Static factory method for creating :class:`~song_match.cube.note_cubes.NoteCubes`
         from :class:`~song_match.song_robot.SongRobot`.
 
