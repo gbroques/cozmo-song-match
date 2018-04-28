@@ -63,4 +63,7 @@ Package names:
 * ``sphinx-rtd-theme`` - `Read the Docs Sphinx Theme <http://sphinx-rtd-theme.readthedocs.io/en/latest/>`_
 * ``better-apidoc`` - A version of `sphinx-apidoc <http://www.sphinx-doc.org/en/stable/man/sphinx-apidoc.html>`_ with support for templating
 
+We also use `Graphviz <https://www.graphviz.org/>`_ to generate inheritance diagrams.
+You can download Graphviz `here <https://www.graphviz.org/download/>`_.
+
 The rest of the packages found in ``requirements.txt`` are transitive dependencies.
