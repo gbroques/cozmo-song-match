@@ -15,7 +15,7 @@ from .song import MaryHadALittleLamb
 from .song import Note
 from .song_robot import SongRobot
 
-MAX_STRIKES = 1  # The maximum number of notes a player can get wrong
+MAX_STRIKES = 3  # The maximum number of notes a player can get wrong
 
 TIME_IN_BETWEEN_PLAYER_AND_COZMO = 1  # In seconds
 

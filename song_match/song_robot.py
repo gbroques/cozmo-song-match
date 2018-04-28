@@ -65,9 +65,9 @@ class SongRobot:
         :rtype: Tuple[bool, Note]
         """
         played_correct_note = True
-        difficulty = .80
+        difficulty = .99
 
-        round_difficulty = difficulty ** sequence_length
+        round_difficulty = difficulty - (.05 * sequence_length)
 
         cube_id = self._song.get_cube_id(note)
 
