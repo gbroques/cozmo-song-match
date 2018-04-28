@@ -4,9 +4,9 @@ from typing import List
 
 from cozmo.lights import Light
 
-from song_match.cube.lights import ORANGE_LIGHT
-from song_match.cube.lights import RED_LIGHT
-from song_match.cube.lights import YELLOW_LIGHT
+from song_match.cube.lights import BLUE_LIGHT
+from song_match.cube.lights import CYAN_LIGHT
+from song_match.cube.lights import PINK_LIGHT
 from song_match.song import Song
 from song_match.song.note import HALF_NOTE
 from song_match.song.note import Note
@@ -42,9 +42,9 @@ class RainRainGoAway(Song):
     @property
     def _cube_lights(self) -> List[Light]:
         return [
-            RED_LIGHT,
-            ORANGE_LIGHT,
-            YELLOW_LIGHT
+            BLUE_LIGHT,
+            PINK_LIGHT,
+            CYAN_LIGHT
         ]
 
     @property
