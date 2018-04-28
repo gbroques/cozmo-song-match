@@ -15,7 +15,7 @@ from .song import MaryHadALittleLamb
 from .song import Note
 from .song_robot import SongRobot
 
-MAX_STRIKES = 3  # The maximum number of notes a player can get wrong
+MAX_STRIKES = 1  # The maximum number of notes a player can get wrong
 
 TIME_IN_BETWEEN_PLAYER_AND_COZMO = 1  # In seconds
 
@@ -65,9 +65,6 @@ class SongMatch:
         current_position = STARTING_POSITION
         while self._song.is_not_finished(current_position, self._game_length):
             await self.__tap_guard(lambda: self.__play_round_transition_effect())
-            
-            notes = self._song.get_sequence_slice(current_position)
-            await self.__tap_guard(lambda: self.__play_notes(notes))
 
             await self.__wait_for_players_to_match_notes(current_position)
 
@@ -75,12 +72,24 @@ class SongMatch:
 
             await self.__wait_for_cozmo_to_match_notes(current_position)
 
+            await self.__tap_guard(lambda: self.__update_if_still_in_game())
+
+            await self.__tap_guard(lambda: self.__check_for_game_over())
+
             current_position = self.__update_position(current_position)
-        await self.__check_for_game_over()
+
+        await self.__tap_guard(lambda: self.__play_end_game_results())
 
     async def __wait_for_players_to_match_notes(self, current_position: int) -> None:
+        notes = self._song.get_sequence_slice(current_position)
+
         for i, player in enumerate(self._players):
-            await self.__wait_for_player_to_match_notes(current_position, i)
+            if player.num_wrong < MAX_STRIKES:
+                await self.__player_turn_prompt(i)
+                await self.__tap_guard(lambda: self.__play_notes(notes))
+                await self.__wait_for_player_to_match_notes(current_position, i)
+        await self.__tap_guard(lambda: self.__check_for_game_over())
+
 
     async def __wait_for_player_to_match_notes(self, current_position: int, player_index: int) -> bool:
         num_notes_played = 0
@@ -93,7 +102,6 @@ class SongMatch:
             if tapped_cube.note != correct_note:
                 self._players[player_index].num_wrong += 1
                 await self.__tap_guard(lambda: self.__play_wrong_note_effect(tapped_cube.cube_id))
-                await self.__check_for_game_over()
                 return False
 
             num_notes_played += 1
@@ -101,32 +109,67 @@ class SongMatch:
         await self.__tap_guard(lambda: self.__play_correct_sequence_effect())
         return True
 
-    async def __wait_for_cozmo_to_match_notes(self, current_position: int) -> bool:
-        notes = self._song.get_sequence_slice(current_position)
-        played_correct_sequence, note = await self.__tap_guard(
-            lambda: self._song_robot.play_notes(notes, with_error=True)
-        )
-        if played_correct_sequence:
-            await self.__tap_guard(lambda: self.__play_correct_sequence_effect(is_player=False))
-        else:
-            self._song_robot.num_wrong += 1
-            wrong_cube_id = self._song.get_cube_id(note)
-            await self.__tap_guard(lambda: self.__play_wrong_note_effect(wrong_cube_id, is_player=False))
-            await self.__check_for_game_over()
-            return False
 
-        return True
+    async def __player_turn_prompt(self, player_index: int):
+        cozmo_text = "Player " + str(player_index + 1)
+        await self.__tap_guard(lambda: self._song_robot.say_text(cozmo_text).wait_for_completed())
+
+    async def __wait_for_cozmo_to_match_notes(self, current_position: int) -> bool:
+        if self._song_robot.num_wrong < MAX_STRIKES:
+            notes = self._song.get_sequence_slice(current_position)
+            played_correct_sequence, note = await self.__tap_guard(
+                lambda: self._song_robot.play_notes(notes, with_error=True)
+            )
+            if played_correct_sequence:
+                await self.__tap_guard(lambda: self.__play_correct_sequence_effect(is_player=False))
+            else:
+                self._song_robot.num_wrong += 1
+                wrong_cube_id = self._song.get_cube_id(note)
+                await self.__tap_guard(lambda: self.__play_wrong_note_effect(wrong_cube_id, is_player=False))
+                return False
+            return True
+
+    async def __update_if_still_in_game(self) -> None:
+        for player in self._players:
+            if player.num_wrong == MAX_STRIKES:
+                player.did_win = False
+        if self._song_robot.num_wrong == MAX_STRIKES:
+            self._song_robot.did_win = False
 
     async def __check_for_game_over(self) -> None:
-        num_wrong_per_player = [player.num_wrong for player in self._players]
-        if any(num_wrong == MAX_STRIKES for num_wrong in num_wrong_per_player):
-            await self.__tap_guard(lambda: self.__play_game_over_effect(is_player=False))
-            await self.__tap_guard(lambda: self.__play_notes(self._song.get_sequence()))
-            exit(0)
-        elif self._song_robot.num_wrong == MAX_STRIKES:
-            await self.__tap_guard(lambda: self.__play_game_over_effect())
-            await self.__tap_guard(lambda: self.__play_notes(self._song.get_sequence()))
-            exit(0)
+        num_of_players_out = 0
+        for player in self._players:
+            if player.num_wrong == MAX_STRIKES:
+                num_of_players_out += 1
+        if self._song_robot.num_wrong == MAX_STRIKES:
+            num_of_players_out += 1
+        if num_of_players_out >= len(self._players):
+            await self.__tap_guard(lambda: self.__play_end_game_results())
+
+    async def __play_end_game_results(self) -> None:
+        winners = ""
+        num_of_winners = 0
+        for i, player in enumerate(self._players):
+            if player.did_win:
+                num_of_winners += 1
+                if num_of_winners > 1:
+                    winners += " and "
+                winners += "player " + str(i + 1)
+        is_cozmo = True
+
+        if self._song_robot.did_win and num_of_winners == 0:
+            winners = "I won"
+        elif self._song_robot.did_win:
+            winners += " and I won"
+        else:
+            winners += " won. "
+            winners += "I lost."
+            is_cozmo = False
+
+        await self.__tap_guard(lambda: self.__play_game_over_effect(winners, is_cozmo=is_cozmo))
+        await self.__tap_guard(lambda: self.__play_notes(self._song.get_sequence()))
+        exit(0)
+
 
     async def __tap_guard(self, callable_function: Callable):
         self._prevent_tap = True
@@ -146,9 +189,9 @@ class SongMatch:
         effect = self._effect_factory.create('RoundTransition')
         await effect.play()
 
-    async def __play_game_over_effect(self, is_player=True):
+    async def __play_game_over_effect(self, winners, is_cozmo):
         effect = self._effect_factory.create('GameOver')
-        await effect.play(is_player=is_player)
+        await effect.play(winners, is_cozmo=is_cozmo)
         
     async def __play_notes(self, notes: List[Note]) -> None:
         for note in notes:
