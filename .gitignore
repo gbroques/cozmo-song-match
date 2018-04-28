@@ -5,3 +5,4 @@ _build
 .pytest_cache
 htmlcov
 .DS_Store
+venv
