@@ -60,6 +60,24 @@ class SongMatch:
         note_cube = NoteCube(cube, self._song)
         await note_cube.blink_and_play_note()
 
+    async def __get_number_of_players(self) -> int:
+        self._song_robot.say_text("How many players?")
+        sleep(1)
+        self._song_robot.say_text("One?")
+        await self.__tap_guard(
+            lambda: self._song_robot.tap_cube(1))
+        self._song_robot.say_text("Two?")
+        await self.__tap_guard(
+            lambda: self._song_robot.tap_cube(2))
+        self._song_robot.say_text("Three?")
+        await self.__tap_guard(
+            lambda: self._song_robot.tap_cube(3))
+
+        event = await self._song_robot.world.wait_for(EvtObjectTapped)
+        tapped_cube = NoteCube(event.obj, self._song)
+
+        return tapped_cube.cube_id
+
     async def __init_game_loop(self) -> None:
         current_position = STARTING_POSITION
         while self._song.is_not_finished(current_position):
