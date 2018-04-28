@@ -33,6 +33,8 @@ class SongMatch:
         self._players = [Player(i) for i in range(num_players)]
         Note.init_mixer()
         self._game_length = len(self._song.get_sequence())
+        self.MEDIUM, self.LONG = self._song.get_gamelength_markers()
+
 
     async def play(self, robot: Robot) -> None:
         """Play the Song Match game.
@@ -121,7 +123,7 @@ class SongMatch:
                 lambda: self._song_robot.play_notes(notes, with_error=True)
             )
             if played_correct_sequence:
-                await self.__tap_guard(lambda: self.__play_correct_sequence_effect(is_player=False))
+                await self.__tap_guard(lambda: self.__play_correct_sequence_effect(current_position, self.MEDIUM, is_player=False))
             else:
                 self._song_robot.num_wrong += 1
                 wrong_cube_id = self._song.get_cube_id(note)
@@ -204,10 +206,9 @@ class SongMatch:
         await note_cube.blink_and_play_note()
 
     def __update_position(self, current_position: int) -> int:
-        MEDIUM, LONG = self._song.get_gamelength_markers()
-        if current_position < MEDIUM or current_position == self._game_length:
+        if current_position < self.MEDIUM or current_position == self._game_length:
             return current_position + 1
-        elif current_position < LONG:
+        elif current_position < self.LONG:
             current_position += 2
             if current_position > self._game_length:
                 current_position = self._game_length
