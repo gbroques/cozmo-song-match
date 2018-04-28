@@ -69,7 +69,7 @@ In our codebase there is one factory, :class:`~song_match.effect.factory.EffectF
 Inheritance
 -----------
 
-We favor `composition over inheritance <https://en.wikipedia.org/wiki/Composition_over_inheritance>`_ and avoid complex object hierarchies.
+We favor `composition over inheritance <https://en.wikipedia.org/wiki/Composition_over_inheritance>`_ and avoid complex class hierarchies.
 
 No class extends an instantiable class, but there are two abstract base classes:
 
