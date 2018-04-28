@@ -13,17 +13,17 @@ Song Match Documentation
 
 Welcome to the documentation for the Cozmo Song Match project!
 
-A game where you match the notes of a song by tapping blocks with Cozmo.
+Song Match is a game where you try to match the notes of a song by tapping blocks with Cozmo.
+With each round, the game gets longer and a little harder. Song Match supports up to 3 players.
 
 Song Match is brought to you by four undergraduate students from the University of Missouri - St. Louis.
-
-Collectively we are `The Cozmonauts <the_cozmonauts.html>`_.
+Collectively, we are `The Cozmonauts <the_cozmonauts.html>`_.
 
 How It Works
 ------------
-The game starts by playing three notes of a song.
+The game starts by playing the first three notes of a song.
 Each time a note is played, a corresponding cube flashes.
-The player must match the notes tapping the correct sequence of cubes.
+The player must match the notes by tapping the correct sequence of cubes.
 If the player gets the sequence correct, then Cozmo tries to match the correct sequence.
 If either the player or Cozmo gets *three* notes incorrect, then they lose the game.
 
