@@ -42,6 +42,7 @@ Please view our `User's Guide <_static/cube_jam.pdf>`_ for detailed information 
    pages/virtualenv
    pages/pycharm
    pages/codebase_conventions
+   pages/package_structure
 
 .. toctree::
    :maxdepth: 2
