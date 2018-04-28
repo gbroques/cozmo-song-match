@@ -3,12 +3,11 @@
 from asyncio import sleep
 from random import random
 from typing import List, Tuple, Union
-
 from cozmo.anim import AnimationTrigger
 from cozmo.objects import LightCube1Id, LightCube2Id, LightCube3Id
 from cozmo.objects import LightCubeIDs
 from cozmo.robot import Robot, world
-
+from cozmo.robot import SayText
 from .cube import NoteCube
 from .song import Song, Note
 
@@ -51,7 +50,7 @@ class SongRobot:
         """
         cube_id = self._song.get_cube_id(note)
         note_cube = NoteCube.of(self, cube_id)
-        action = self.__tap_cube(cube_id)
+        action = await self.__tap_cube(cube_id)
         await sleep(self._NOTE_DELAY)
         await note_cube.blink_and_play_note()
         await action.wait_for_completed()
@@ -108,9 +107,9 @@ class SongRobot:
         """Property for accessing :class:`~song_match.song.song.Song`."""
         return self._song
 
-    def __tap_cube(self, cube_id) -> AnimationTrigger:
+    async def __tap_cube(self, cube_id) -> AnimationTrigger:
         animation = self.__get_tap_animation(cube_id)
-        action = self.__play_animation(animation)
+        action = await self.play_animation(animation)
         self._prev_cube_id = cube_id
         return action
 
@@ -134,5 +133,12 @@ class SongRobot:
             (LightCube3Id, LightCube3Id): point_center
         }[key]
 
-    def __play_animation(self, animation_name: str) -> AnimationTrigger:
+    async def play_animation(self, animation_name: str) -> AnimationTrigger:
         return self._robot.play_anim(animation_name, in_parallel=True)
+
+    def say_text(self, text: str) -> SayText:
+        """Wrapper method for :meth:`~cozmo.robot.Robot.say_text`.
+
+        :return: :class:`~cozmo.robot.SayText`
+        """
+        return self._robot.say_text(text)

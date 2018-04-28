@@ -23,3 +23,16 @@ ORANGE_LIGHT = __get_light(255, 172, 0)
 
 #: :class:`~cozmo.lights.Light` - Yellow light instance.
 YELLOW_LIGHT = __get_light(255, 241, 0)
+
+#: :class:`~cozmo.lights.Light` - Blue light instance.
+BLUE_LIGHT = __get_light(0, 0, 255)
+
+#: :class:`~cozmo.lights.Light` - Green light instance.
+GREEN_LIGHT = __get_light(0, 255, 0)
+
+#: :class:`~cozmo.lights.Light` - Cyan light instance.
+CYAN_LIGHT = __get_light(0, 255, 190)
+
+#: :class:`~cozmo.lights.Light` - Pink light instance.
+PINK_LIGHT = __get_light(255, 0, 255)
+
