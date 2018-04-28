@@ -8,7 +8,9 @@
     * The issues near the top are higher priority
 
 3. Checkout a new branch to work on
-    * `git checkout -b the-issue-im-working-on`
+    * `git checkout master` - Checkout the `master` branch
+    * `git pull -r` - Update `master` by rebasing
+    * `git checkout -b the-issue-im-working-on` - Checkout a new branch to work on your isue
 
 4. Make your changes and don't forget to commit often
     * See [Useful Git Commands](https://gist.github.com/gbroques/1aee3f2dec5ff578e757f34c9ddc3881)
