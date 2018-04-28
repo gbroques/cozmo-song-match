@@ -100,7 +100,7 @@ If you see anything that begins with a underscore, then it means don't use it ou
 
 In general, all ``public`` members in Song Match have docstring comments, while ``private`` and ``protected`` members do not.
 
-Our `API reference <song_match/song_match.html>`_ includes only ``public`` members.
+Our API reference includes only ``public`` members.
 
 Type Hinting
 ------------

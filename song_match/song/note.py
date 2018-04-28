@@ -10,7 +10,7 @@ from song_match.exceptions import MixerNotInitialized
 
 EIGHTH_NOTE = .2  #: Time for eighth note.
 QUARTER_NOTE = .4  #: Time for quarter note.
-HALF_NOTE = .8  #: Time half note.
+HALF_NOTE = .8  #: Time for half note.
 WHOLE_NOTE = 1.6  #: Time for whole note.
 
 
