@@ -3,7 +3,7 @@ from song_match.song_robot import SongRobot
 from .effects import CorrectSequenceEffect
 from .effects import RoundTransitionEffect
 from .effects import WrongNoteEffect
-from .effects import GameWonEffect
+from .effects import GameOverEffect
 
 class EffectFactory:
     """Factory for creating :class:`~song_match.effect.effect.Effect` instances."""
@@ -25,7 +25,7 @@ class EffectFactory:
             return WrongNoteEffect(self._song_robot)
         elif effect_type == 'RoundTransition':
             return RoundTransitionEffect(self._song_robot)
-        elif effect_type == 'GameWon':
-            return GameWonEffect(self._song_robot)
+        elif effect_type == 'GameOver':
+            return GameOverEffect(self._song_robot)
         else:
             raise InvalidEffectType(effect_type)

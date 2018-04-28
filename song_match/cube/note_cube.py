@@ -19,6 +19,7 @@ class NoteCube:
         self._cube = cube
         self._song = song
         self._light_chaser = None
+        self._victory_light = None
 
     @classmethod
     def of(cls, song_robot, cube_id: int):

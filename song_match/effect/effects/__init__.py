@@ -11,4 +11,4 @@
 from .correct_sequence import CorrectSequenceEffect
 from .round_transition import RoundTransitionEffect
 from .wrong_note import WrongNoteEffect
-from .game_won import GameWonEffect
+from .game_over import GameOverEffect

@@ -4,11 +4,10 @@ from asyncio import sleep
 from random import random
 from typing import List, Tuple, Union
 from cozmo.anim import AnimationTrigger
-from cozmo.anim import Triggers
 from cozmo.objects import LightCube1Id, LightCube2Id, LightCube3Id
 from cozmo.objects import LightCubeIDs
 from cozmo.robot import Robot, world
-
+from cozmo.robot import SayText
 from .cube import NoteCube
 from .song import Song, Note
 
@@ -137,8 +136,9 @@ class SongRobot:
     async def play_animation(self, animation_name: str) -> AnimationTrigger:
         return self._robot.play_anim(animation_name, in_parallel=True)
 
-    async def cozmo_lose(self):
-        await self._robot.say_text('I Lost').wait_for_completed()
+    def say_text(self, text: str) -> SayText:
+        """Wrapper method for :meth:`~cozmo.robot.Robot.say_text`.
 
-    async def cozmo_win(self):
-        await self._robot.say_text('I Won').wait_for_completed()
+        :return: :class:`~cozmo.robot.SayText`
+        """
+        return self._robot.say_text(text)

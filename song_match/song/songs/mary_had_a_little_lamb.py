@@ -5,14 +5,12 @@ from typing import List
 from cozmo.lights import Light
 
 from song_match.cube.lights import BLUE_LIGHT
-from song_match.cube.lights import TURQUOISE_LIGHT
-from song_match.cube.lights import DEEP_PINK_LIGHT
+from song_match.cube.lights import CYAN_LIGHT
+from song_match.cube.lights import PINK_LIGHT
 from song_match.song import Song
 from song_match.song.note import Note
-from song_match.song.note import EIGHTH_NOTE
-from song_match.song.note import QUARTER_NOTE
+
 from song_match.song.note import HALF_NOTE
-from song_match.song.note import WHOLE_NOTE
 
 MEDIUM = 8
 LONG = 16
@@ -46,8 +44,8 @@ class MaryHadALittleLamb(Song):
     def _cube_lights(self) -> List[Light]:
         return [
             BLUE_LIGHT,
-            TURQUOISE_LIGHT,
-            DEEP_PINK_LIGHT
+            PINK_LIGHT,
+            CYAN_LIGHT
         ]
 
     @property

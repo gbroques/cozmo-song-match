@@ -70,12 +70,10 @@ class SongMatch:
             await self.__tap_guard(lambda: self.__play_notes(notes))
 
             await self.__wait_for_players_to_match_notes(current_position)
-            await self.__check_for_game_over()
 
             await sleep(TIME_IN_BETWEEN_PLAYER_AND_COZMO)
 
             await self.__wait_for_cozmo_to_match_notes(current_position)
-            await self.__check_for_game_over()
 
             current_position = self.__update_position(current_position)
         await self.__check_for_game_over()
@@ -123,9 +121,11 @@ class SongMatch:
         num_wrong_per_player = [player.num_wrong for player in self._players]
         if any(num_wrong == MAX_STRIKES for num_wrong in num_wrong_per_player):
             await self.__tap_guard(lambda: self.__play_game_over_effect(is_player=False))
+            await self.__tap_guard(lambda: self.__play_notes(self._song.get_sequence()))
             exit(0)
         elif self._song_robot.num_wrong == MAX_STRIKES:
             await self.__tap_guard(lambda: self.__play_game_over_effect())
+            await self.__tap_guard(lambda: self.__play_notes(self._song.get_sequence()))
             exit(0)
 
     async def __tap_guard(self, callable_function: Callable):
@@ -147,7 +147,7 @@ class SongMatch:
         await effect.play()
 
     async def __play_game_over_effect(self, is_player=True):
-        effect = self._effect_factory.create('GameWon')
+        effect = self._effect_factory.create('GameOver')
         await effect.play(is_player=is_player)
         
     async def __play_notes(self, notes: List[Note]) -> None:

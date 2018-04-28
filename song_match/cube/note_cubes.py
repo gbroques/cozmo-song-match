@@ -58,6 +58,19 @@ class NoteCubes:
             await sleep(delay)
         self.turn_on_lights()
 
+    async def flash_lights(self, num_times: int = 4, delay=0.15) -> None:
+        """Flash the lights of each cube.
+
+        :param num_times: The number of times to flash lights.
+        :param delay: Time in seconds between turning the light on and off.
+        :return: None
+        """
+        for _ in range(num_times):
+            self.set_lights_off()
+            await sleep(delay)
+            self.turn_on_lights()
+            await sleep(delay)
+
     def set_lights(self, light: Light) -> None:
         """Call :meth:`~cozmo.objects.LightCube.set_lights` for each cube.
 
@@ -89,6 +102,19 @@ class NoteCubes:
         first_cube.stop_light_chaser()
         second_cube.stop_light_chaser()
         third_cube.stop_light_chaser()
+
+    async def end_of_game_lights(self, time_before_switch=1):
+        """Starts the end-of-game sequences for the cubes.
+
+        :param time_before_switch: Time to wait before the effect switches between chasers and flashes (in seconds).
+        :return: None
+        """
+
+        await self.start_light_chasers()
+        await self.flash_lights()
+        await self.start_light_chasers()
+        await self.flash_lights()
+
 
     def __get_note_cubes(self) -> List[NoteCube]:
         return list(map(lambda cube: NoteCube(cube, self._song), self._cubes))
