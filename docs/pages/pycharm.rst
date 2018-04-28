@@ -37,11 +37,11 @@ Enforcing PEP 8
 
 PyCharm also helps developers follow Python's official style guide PEP 8.
 
-For example, PEP 8 says variables should use snake case instead of camel case.
+For example, PEP 8 states variables should use snake case instead of camel case.
 
 .. image:: /_static/enforcing-pep8.png
 
-PyCharm underlines the camelcase variable with a yellow squiqqly line
+PyCharm underlines the camelcase variable with a yellow squiggly line
 and suggests renaming it from ``numPlayers`` to ``num_players``.
 
 So Much More
@@ -50,8 +50,9 @@ So Much More
 PyCharm offers many other great features that are outside the scope of this document like:
 
 * Integration with ``requirements.txt`` files
-* Powerful refactoring abilities
-* Automatic optimizing of imports and reformatting
+* `Powerful refactoring abilities <https://www.jetbrains.com/help/pycharm/refactoring-source-code.html>`_
+* `Creating and Optimizing imports <https://www.jetbrains.com/help/pycharm/creating-and-optimizing-imports.html>`_
+* `Reformatting source code <https://www.jetbrains.com/help/pycharm/reformatting-source-code.html>`_
 * and so much more.
 
 You can find more information on `JetBrain's website <https://www.jetbrains.com/help/pycharm/meet-pycharm.html>`_.
