@@ -7,6 +7,7 @@ from cozmo.lights import Light
 
 from song_match.song.note import Note
 
+
 class Song(ABC):
     """Abstract base class for songs.
 
@@ -69,26 +70,55 @@ class Song(ABC):
         """
         return self._sequence[0:end]
 
-    def is_not_finished(self, position: int, game_length: int) -> bool:
+    def is_not_finished(self, position: int) -> bool:
         """Returns whether or not the song is finished based upon the position in the sequence.
 
         :param position: The position in the sequence of notes.
-        :param game_length: The length of the game based on index of a note in the sequence.
         :return: True if the song is not finished. False otherwise.
         """
-        return not self.is_finished(position, game_length)
+        return not self.is_finished(position)
 
-    def is_finished(self, position: int, game_length: int) -> bool:
+    def is_finished(self, position: int) -> bool:
         """Returns whether or not the song is finished based upon the position in the sequence.
 
         :param position: The position in the sequence of notes.
-        :param game_length: The length of the game based on index of a note in the sequence.
         :return: True if the song is finished. False otherwise.
         """
-        return game_length < position
+        return position > self.length
 
-    def get_gamelength_markers(self) -> List[int]:
-        return self._gamelength_markers
+    def get_difficulty_markers(self) -> List[int]:
+        """Markers which determine at what position the song ramps up in difficulty.
+
+        :return: A list of difficulty markers.
+        """
+        return self._difficulty_markers
+
+    def get_medium_difficulty_marker(self) -> int:
+        """Get the medium difficulty length marker.
+
+        :return: Medium difficulty marker.
+        """
+        medium, long = self._difficulty_markers
+        return medium
+
+    def is_sequence_long(self, sequence_length: int) -> bool:
+        """Get whether the length of a sequence is long.
+
+        "Long" is defined as being greater than the medium difficulty marker.
+
+        :param sequence_length: The length of a sequence of notes.
+        :return: Whether the sequence is long
+        """
+        medium_difficulty_marker = self.get_medium_difficulty_marker()
+        return sequence_length > medium_difficulty_marker
+
+    @property
+    def length(self) -> int:
+        """Property for accessing the length of the song.
+
+        :return: The length of the song.
+        """
+        return len(self._sequence)
 
     @staticmethod
     def _get_index(cube_id: int):
@@ -111,7 +141,5 @@ class Song(ABC):
 
     @property
     @abstractmethod
-    def _gamelength_markers(self) -> List[int]:
-        """A list of indeces where the song ramps up in difficulty."""
-
-
+    def _difficulty_markers(self) -> List[int]:
+        """A list of indices where the song ramps up in difficulty."""

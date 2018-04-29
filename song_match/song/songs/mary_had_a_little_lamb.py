@@ -8,15 +8,16 @@ from song_match.cube.lights import BLUE_LIGHT
 from song_match.cube.lights import CYAN_LIGHT
 from song_match.cube.lights import PINK_LIGHT
 from song_match.song import Song
-from song_match.song.note import Note
-
 from song_match.song.note import HALF_NOTE
+from song_match.song.note import Note
 
 MEDIUM = 8
 LONG = 16
 
+
 class MaryHadALittleLamb(Song):
     """Mary Had a Little Lamb"""
+
     @property
     def _notes(self) -> List[Note]:
         return [
@@ -49,9 +50,8 @@ class MaryHadALittleLamb(Song):
         ]
 
     @property
-    def _gamelength_markers(self) -> List[int]:
+    def _difficulty_markers(self) -> List[int]:
         return [
             MEDIUM,
             LONG
         ]
-

@@ -8,12 +8,12 @@ from song_match.cube.lights import ORANGE_LIGHT
 from song_match.cube.lights import RED_LIGHT
 from song_match.cube.lights import YELLOW_LIGHT
 from song_match.song import Song
-from song_match.song.note import Note
-
 from song_match.song.note import HALF_NOTE
+from song_match.song.note import Note
 
 MEDIUM = 8
 LONG = 16
+
 
 class RainRainGoAway(Song):
 
@@ -48,7 +48,7 @@ class RainRainGoAway(Song):
         ]
 
     @property
-    def _gamelength_markers(self) -> List[int]:
+    def _difficulty_markers(self) -> List[int]:
         return [
             MEDIUM,
             LONG

@@ -3,12 +3,15 @@
 from asyncio import sleep
 from random import random
 from typing import List, Tuple, Union
-from cozmo.anim import AnimationTrigger
+
+from cozmo.anim import Animation
 from cozmo.objects import LightCube1Id, LightCube2Id, LightCube3Id
 from cozmo.objects import LightCubeIDs
 from cozmo.robot import Robot, world
 from cozmo.robot import SayText
+
 from .cube import NoteCube
+from .game_constants import MAX_STRIKES
 from .song import Song, Note
 
 
@@ -24,7 +27,6 @@ class SongRobot:
         self._prev_cube_id = LightCube2Id  # Keep track of previously tapped cube
         self._initial_angle = robot.pose_angle
         self.num_wrong = 0  # Keep track of the number of wrong notes Cozmo taps
-        self.did_win = True
 
     async def play_notes(self, notes: List[Note], with_error=False) -> Tuple[bool, Union[None, Note]]:
         """Make Cozmo play a series of notes.
@@ -94,6 +96,14 @@ class SongRobot:
         self._prev_cube_id = LightCube2Id
 
     @property
+    def did_win(self) -> bool:
+        """Property for accessing whether Cozmo won the game.
+
+        :return: Whether Cozmo won the game.
+        """
+        return self.num_wrong < MAX_STRIKES
+
+    @property
     def world(self) -> world:
         """Property for accessing :attr:`~cozmo.robot.Robot.world`."""
         return self._robot.world
@@ -108,9 +118,9 @@ class SongRobot:
         """Property for accessing :class:`~song_match.song.song.Song`."""
         return self._song
 
-    async def __tap_cube(self, cube_id) -> AnimationTrigger:
+    async def __tap_cube(self, cube_id) -> Animation:
         animation = self.__get_tap_animation(cube_id)
-        action = await self.play_animation(animation)
+        action = await self.play_anim(animation, in_parallel=True)
         self._prev_cube_id = cube_id
         return action
 
@@ -134,8 +144,14 @@ class SongRobot:
             (LightCube3Id, LightCube3Id): point_center
         }[key]
 
-    async def play_animation(self, animation_name: str) -> AnimationTrigger:
-        return self._robot.play_anim(animation_name, in_parallel=True)
+    async def play_anim(self, animation_name: str, **kwargs) -> Animation:
+        """Wrapper method for :meth:`~cozmo.robot.Robot.play_anim`.
+
+        :param animation_name: The name of the animation.
+        :param kwargs: See :meth:`~cozmo.robot.Robot.play_anim`.
+        :return: :class:`~cozmo.anim.Animation`
+        """
+        return self._robot.play_anim(animation_name, **kwargs)
 
     def say_text(self, text: str) -> SayText:
         """Wrapper method for :meth:`~cozmo.robot.Robot.say_text`.
