@@ -13,11 +13,12 @@ class Song(ABC):
 
     Currently only supports songs with 3 notes.
 
-    Must override **3** abstract properties:
+    Must override **4** abstract properties:
 
     1. ``_notes`` - A list of 3 :class:`~song_match.song.note.Note` instances in ascending order by pitch.
     2. ``_sequence`` - A sequence of :class:`~song_match.song.note.Note` instances that make up the song.
     3. ``_cube_lights`` - A list of 3 :class:`~cozmo.lights.Light` instances.
+    4. ``_difficulty_markers`` - A list of indices where the song ramps up in difficulty.
     """
 
     def get_note(self, cube_id: int) -> Note:
@@ -88,6 +89,14 @@ class Song(ABC):
 
     def get_difficulty_markers(self) -> List[int]:
         """Markers which determine at what position the song ramps up in difficulty.
+
+        There are two difficulty markers:
+        1. Medium
+        2. and Long
+
+        The game starts incrementing by 1 note at a time.
+        Once the game reaches medium, it increments by 2 notes at a time.
+        Once the game reaches long, it increments by 3 notes at a time.
 
         :return: A list of difficulty markers.
         """

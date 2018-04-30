@@ -14,20 +14,21 @@ from .game_constants import MAX_STRIKES
 from .game_constants import STARTING_POSITION
 from .game_constants import TIME_IN_BETWEEN_PLAYERS_AND_COZMO
 from .player import Player
-from .song import HotCrossBuns
+from .song import MaryHadALittleLamb
 from .song import Note
+from .song import Song
 from .song_robot import SongRobot
 
 
 class SongMatch:
     """Main game class."""
 
-    def __init__(self, num_players: int = 1):
+    def __init__(self, song: Song = None, num_players: int = 1):
         self._song_robot = None
         self._note_cubes = None
         self._effect_factory = None
         self._prevent_tap = True  # Flag to prevent player from interrupting game by tapping cubes
-        self._song = HotCrossBuns()
+        self._song = MaryHadALittleLamb() if song is None else song
         self._players = [Player(i) for i in range(1, num_players + 1)]
         self._played_final_round = False  # Keep track of whether the final round has been played
         Note.init_mixer()

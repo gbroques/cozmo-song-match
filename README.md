@@ -20,4 +20,4 @@ Next, Cozmo plays three notes of the song.
 The player then has to tap three blocks, and so on, until the song is finished or the player messes up the sequence.
 
 ## How to Run
-Please see [Setup](http://cozmo-song-match.readthedocs.io/en/latest/setup.html) under our documentation.
+Please see [Setup](http://cozmo-song-match.readthedocs.io/en/latest/pages/setup.html) under our documentation.

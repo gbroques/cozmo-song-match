@@ -10,12 +10,14 @@ from song_match.cube.lights import PINK_LIGHT
 from song_match.song import Song
 from song_match.song.note import HALF_NOTE
 from song_match.song.note import Note
+from song_match.song.note import QUARTER_NOTE
 
 MEDIUM = 8
 LONG = 16
 
 
 class RainRainGoAway(Song):
+    """Rain Rain Go Away"""
 
     @property
     def _notes(self) -> List[Note]:
@@ -27,9 +29,9 @@ class RainRainGoAway(Song):
 
     @property
     def _sequence(self) -> List[Note]:
-        g_quarter = Note('G5')
-        e_quarter = Note('E5')
-        a_quarter = Note('A5')
+        g_quarter = Note('G5', QUARTER_NOTE)
+        e_quarter = Note('E5', QUARTER_NOTE)
+        a_quarter = Note('A5', QUARTER_NOTE)
         g_half = Note('G5', HALF_NOTE)
         e_half = Note('E5', HALF_NOTE)
         return [g_half, e_half,
