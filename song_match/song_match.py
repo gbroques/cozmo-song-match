@@ -9,9 +9,10 @@ from cozmo.objects import EvtObjectTapped
 from cozmo.objects import LightCube
 from cozmo.robot import Robot
 
-from song_match.cube import NoteCube
-from song_match.cube import NoteCubes
 from .config import init_mixer
+from .cube import NoteCube
+from .cube import NoteCubes
+from .cube_mat import CubeMat
 from .effect import EffectFactory
 from .game_constants import MAX_STRIKES
 from .game_constants import STARTING_POSITION
@@ -58,6 +59,7 @@ class SongMatch:
 
     async def __setup(self) -> None:
         await self._song_robot.world.wait_until_num_objects_visible(3, object_type=LightCube)
+        CubeMat.order_cubes_by_position(self._song_robot)
         self._song_robot.world.add_event_handler(EvtObjectTapped, self.__tap_handler)
         self._note_cubes.turn_on_lights()
         self._players = await self.__setup_players(self._song_robot)
@@ -144,7 +146,7 @@ class SongMatch:
     async def __wait_for_cozmo_to_match_notes(self, current_position: int) -> None:
         if self._song_robot.num_wrong < MAX_STRIKES:
             notes = self._song.get_sequence_slice(current_position)
-            played_correct_sequence, note = await self._song_robot.play_notes(notes, with_error=True)
+            played_correct_sequence, note = await self._song_robot.play_notes(notes, with_error=False)
             if played_correct_sequence:
                 await self.__play_correct_sequence_effect(current_position, is_player=False)
             else:

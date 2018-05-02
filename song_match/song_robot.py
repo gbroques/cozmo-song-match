@@ -13,6 +13,7 @@ from cozmo.robot import Robot, world
 from cozmo.robot import SayText
 from cozmo.util import degrees
 
+from song_match.cube_mat import CubeMat
 from .cube import NoteCube
 from .game_constants import MAX_STRIKES
 from .song import Song, Note
@@ -27,7 +28,7 @@ class SongRobot:
     def __init__(self, robot: Robot, song: Song):
         self._robot = robot
         self._song = song
-        self._prev_cube_id = LightCube2Id  # Keep track of previously tapped cube
+        self._prev_cube_id = None  # Keep track of previously tapped cube
         self._initial_angle = robot.pose_angle
         self.num_wrong = 0  # Keep track of the number of wrong notes Cozmo taps
 
@@ -96,7 +97,7 @@ class SongRobot:
             self._robot.turn_in_place(self._initial_angle, is_absolute=True)
         else:
             await self._robot.turn_in_place(self._initial_angle, is_absolute=True).wait_for_completed()
-        self._prev_cube_id = LightCube2Id
+        self._prev_cube_id = self.__get_middle_cube_id()
 
     async def turn_to_cube(self, cube_id: int) -> None:
         """Make Cozmo turn in place until the specified cube is visible.
@@ -150,29 +151,81 @@ class SongRobot:
         :param cube_id: :attr:`~cozmo.objects.LightCube.cube_id`
         :return: :class:`~cozmo.anim.Animation`
         """
+        if self._prev_cube_id is None:
+            self._prev_cube_id = self.__get_middle_cube_id()
         animation = self.__get_tap_animation(cube_id)
         self._prev_cube_id = cube_id
         return await self.play_anim(animation, in_parallel=True)
 
+    @staticmethod
+    def __get_middle_cube_id() -> int:
+        mat_positions = CubeMat.get_positions()
+        return mat_positions[1]
+
     def __get_tap_animation(self, cube_id) -> str:
         """Returns a tap animation based upon the current and previously tapped cubes."""
-        point_center = 'anim_memorymatch_pointcenter_01'
-        point_small_right = 'anim_memorymatch_pointsmallright_fast_01'
-        point_big_right = 'anim_memorymatch_pointbigright_01'
-        point_small_left = 'anim_memorymatch_pointsmallleft_fast_01'
-        point_big_left = 'anim_memorymatch_pointbigleft_01'
+        animation_lookup = self.__get_tap_animation_lookup()
         key = (cube_id, self._prev_cube_id)
-        return {
-            (LightCube1Id, LightCube1Id): point_center,
-            (LightCube1Id, LightCube2Id): point_small_right,
-            (LightCube1Id, LightCube3Id): point_big_right,
-            (LightCube2Id, LightCube1Id): point_small_left,
-            (LightCube2Id, LightCube2Id): point_center,
-            (LightCube2Id, LightCube3Id): point_small_right,
-            (LightCube3Id, LightCube1Id): point_big_left,
-            (LightCube3Id, LightCube2Id): point_small_left,
-            (LightCube3Id, LightCube3Id): point_center
-        }[key]
+        return animation_lookup[key]
+
+    @staticmethod
+    def __get_tap_animation_lookup() -> dict:
+        """Build a tap animation lookup dictionary.
+
+        The key is (cube_id, prev_cube_id),
+        where cube_id is the ID of the cube Cozmo is tapping,
+        and prev_cube_id is the ID of the previously tapped cube.
+
+        There are 5 animations:
+        1. center
+        2. small right
+        3. big right
+        4. small left
+        5. big left
+
+        :return: The animation to tap the cube.
+        """
+        mat_positions = CubeMat.get_positions()
+
+        # Build center animations
+        keys = [(LightCube1Id, LightCube1Id),
+                (LightCube2Id, LightCube2Id),
+                (LightCube3Id, LightCube3Id)]
+        center = 'anim_memorymatch_pointcenter_01'
+        animations = [center, center, center]
+
+        # Build small right animations
+        first_two_elements = tuple(mat_positions[:-1])
+        last_two_elements = tuple(mat_positions[-2:])
+        keys.append(first_two_elements)
+        keys.append(last_two_elements)
+        small_right = 'anim_memorymatch_pointsmallright_fast_01'
+        animations.append(small_right)
+        animations.append(small_right)
+
+        # Build big right animations
+        first_and_last_elements = tuple([mat_positions[0], mat_positions[-1]])
+        keys.append(first_and_last_elements)
+        big_right = 'anim_memorymatch_pointbigright_01'
+        animations.append(big_right)
+
+        # Build small left animations
+        first_two_elements_reversed = tuple(mat_positions[:-1][::-1])  # ::-1 reverses the order
+        last_two_elements_reversed = tuple(mat_positions[-2:][::-1])
+        keys.append(first_two_elements_reversed)
+        keys.append(last_two_elements_reversed)
+        small_left = 'anim_memorymatch_pointsmallleft_fast_01'
+        animations.append(small_left)
+        animations.append(small_left)
+
+        # Build big left animations
+        first_and_last_elements_reversed = tuple([mat_positions[0], mat_positions[-1]][::-1])
+        keys.append(first_and_last_elements_reversed)
+        big_left = 'anim_memorymatch_pointbigleft_01'
+        animations.append(big_left)
+
+        animation_lookup = dict(zip(keys, animations))
+        return animation_lookup
 
     async def play_anim(self, animation_name: str, **kwargs) -> Animation:
         """Wrapper method for :meth:`~cozmo.robot.Robot.play_anim`.

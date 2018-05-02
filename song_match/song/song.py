@@ -5,6 +5,7 @@ from typing import List
 
 from cozmo.lights import Light
 
+from song_match.cube_mat import CubeMat
 from .note import Note
 
 
@@ -27,7 +28,8 @@ class Song(ABC):
         :param cube_id: :attr:`~cozmo.objects.LightCube.cube_id`
         :return: The :class:`~song_match.song.note.Note` of the cube.
         """
-        index = self._get_index(cube_id)
+        mat_position = CubeMat.cube_id_to_position(cube_id)
+        index = self._get_index(mat_position)
         return self._notes[index]
 
     def play_note(self, cube_id: int) -> None:
@@ -45,7 +47,7 @@ class Song(ABC):
         :param cube_id: :attr:`~cozmo.objects.LightCube.cube_id`
         :return: :class:`~cozmo.lights.Light` for the corresponding cube.
         """
-        index = self._get_index(cube_id)
+        index = self._get_index_from_mat_position(cube_id)
         return self._cube_lights[index]
 
     def get_cube_id(self, note: Note) -> int:
@@ -54,7 +56,8 @@ class Song(ABC):
         :param note: The :class:`~song_match.song.note.Note` of the song.
         :return: :attr:`~cozmo.objects.LightCube.cube_id`
         """
-        return self._notes.index(note) + 1
+        cube_id = self._notes.index(note) + 1
+        return CubeMat.cube_id_to_position(cube_id)
 
     def get_sequence(self) -> List[Note]:
         """Get the sequence of notes.
@@ -132,6 +135,11 @@ class Song(ABC):
     @staticmethod
     def _get_index(cube_id: int):
         return cube_id - 1
+
+    @classmethod
+    def _get_index_from_mat_position(cls, cube_id: int):
+        mat_position = CubeMat.cube_id_to_position(cube_id)
+        return cls._get_index(mat_position)
 
     @property
     @abstractmethod

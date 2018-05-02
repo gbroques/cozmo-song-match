@@ -9,6 +9,7 @@ from cozmo.objects import LightCube
 from song_match.song import Song
 from song_match.song_robot import SongRobot
 from .note_cube import NoteCube
+from .util import get_light_cubes
 
 
 class NoteCubes:
@@ -18,15 +19,15 @@ class NoteCubes:
         self._note_cubes = note_cubes
         self._song = song
 
-    @classmethod
-    def of(cls, song_robot: SongRobot) -> 'NoteCubes':
+    @staticmethod
+    def of(song_robot: SongRobot) -> 'NoteCubes':
         """Static factory method for creating :class:`~song_match.cube.note_cubes.NoteCubes`
         from :class:`~song_match.song_robot.SongRobot`.
 
         :param song_robot: :class:`~song_match.song_robot.SongRobot`
         """
-        light_cubes = cls.__get_light_cubes(song_robot)
-        note_cubes = cls.__get_note_cubes(light_cubes, song_robot.song)
+        light_cubes = get_light_cubes(song_robot)
+        note_cubes = get_note_cubes(light_cubes, song_robot.song)
         return NoteCubes(note_cubes, song_robot.song)
 
     def turn_on_lights(self) -> None:
@@ -165,16 +166,16 @@ class NoteCubes:
 
         self.turn_on_lights()
 
-    @staticmethod
-    def __get_light_cubes(song_robot: SongRobot) -> List[LightCube]:
-        """Convenience method to get a list of light cubes."""
-        return list(song_robot.robot.world.light_cubes.values())
-
-    @staticmethod
-    def __get_note_cubes(light_cubes: List[LightCube], song: Song) -> List[NoteCube]:
-        """Convenience method to get a list of note cubes."""
-        return list(map(lambda cube: NoteCube(cube, song), light_cubes))
-
     def __get_note_cube(self, cube_id: int) -> NoteCube:
         """Convenience method to get a note cube."""
         return next(cube for cube in self._note_cubes if cube.cube_id == cube_id)
+
+
+def get_note_cubes(light_cubes: List[LightCube], song: Song) -> List[NoteCube]:
+    """Convert a list of light cubes to note cubes.
+
+    :param light_cubes: A list of three :class:`~cozmo.objects.LightCube` instances.
+    :param song: :class:`~song_match.song.song.Song`
+    :return: A list of three :class:`~song_match.cube.note_cube.NoteCube` instances.
+    """
+    return list(map(lambda cube: NoteCube(cube, song), light_cubes))

@@ -31,6 +31,14 @@ song_match.config
     :undoc-members:
     :show-inheritance:
 
+song_match.cube_mat
+-------------------
+
+.. automodule:: song_match.cube_mat
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 song_match.game_constants
 -------------------------
 

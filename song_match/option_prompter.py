@@ -5,6 +5,7 @@ from cozmo.objects import EvtObjectTapped
 from cozmo.objects import LightCubeIDs
 
 from .cube import NoteCubes
+from .cube_mat import CubeMat
 from .song_robot import SongRobot
 from .sound_effects import play_collect_point_sound
 
@@ -34,7 +35,8 @@ class OptionPrompter:
         for i, cube_id in enumerate(LightCubeIDs):
             prompt = options[i]
             await self._song_robot.say_text(prompt).wait_for_completed()
-            action = await self._song_robot.tap_cube(cube_id)
+            mat_position = CubeMat.cube_id_to_position(cube_id)
+            action = await self._song_robot.tap_cube(mat_position)
             await action.wait_for_completed()
 
         note_cubes = NoteCubes.of(self._song_robot)
@@ -46,4 +48,4 @@ class OptionPrompter:
         play_collect_point_sound()
         await note_cubes.flash_single_cube_green(cube_id)
         await sleep(1)
-        return cube_id
+        return CubeMat.cube_id_to_position(cube_id)

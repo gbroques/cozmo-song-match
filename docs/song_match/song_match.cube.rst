@@ -33,3 +33,11 @@ song_match.cube.note_cubes
     :undoc-members:
     :show-inheritance:
 
+song_match.cube.util
+--------------------
+
+.. automodule:: song_match.cube.util
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
