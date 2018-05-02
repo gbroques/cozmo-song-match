@@ -4,7 +4,9 @@ from asyncio import sleep
 from sys import exit
 from typing import Callable, List
 
+from cozmo.anim import AnimationTrigger
 from cozmo.objects import EvtObjectTapped
+from cozmo.objects import LightCube
 from cozmo.robot import Robot
 
 from song_match.cube import NoteCube
@@ -51,9 +53,14 @@ class SongMatch:
         self._song_robot = SongRobot(robot, self._song)
         self._note_cubes = NoteCubes.of(self._song_robot)
         self._effect_factory = EffectFactory(self._song_robot)
-        self._players = await self.__setup_players(self._song_robot)
         await self.__setup()
         await self.__init_game_loop()
+
+    async def __setup(self) -> None:
+        await self._song_robot.world.wait_until_num_objects_visible(3, object_type=LightCube)
+        self._song_robot.world.add_event_handler(EvtObjectTapped, self.__tap_handler)
+        self._note_cubes.turn_on_lights()
+        self._players = await self.__setup_players(self._song_robot)
 
     async def __setup_players(self, song_robot: SongRobot) -> List[Player]:
         num_players = self._num_players
@@ -62,20 +69,15 @@ class SongMatch:
         return self.__get_players(num_players)
 
     @staticmethod
-    def __get_players(num_players: int):
-        return [Player(i) for i in range(1, num_players + 1)]
-
-    async def __setup(self) -> None:
-        await self._song_robot.world.wait_until_num_objects_visible(3)
-        self._song_robot.world.add_event_handler(EvtObjectTapped, self.__tap_handler)
-        self._note_cubes.turn_on_lights()
-
-    @staticmethod
     async def __get_number_of_players(song_robot: SongRobot) -> int:
         prompt = 'How many players?'
         options = ['One?', 'Two?', 'Three?']
         option_prompter = OptionPrompter(song_robot)
         return await option_prompter.get_option(prompt, options)
+
+    @staticmethod
+    def __get_players(num_players: int) -> List[Player]:
+        return [Player(i) for i in range(1, num_players + 1)]
 
     async def __tap_handler(self, evt, obj=None, tap_count=None, **kwargs) -> None:
         if self._prevent_tap:
@@ -163,8 +165,10 @@ class SongMatch:
 
     async def __play_end_game_results(self) -> None:
         winners = await self.__get_winners()
-        await self.__play_game_over_effect(winners, did_cozmo_win=self._song_robot.did_win)
+        animation = await self.__play_game_over_effect(winners, did_cozmo_win=self._song_robot.did_win)
         await self.__play_notes(self._song.get_sequence())
+        await animation.wait_for_completed()
+        sleep(1)
         exit(0)
 
     async def __get_winners(self) -> List[Player]:
@@ -183,9 +187,9 @@ class SongMatch:
         effect = self._effect_factory.create('RoundTransition')
         await effect.play()
 
-    async def __play_game_over_effect(self, winners: List[Player], did_cozmo_win: bool) -> None:
+    async def __play_game_over_effect(self, winners: List[Player], did_cozmo_win: bool) -> AnimationTrigger:
         effect = self._effect_factory.create('GameOver')
-        await effect.play(winners, did_cozmo_win=did_cozmo_win)
+        return await effect.play(winners, did_cozmo_win=did_cozmo_win)
 
     async def __play_notes(self, notes: List[Note]) -> None:
         for note in notes:

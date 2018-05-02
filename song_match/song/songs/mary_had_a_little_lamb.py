@@ -45,8 +45,8 @@ class MaryHadALittleLamb(Song):
     @property
     def _cube_lights(self) -> List[Light]:
         return [
-            BLUE_LIGHT,
             PINK_LIGHT,
+            BLUE_LIGHT,
             CYAN_LIGHT
         ]
 

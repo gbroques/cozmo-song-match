@@ -1,6 +1,7 @@
 from typing import List
 from typing import Tuple
 
+from cozmo.anim import AnimationTrigger
 from cozmo.anim import Triggers
 
 from song_match.effect.effect import Effect
@@ -10,7 +11,7 @@ from song_match.sound_effects import play_collect_point_sound
 
 class GameOverEffect(Effect):
 
-    async def play(self, winners: List[Player], did_cozmo_win: bool = True) -> None:
+    async def play(self, winners: List[Player], did_cozmo_win: bool = True) -> AnimationTrigger:
         """Play the game over effect.
 
         * Play ``collect-point.wav``
@@ -25,10 +26,8 @@ class GameOverEffect(Effect):
         play_collect_point_sound()
         animation = Triggers.DanceMambo if did_cozmo_win else Triggers.MajorFail
         winner_text = self.__get_winner_text(winners, did_cozmo_win)
-        saying = self._song_robot.say_text(winner_text)
-        await saying.wait_for_completed()
-        await self._note_cubes.start_light_chasers_and_flash_lights()
-        self._song_robot.play_anim_trigger(animation, in_parallel=True)
+        await self._song_robot.say_text(winner_text).wait_for_completed()
+        return self._song_robot.play_anim_trigger(animation, in_parallel=True)
 
     def __get_winner_text(self, winners: List[Player], did_cozmo_win: bool) -> str:
         winner_text = ''
