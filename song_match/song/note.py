@@ -4,11 +4,10 @@ from pygame.mixer import Sound
 
 from song_match.sound_effects import get_piano_note_sound_path
 
-# TODO: Make relative off a single base duration
 EIGHTH_NOTE = .2  #: Time for eighth note.
-QUARTER_NOTE = .4  #: Time for quarter note.
-HALF_NOTE = .8  #: Time for half note.
-WHOLE_NOTE = 1.6  #: Time for whole note.
+QUARTER_NOTE = EIGHTH_NOTE * 2  #: Time for quarter note.
+HALF_NOTE = QUARTER_NOTE * 2  #: Time for half note.
+WHOLE_NOTE = HALF_NOTE * 2  #: Time for whole note.
 
 
 class Note:
