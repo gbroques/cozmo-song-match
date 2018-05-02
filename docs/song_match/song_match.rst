@@ -21,10 +21,28 @@ song_match
    
    song_match.song
    
+   song_match.sound_effects
+   
 song_match.config
 -----------------
 
 .. automodule:: song_match.config
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+song_match.game_constants
+-------------------------
+
+.. automodule:: song_match.game_constants
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+song_match.option_prompter
+--------------------------
+
+.. automodule:: song_match.option_prompter
     :members:
     :undoc-members:
     :show-inheritance:

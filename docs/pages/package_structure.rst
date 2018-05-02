@@ -8,7 +8,7 @@ This document aims to give a high-level overview of the Song Match package struc
     * ``cube`` - Code related to Cozmo's cubes.
     * ``effect`` - Code related to various game effects.
     * ``exceptions`` - Custom exceptions.
-    * ``sfx`` - Sound effects and ``.wav`` files. No code in here.
+    * ``sound_effects`` - Sound effects and ``.wav`` files.
     * ``song`` - Code related to songs.
 
 * ``test`` - Contains unit tests.

@@ -22,6 +22,19 @@ song_match.effect.effects.correct_sequence
     :undoc-members:
     :show-inheritance:
 
+song_match.effect.effects.game_over
+-----------------------------------
+
+
+.. inheritance-diagram:: song_match.effect.effects.game_over
+   :parts: 1
+
+
+.. automodule:: song_match.effect.effects.game_over
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 song_match.effect.effects.round_transition
 ------------------------------------------
 

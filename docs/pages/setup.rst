@@ -31,6 +31,25 @@ $ pip install -r requirements.txt
 
 $ python main.py
 
+We support command line arguments for configuring what song you want to play, and how many players.
+Use the help flag ``-h`` for help.
+
+::
+
+    $ python main.py -h
+
+    usage: main.py [-h] [-s S] [-p N]
+
+    Play Song Match with Cozmo.
+
+    optional arguments:
+      -h, --help  show this help message and exit
+      -s S        The song to play. Hot Cross Buns (hcb), Mary Had A Little Lamb
+                  (mhall), or Rain Rain Go Away (rrga). Defaults to a random song.
+      -p N        The number of players for the game. Defaults to None. If None
+                  then selecting the number of players will be handled in game.
+
+
 6. `Download and Install PyCharm <https://www.jetbrains.com/pycharm/download/>`_ (Optional)
 
   * See `why we recommend you develop with PyCharm <pycharm.html>`_

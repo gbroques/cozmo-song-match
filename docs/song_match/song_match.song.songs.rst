@@ -9,6 +9,19 @@ song_match.song.songs
     :show-inheritance:
 
 
+song_match.song.songs.hot_cross_buns
+------------------------------------
+
+
+.. inheritance-diagram:: song_match.song.songs.hot_cross_buns
+   :parts: 1
+
+
+.. automodule:: song_match.song.songs.hot_cross_buns
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 song_match.song.songs.mary_had_a_little_lamb
 --------------------------------------------
 
@@ -18,6 +31,19 @@ song_match.song.songs.mary_had_a_little_lamb
 
 
 .. automodule:: song_match.song.songs.mary_had_a_little_lamb
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+song_match.song.songs.rain_rain_go_away
+---------------------------------------
+
+
+.. inheritance-diagram:: song_match.song.songs.rain_rain_go_away
+   :parts: 1
+
+
+.. automodule:: song_match.song.songs.rain_rain_go_away
     :members:
     :undoc-members:
     :show-inheritance:

@@ -25,7 +25,7 @@ Audio
 
 `PyGame <https://www.pygame.org/docs/>`_ is used for playing audio.
 
-We initialize PyGame's mixer module in :meth:`~song_match.song.note.Note.init_mixer` by calling :func:`pygame.mixer.init`.
+We initialize PyGame's mixer module in :meth:`~song_match.config.init_mixer` by calling :func:`pygame.mixer.init`.
 
 Two classes use the :class:`pygame.mixer.Sound` object.
 
