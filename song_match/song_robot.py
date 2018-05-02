@@ -1,5 +1,6 @@
 """Module containing :class:`~song_match.song_robot.SongRobot`."""
 
+from asyncio import TimeoutError
 from asyncio import sleep
 from random import random
 from typing import List, Tuple, Union
@@ -10,6 +11,7 @@ from cozmo.objects import LightCube1Id, LightCube2Id, LightCube3Id
 from cozmo.objects import LightCubeIDs
 from cozmo.robot import Robot, world
 from cozmo.robot import SayText
+from cozmo.util import degrees
 
 from .cube import NoteCube
 from .game_constants import MAX_STRIKES
@@ -95,6 +97,29 @@ class SongRobot:
         else:
             await self._robot.turn_in_place(self._initial_angle, is_absolute=True).wait_for_completed()
         self._prev_cube_id = LightCube2Id
+
+    async def turn_to_cube(self, cube_id: int) -> None:
+        """Make Cozmo turn in place until the specified cube is visible.
+
+        :param cube_id: :attr:`~cozmo.objects.LightCube.cube_id` to turn to.
+        :return: None
+        """
+        timeout = 0.1
+        try:
+            cube = await self.world.wait_for_observed_light_cube(timeout=timeout)
+        except TimeoutError:
+            cube = None  # Didn't find cube
+
+        while cube is None or cube.cube_id != cube_id:
+            await self._robot.turn_in_place(degrees(30)).wait_for_completed()
+
+            try:
+                cube = await self.world.wait_for_observed_light_cube(timeout=timeout)
+            except TimeoutError:
+                cube = None  # Didn't find cube
+
+            if cube is not None and cube.cube_id == cube_id:
+                break
 
     @property
     def did_win(self) -> bool:
