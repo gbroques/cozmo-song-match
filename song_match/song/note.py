@@ -1,13 +1,10 @@
 """Module containing :class:`~song_match.song.note.Note`."""
 
-import os
+from pygame.mixer import Sound
 
-from pygame.mixer import init, Sound
+from song_match.sound_effects import get_piano_note_sound_path
 
-from song_match.config import ROOT_DIR
-from song_match.exceptions import InvalidNote
-from song_match.exceptions import MixerNotInitialized
-
+# TODO: Make relative off a single base duration
 EIGHTH_NOTE = .2  #: Time for eighth note.
 QUARTER_NOTE = .4  #: Time for quarter note.
 HALF_NOTE = .8  #: Time for half note.
@@ -16,28 +13,11 @@ WHOLE_NOTE = 1.6  #: Time for whole note.
 
 class Note:
     """Represents a musical note."""
-    __is_mixer_initialized = False
 
     def __init__(self, note: str, duration: int = QUARTER_NOTE):
-        if not self.__is_mixer_initialized:
-            raise MixerNotInitialized()
-
         self.duration = duration
         self.note = note
-        self.__sound = Sound(self.__get_sound_path())
-
-    @classmethod
-    def init_mixer(cls) -> None:
-        """Initializes pygame's mixer module.
-
-        See https://www.pygame.org/docs/ref/mixer.html#pygame.mixer.init.
-
-        **IMPORTANT:** Must be called before constructing any :class:`~song_match.song.note.Note` objects.
-
-        :return: None
-        """
-        cls.__is_mixer_initialized = True
-        init(frequency=44100, size=-16, channels=1, buffer=1024)
+        self.__sound = Sound(get_piano_note_sound_path(note))
 
     def play(self) -> None:
         """Play the note.
@@ -45,13 +25,6 @@ class Note:
         :return: None
         """
         self.__sound.play()
-
-    def __get_sound_path(self) -> str:
-        filename = self.note + '.wav'
-        path = os.path.join(ROOT_DIR, 'sfx', 'piano', filename)
-        if not os.path.isfile(path):
-            raise InvalidNote(self.note)
-        return path
 
     def __eq__(self, other):
         return isinstance(other, Note) and self.note == other.note

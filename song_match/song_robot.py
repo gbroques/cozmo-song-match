@@ -5,6 +5,7 @@ from random import random
 from typing import List, Tuple, Union
 
 from cozmo.anim import Animation
+from cozmo.anim import AnimationTrigger
 from cozmo.objects import LightCube1Id, LightCube2Id, LightCube3Id
 from cozmo.objects import LightCubeIDs
 from cozmo.robot import Robot, world
@@ -53,7 +54,7 @@ class SongRobot:
         """
         cube_id = self._song.get_cube_id(note)
         note_cube = NoteCube.of(self, cube_id)
-        action = await self.__tap_cube(cube_id)
+        action = await self.tap_cube(cube_id)
         await sleep(self._NOTE_DELAY)
         await note_cube.blink_and_play_note()
         await action.wait_for_completed()
@@ -118,11 +119,15 @@ class SongRobot:
         """Property for accessing :class:`~song_match.song.song.Song`."""
         return self._song
 
-    async def __tap_cube(self, cube_id) -> Animation:
+    async def tap_cube(self, cube_id) -> Animation:
+        """Make Cozmo tap a cube.
+
+        :param cube_id: :attr:`~cozmo.objects.LightCube.cube_id`
+        :return: :class:`~cozmo.anim.Animation`
+        """
         animation = self.__get_tap_animation(cube_id)
-        action = await self.play_anim(animation, in_parallel=True)
         self._prev_cube_id = cube_id
-        return action
+        return await self.play_anim(animation, in_parallel=True)
 
     def __get_tap_animation(self, cube_id) -> str:
         """Returns a tap animation based upon the current and previously tapped cubes."""
@@ -152,6 +157,15 @@ class SongRobot:
         :return: :class:`~cozmo.anim.Animation`
         """
         return self._robot.play_anim(animation_name, **kwargs)
+
+    def play_anim_trigger(self, animation_trigger, **kwargs) -> AnimationTrigger:
+        """Wrapper method for :meth:`~cozmo.robot.Robot.play_anim_trigger`.
+
+        :param animation_trigger: The animation trigger.
+        :param kwargs: See :meth:`~cozmo.robot.Robot.play_anim_trigger`.
+        :return: :class:`~cozmo.anim.AnimationTrigger`
+        """
+        return self._robot.play_anim_trigger(animation_trigger, **kwargs)
 
     def say_text(self, text: str) -> SayText:
         """Wrapper method for :meth:`~cozmo.robot.Robot.say_text`.

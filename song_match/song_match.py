@@ -9,10 +9,12 @@ from cozmo.robot import Robot
 
 from song_match.cube import NoteCube
 from song_match.cube import NoteCubes
+from .config import init_mixer
 from .effect import EffectFactory
 from .game_constants import MAX_STRIKES
 from .game_constants import STARTING_POSITION
 from .game_constants import TIME_IN_BETWEEN_PLAYERS_AND_COZMO
+from .option_prompter import OptionPrompter
 from .player import Player
 from .song import MaryHadALittleLamb
 from .song import Note
@@ -23,15 +25,19 @@ from .song_robot import SongRobot
 class SongMatch:
     """Main game class."""
 
-    def __init__(self, song: Song = None, num_players: int = 1):
+    def __init__(self, song: Song = None, num_players: int = None):
+        self._song = MaryHadALittleLamb() if song is None else song
+        self._num_players = num_players
+
         self._song_robot = None
         self._note_cubes = None
         self._effect_factory = None
+        self._players = None
+
         self._prevent_tap = True  # Flag to prevent player from interrupting game by tapping cubes
-        self._song = MaryHadALittleLamb() if song is None else song
-        self._players = [Player(i) for i in range(1, num_players + 1)]
         self._played_final_round = False  # Keep track of whether the final round has been played
-        Note.init_mixer()
+
+        init_mixer()
 
     async def play(self, robot: Robot) -> None:
         """Play the Song Match game.
@@ -45,13 +51,31 @@ class SongMatch:
         self._song_robot = SongRobot(robot, self._song)
         self._note_cubes = NoteCubes.of(self._song_robot)
         self._effect_factory = EffectFactory(self._song_robot)
+        self._players = await self.__setup_players(self._song_robot)
         await self.__setup()
         await self.__init_game_loop()
+
+    async def __setup_players(self, song_robot: SongRobot) -> List[Player]:
+        num_players = self._num_players
+        if num_players is None:
+            num_players = await self.__get_number_of_players(song_robot)
+        return self.__get_players(num_players)
+
+    @staticmethod
+    def __get_players(num_players: int):
+        return [Player(i) for i in range(1, num_players + 1)]
 
     async def __setup(self) -> None:
         await self._song_robot.world.wait_until_num_objects_visible(3)
         self._song_robot.world.add_event_handler(EvtObjectTapped, self.__tap_handler)
         self._note_cubes.turn_on_lights()
+
+    @staticmethod
+    async def __get_number_of_players(song_robot: SongRobot) -> int:
+        prompt = 'How many players?'
+        options = ['One?', 'Two?', 'Three?']
+        option_prompter = OptionPrompter(song_robot)
+        return await option_prompter.get_option(prompt, options)
 
     async def __tap_handler(self, evt, obj=None, tap_count=None, **kwargs) -> None:
         if self._prevent_tap:
@@ -59,24 +83,6 @@ class SongMatch:
         cube = evt.obj
         note_cube = NoteCube(cube, self._song)
         await note_cube.blink_and_play_note()
-
-    async def __get_number_of_players(self) -> int:
-        self._song_robot.say_text("How many players?")
-        sleep(1)
-        self._song_robot.say_text("One?")
-        await self.__tap_guard(
-            lambda: self._song_robot.tap_cube(1))
-        self._song_robot.say_text("Two?")
-        await self.__tap_guard(
-            lambda: self._song_robot.tap_cube(2))
-        self._song_robot.say_text("Three?")
-        await self.__tap_guard(
-            lambda: self._song_robot.tap_cube(3))
-
-        event = await self._song_robot.world.wait_for(EvtObjectTapped)
-        tapped_cube = NoteCube(event.obj, self._song)
-
-        return tapped_cube.cube_id
 
     async def __init_game_loop(self) -> None:
         current_position = STARTING_POSITION

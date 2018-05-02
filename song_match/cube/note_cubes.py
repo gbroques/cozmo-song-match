@@ -12,10 +12,10 @@ from .note_cube import NoteCube
 
 
 class NoteCubes:
-    """Container class for three :class:`~cozmo.objects.LightCube` instances."""
+    """Container class for three :class:`~song_match.cube.note_cube.NoteCube`."""
 
-    def __init__(self, cubes: List[LightCube], song: Song):
-        self._cubes = cubes
+    def __init__(self, note_cubes: List[NoteCube], song: Song):
+        self._note_cubes = note_cubes
         self._song = song
 
     @classmethod
@@ -25,12 +25,9 @@ class NoteCubes:
 
         :param song_robot: :class:`~song_match.song_robot.SongRobot`
         """
-        cubes = cls.__get_cubes(song_robot)
-        return NoteCubes(cubes, song_robot.song)
-
-    @staticmethod
-    def __get_cubes(song_robot: SongRobot) -> List[LightCube]:
-        return list(song_robot.robot.world.light_cubes.values())
+        light_cubes = cls.__get_light_cubes(song_robot)
+        note_cubes = cls.__get_note_cubes(light_cubes, song_robot.song)
+        return NoteCubes(note_cubes, song_robot.song)
 
     def turn_on_lights(self) -> None:
         """Turn on the light for each note cube.
@@ -40,8 +37,7 @@ class NoteCubes:
 
         :return: None
         """
-        for cube in self._cubes:
-            note_cube = NoteCube(cube, self._song)
+        for note_cube in self._note_cubes:
             note_cube.turn_on_light()
 
     async def flash_lights_green(self, num_times: int = 3, delay=0.15) -> None:
@@ -77,7 +73,7 @@ class NoteCubes:
         :param light: :class:`~cozmo.lights.Light`
         :return: None
         """
-        for cube in self._cubes:
+        for cube in self._note_cubes:
             cube.set_lights(light)
 
     def set_lights_off(self) -> None:
@@ -85,16 +81,16 @@ class NoteCubes:
 
         :return: None
         """
-        for cube in self._cubes:
+        for cube in self._note_cubes:
             cube.set_lights_off()
 
-    async def start_light_chasers(self, time_before_stop=2):
-        """Starts the light chaser effect for each cube.
+    async def start_and_stop_light_chasers(self, time_before_stop=2) -> None:
+        """Starts and stops the light chaser effect for each cube.
 
         :param time_before_stop: Time to wait before the light chaser effect stops (in seconds).
         :return: None
         """
-        first_cube, second_cube, third_cube = self.__get_note_cubes()
+        first_cube, second_cube, third_cube = self._note_cubes
         first_cube.start_light_chaser()
         second_cube.start_light_chaser()
         third_cube.start_light_chaser()
@@ -103,21 +99,35 @@ class NoteCubes:
         second_cube.stop_light_chaser()
         third_cube.stop_light_chaser()
 
-    async def end_of_game_lights(self, time_before_switch=1):
-        """Starts the end-of-game sequences for the cubes.
+    def start_light_chasers(self) -> None:
+        """Starts the light chaser effect for each cube.
 
-        :param time_before_switch: Time to wait before the effect switches between chasers and flashes (in seconds).
         :return: None
         """
+        first_cube, second_cube, third_cube = self._note_cubes
+        first_cube.start_light_chaser()
+        second_cube.start_light_chaser()
+        third_cube.start_light_chaser()
 
-        await self.start_light_chasers()
-        await self.flash_lights()
-        await self.start_light_chasers()
-        await self.flash_lights()
+    def stop_light_chasers(self) -> None:
+        """Stops the light chaser effect for each cube.
 
+        :return: None
+        """
+        first_cube, second_cube, third_cube = self._note_cubes
+        first_cube.stop_light_chaser()
+        second_cube.stop_light_chaser()
+        third_cube.stop_light_chaser()
 
-    def __get_note_cubes(self) -> List[NoteCube]:
-        return list(map(lambda cube: NoteCube(cube, self._song), self._cubes))
+    async def start_light_chasers_and_flash_lights(self, num_times=2) -> None:
+        """Starts the light chaser effect and flashes the cubes
+
+        :param num_times: The number of times to perform the light chaser effect and flash the cubes.
+        :return: None
+        """
+        for _ in range(num_times):
+            await self.start_and_stop_light_chasers()
+            await self.flash_lights()
 
     async def flash_single_cube_red(self, cube_id: int) -> None:
         """Convenience method for calling :meth:`~song_match.cube.note_cubes.NoteCubes.flash_single_cube`
@@ -128,6 +138,15 @@ class NoteCubes:
         """
         await self.flash_single_cube(cube_id, red_light)
 
+    async def flash_single_cube_green(self, cube_id: int) -> None:
+        """Convenience method for calling :meth:`~song_match.cube.note_cubes.NoteCubes.flash_single_cube`
+        with a :data:`~cozmo.lights.green_light`.
+
+        :param cube_id: :attr:`~cozmo.objects.LightCube.cube_id`
+        :return: None
+        """
+        await self.flash_single_cube(cube_id, green_light)
+
     async def flash_single_cube(self, cube_id: int, light: Light) -> None:
         """Flashes the light of a single cube,
         while turning the lights of the other cubes off.
@@ -136,7 +155,7 @@ class NoteCubes:
         :param light: The :class:`~cozmo.lights.Light` to flash.
         :return: None
         """
-        for cube in self._cubes:
+        for cube in self._note_cubes:
             if cube.cube_id == cube_id:
                 cube.set_lights(light)
             else:
@@ -146,9 +165,16 @@ class NoteCubes:
 
         self.turn_on_lights()
 
-    def __get_note_cube(self, cube_id: int) -> NoteCube:
-        cube = self.__get_cube(cube_id)
-        return NoteCube(cube, self._song)
+    @staticmethod
+    def __get_light_cubes(song_robot: SongRobot) -> List[LightCube]:
+        """Convenience method to get a list of light cubes."""
+        return list(song_robot.robot.world.light_cubes.values())
 
-    def __get_cube(self, cube_id: int) -> LightCube:
-        return next(cube for cube in self._cubes if cube.cube_id == cube_id)
+    @staticmethod
+    def __get_note_cubes(light_cubes: List[LightCube], song: Song) -> List[NoteCube]:
+        """Convenience method to get a list of note cubes."""
+        return list(map(lambda cube: NoteCube(cube, song), light_cubes))
+
+    def __get_note_cube(self, cube_id: int) -> NoteCube:
+        """Convenience method to get a note cube."""
+        return next(cube for cube in self._note_cubes if cube.cube_id == cube_id)

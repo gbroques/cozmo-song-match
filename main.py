@@ -74,9 +74,10 @@ def get_num_players_argument_kwargs() -> dict:
         'dest': 'num_players',
         'metavar': 'N',
         'type': int,
-        'choices': range(1, 6),
-        'help': 'The number of players for the game.',
-        'default': 1
+        'choices': range(1, 4),
+        'help': ('The number of players for the game. Defaults to None. ' +
+                 'If None then selecting the number of players will be handled in game.'),
+        'default': None
     }
 
 

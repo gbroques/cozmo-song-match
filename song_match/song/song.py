@@ -5,7 +5,7 @@ from typing import List
 
 from cozmo.lights import Light
 
-from song_match.song.note import Note
+from .note import Note
 
 
 class Song(ABC):

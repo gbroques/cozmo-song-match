@@ -1,6 +1,7 @@
 from cozmo.anim import Triggers
 
 from song_match.effect.effect import Effect
+from song_match.sound_effects import play_collect_point_sound
 
 
 class CorrectSequenceEffect(Effect):
@@ -9,7 +10,7 @@ class CorrectSequenceEffect(Effect):
     async def play(self, is_sequence_long: bool = False, is_player: bool = True) -> None:
         """Play the correct sequence effect.
 
-        * Play ``CorrectSequenceEffect.wav``
+        * Play ``collect-point.wav``
         * Animate Cozmo with :attr:`~cozmo.anim.Triggers.MemoryMatchPlayerWinHand` or
           :attr:`~cozmo.anim.Triggers.MemoryMatchCozmoWinHand` depending upon ``is_player``.
         * Flash the cubes green.
@@ -18,9 +19,9 @@ class CorrectSequenceEffect(Effect):
         :keyword is_player: Whether the player or Cozmo played the correct sequence.
         :return: None
         """
-        self._sound.play()
+        play_collect_point_sound()
         animation = self.__get_animation(is_sequence_long, is_player)
-        action = self._play_animation(animation, in_parallel=True)
+        action = self._song_robot.play_anim_trigger(animation, in_parallel=True)
         await self._note_cubes.flash_lights_green()
         await action.wait_for_completed()
 

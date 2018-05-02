@@ -5,6 +5,7 @@ from cozmo.anim import Triggers
 
 from song_match.effect.effect import Effect
 from song_match.player import Player
+from song_match.sound_effects import play_collect_point_sound
 
 
 class GameOverEffect(Effect):
@@ -12,7 +13,7 @@ class GameOverEffect(Effect):
     async def play(self, winners: List[Player], did_cozmo_win: bool = True) -> None:
         """Play the game over effect.
 
-        * Play ``GameOverEffect.wav``
+        * Play ``collect-point.wav``
         * Animate Cozmo with :attr:`~cozmo.anim.Triggers.MajorFail` or
           :attr:`~cozmo.anim.Triggers.DanceMambo` depending upon ``is_cozmo``.
         * Flash the victory sequence.
@@ -21,13 +22,13 @@ class GameOverEffect(Effect):
         :param did_cozmo_win: Whether or not Cozmo shared the glory of victory.
         :return: None
         """
-        self._sound.play()
+        play_collect_point_sound()
         animation = Triggers.DanceMambo if did_cozmo_win else Triggers.MajorFail
         winner_text = self.__get_winner_text(winners, did_cozmo_win)
         saying = self._song_robot.say_text(winner_text)
         await saying.wait_for_completed()
-        await self._note_cubes.end_of_game_lights()
-        self._play_animation(animation, in_parallel=True)
+        await self._note_cubes.start_light_chasers_and_flash_lights()
+        self._song_robot.play_anim_trigger(animation, in_parallel=True)
 
     def __get_winner_text(self, winners: List[Player], did_cozmo_win: bool) -> str:
         winner_text = ''
