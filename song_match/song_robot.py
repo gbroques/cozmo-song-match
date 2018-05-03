@@ -41,8 +41,10 @@ class SongRobot:
         :rtype: Tuple[bool, Union[None, Note]]
         """
         for note in notes:
-            if with_error:
-                is_correct, note = await self.play_note_with_error(note, len(notes))
+            sequence_length = len(notes)
+            error = self.__get_chance_for_error(sequence_length)
+            if with_error and error:
+                is_correct, note = await self.play_note_with_error(note, sequence_length)
                 if not is_correct:
                     return False, note
             else:
@@ -71,13 +73,12 @@ class SongRobot:
         :rtype: Tuple[bool, Note]
         """
         played_correct_note = True
-        difficulty = .99
-
-        round_difficulty = difficulty - (.05 * sequence_length)
 
         cube_id = self._song.get_cube_id(note)
 
-        if round_difficulty < random():
+        error = self.__get_chance_to_play_wrong_note(sequence_length)
+
+        if error:
             played_correct_note = False
             cube_id = cube_id % len(LightCubeIDs) + 1
             wrong_note = self._song.get_note(cube_id)
@@ -86,6 +87,17 @@ class SongRobot:
             await self.play_note(note)
 
         return played_correct_note, self._song.get_note(cube_id)
+
+    def __get_chance_to_play_wrong_note(self, sequence_length: int) -> bool:
+        difficulty = 0.1
+        if self._song.is_sequence_long(sequence_length):
+            difficulty *= 1.5
+        error = self.__get_chance_for_error(sequence_length, difficulty=difficulty)
+        return error
+
+    @staticmethod
+    def __get_chance_for_error(sequence_length: int, difficulty: float = .01) -> bool:
+        return random() < (difficulty * sequence_length)
 
     async def turn_back_to_center(self, in_parallel=False) -> None:
         """Turn Cozmo back to the center.

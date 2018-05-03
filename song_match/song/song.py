@@ -110,8 +110,16 @@ class Song(ABC):
 
         :return: Medium difficulty marker.
         """
-        medium, long = self._difficulty_markers
-        return medium
+        medium_marker, long_marker = self._difficulty_markers
+        return medium_marker
+
+    def get_long_difficulty_marker(self) -> int:
+        """Get the long difficulty length marker.
+
+        :return: Long difficulty marker.
+        """
+        medium_marker, long_marker = self._difficulty_markers
+        return long_marker
 
     def is_sequence_long(self, sequence_length: int) -> bool:
         """Get whether the length of a sequence is long.
@@ -121,8 +129,8 @@ class Song(ABC):
         :param sequence_length: The length of a sequence of notes.
         :return: Whether the sequence is long
         """
-        medium_difficulty_marker = self.get_medium_difficulty_marker()
-        return sequence_length > medium_difficulty_marker
+        long_difficulty_marker = self.get_long_difficulty_marker()
+        return sequence_length > long_difficulty_marker
 
     @property
     def length(self) -> int:

@@ -146,7 +146,7 @@ class SongMatch:
     async def __wait_for_cozmo_to_match_notes(self, current_position: int) -> None:
         if self._song_robot.num_wrong < MAX_STRIKES:
             notes = self._song.get_sequence_slice(current_position)
-            played_correct_sequence, note = await self._song_robot.play_notes(notes, with_error=False)
+            played_correct_sequence, note = await self._song_robot.play_notes(notes, with_error=True)
             if played_correct_sequence:
                 await self.__play_correct_sequence_effect(current_position, is_player=False)
             else:
