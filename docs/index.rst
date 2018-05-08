@@ -58,6 +58,18 @@ Please view our `User's Guide <_static/cube_jam.pdf>`_ for detailed information 
 
 .. toctree::
    :maxdepth: 1
+   :caption: Trouble Shooting
+
+   pages/troubleshoot
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Future Expansion
+
+   pages/moving_forward
+
+.. toctree::
+   :maxdepth: 1
    :caption: About
 
    pages/the_cozmonauts
