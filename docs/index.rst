@@ -32,7 +32,7 @@ Each round the length of the sequence increases, until you reach the end of the 
 
 Please view our `User's Guide <_static/cube_jam.pdf>`_ for detailed information on how to play the game.
 
-:download:`Download User's Guide <_static/cube_jam.pdf>`
+:download:`Download User's Guide <_static/SongMatch.pdf>`
 
 .. toctree::
    :caption: Getting Started
@@ -55,6 +55,18 @@ Please view our `User's Guide <_static/cube_jam.pdf>`_ for detailed information 
    :caption: Dependencies
 
    pages/dependencies
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Troubleshooting
+
+   pages/troubleshoot
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Future Expansion
+
+   pages/moving_forward
 
 .. toctree::
    :maxdepth: 1
