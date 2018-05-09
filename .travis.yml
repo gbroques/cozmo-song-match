@@ -3,5 +3,5 @@ python:
   - '3.6.3'
 script:
   - py.test --cov song_match/ test/
- after_success:
+after_success:
   - coveralls
