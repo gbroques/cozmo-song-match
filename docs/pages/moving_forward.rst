@@ -1,6 +1,14 @@
 Moving Forward
 ==============
 
+Cozmo Limitations
+-----------------
+
+During the course of development on this project, we have noticed a few limitations that can affect future additions.
+
+  * **Three cube limitation:** We noticed that Cozmo will only recognize the first distinct three cubes placed in front of him. This means he will not recognize additional cubes. So you can't use 5 cubes to open a wider range of songs that could be played.
+  * **Lighting:** We also noticed, if the lighting is too low, Cozmo's camera can not see the cubes properly. This could cause issues during gameplay. Also, if the lighting is too bright, the players can not see the color of the cubes.
+
 Some Ideas for Moving Forward with the Project
 ----------------------------------------------
 

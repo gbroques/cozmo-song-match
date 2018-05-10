@@ -17,7 +17,7 @@ Song Match is a game where you try to match the notes of a song by tapping block
 With each round, the game gets longer and a little harder. Song Match supports up to 3 players.
 
 Song Match is brought to you by four undergraduate students from the University of Missouri - St. Louis.
-Collectively, we are `The Cozmonauts <the_cozmonauts.html>`_.
+Collectively, we are `The Cozmonauts <pages/the_cozmonauts.html>`_.
 
 How It Works
 ------------
@@ -33,6 +33,10 @@ Each round the length of the sequence increases, until you reach the end of the 
 Please view our `User's Guide <_static/SongMatch.pdf>`_ for detailed information on how to play the game.
 
 :download:`Download User's Guide <_static/SongMatch.pdf>`
+
+Also, for some ideas on how to pitch the game to children, check out our `Educator's Guide <_static/Educator_Guide.pdf>`_.
+
+:download:`Download Educator's Guide <_static/Educator_Guide.pdf>`
 
 .. toctree::
    :caption: Getting Started
