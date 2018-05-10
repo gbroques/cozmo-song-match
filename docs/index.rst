@@ -30,7 +30,7 @@ If either the player or Cozmo gets *three* notes incorrect, then they lose the g
 This makes up **one** round.
 Each round the length of the sequence increases, until you reach the end of the song.
 
-Please view our `User's Guide <_static/cube_jam.pdf>`_ for detailed information on how to play the game.
+Please view our `User's Guide <_static/SongMatch.pdf>`_ for detailed information on how to play the game.
 
 :download:`Download User's Guide <_static/SongMatch.pdf>`
 
@@ -43,6 +43,7 @@ Please view our `User's Guide <_static/cube_jam.pdf>`_ for detailed information 
    pages/pycharm
    pages/codebase_conventions
    pages/package_structure
+   pages/game_flow.rst
 
 .. toctree::
    :maxdepth: 2
