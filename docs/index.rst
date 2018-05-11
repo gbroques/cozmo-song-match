@@ -53,19 +53,20 @@ Also, for some ideas on how to pitch the game to children, check out our `Educat
    :maxdepth: 2
    :caption: Song Match API
 
-   song_match/song_match.rst
+   song_match/song_match
 
 .. toctree::
    :maxdepth: 2
    :caption: Dependencies
 
    pages/dependencies
+   pages/graphic_assets
 
 .. toctree::
    :maxdepth: 1
    :caption: Troubleshooting
 
-   pages/troubleshoot
+   pages/troubleshooting
 
 .. toctree::
    :maxdepth: 1

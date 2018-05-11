@@ -6,12 +6,12 @@ from song_match.config import ROOT_DIR
 from song_match.exceptions import InvalidGameEffectSound
 from song_match.exceptions import InvalidNote
 
-#: Game sounds
+# Game sounds
 COLLECT_POINT = 'collect-point'
 LEVEL_COMPLETE = 'level-complete'
 WRONG_BUZZER = 'wrong-buzzer'
 
-#: Sound effect packages
+# Sound effect packages
 GAME = 'game'
 PIANO = 'piano'
 
@@ -19,7 +19,7 @@ PIANO = 'piano'
 def get_collect_point_sound() -> Sound:
     """Get the collect point sound.
 
-    :return: :class: `~pygame.mixer.Sound`.
+    :return: :class:`~pygame.mixer.Sound`
     """
     return Sound(__get_game_sound_path(COLLECT_POINT))
 
@@ -27,7 +27,7 @@ def get_collect_point_sound() -> Sound:
 def get_level_complete_sound() -> Sound:
     """Get the level complete sound.
 
-    :return: :class: `~pygame.mixer.Sound`.
+    :return: :class:`~pygame.mixer.Sound`
     """
     return Sound(__get_game_sound_path(LEVEL_COMPLETE))
 
@@ -35,7 +35,7 @@ def get_level_complete_sound() -> Sound:
 def get_wrong_buzzer_sound() -> Sound:
     """Get the wrong buzzer sound.
 
-    :return: :class: `~pygame.mixer.Sound`.
+    :return: :class:`~pygame.mixer.Sound`
     """
     return Sound(__get_game_sound_path(WRONG_BUZZER))
 
