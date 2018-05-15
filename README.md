@@ -6,6 +6,8 @@
 
 A game where you match the notes of a song by tapping blocks with Cozmo.
 
+[![Cozmo Song Match Video](cozmo-song-match.png)](https://www.youtube.com/watch?v=QqDeNlMwzvg&t=3s&list=PLesiP49zG6skUxroov9oCfs_aiWAZ3bYs&index=1)
+
 You can view our documentation at http://cozmo-song-match.readthedocs.io/en/latest/.
 
 ## How does it work?
