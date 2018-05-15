@@ -16,6 +16,10 @@ Welcome to the documentation for the Cozmo Song Match project!
 Song Match is a game where you try to match the notes of a song by tapping blocks with Cozmo.
 With each round, the game gets longer and a little harder. Song Match supports up to 3 players.
 
+.. raw:: html
+
+   <iframe width="560" height="315" style="margin-bottom: 25px;" src="https://www.youtube.com/embed/videoseries?list=PLesiP49zG6skUxroov9oCfs_aiWAZ3bYs" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
 Song Match is brought to you by four undergraduate students from the University of Missouri - St. Louis.
 Collectively, we are `The Cozmonauts <pages/the_cozmonauts.html>`_.
 
